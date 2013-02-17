@@ -401,3 +401,21 @@ Sam Craig III lost the game in 19 turns.
 Player Kills:  2
 Player Damage Dealt:  72
 Player Damage Taken:  68
+---------------------
+On 2/16/2013 10:58:49 PM,
+Brandon Woodson lost the game in 7 turns.
+Player Kills:  0
+Player Damage Dealt:  40
+Player Damage Taken:  0
+---------------------
+On 2/16/2013 11:09:50 PM,
+Roger Greaves lost the game in 7 turns.
+Player Kills:  0
+Player Damage Dealt:  0
+Player Damage Taken:  3
+---------------------
+On 2/16/2013 11:11:47 PM,
+Charles Bliss lost the game in 17 turns.
+Player Kills:  1
+Player Damage Dealt:  80
+Player Damage Taken:  63

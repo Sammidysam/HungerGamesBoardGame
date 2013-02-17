@@ -6,7 +6,7 @@ import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 import essentials.GridDrawer;
 
-public class StartGames{
+public class StartGames {
 	public static void main(String[] args){
         JFrame frame = new JFrame("The Hunger Games Board Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

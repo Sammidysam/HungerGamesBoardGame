@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
@@ -24,7 +25,7 @@ import arena.RandomTerrainGenerator;
 import enemyAI.NameReader;
 import enemyAI.PlayerCreator;
 
-public class GridDrawer extends JPanel implements MouseMotionListener, MouseListener{
+public class GridDrawer extends JPanel implements MouseMotionListener, MouseListener {
 	/**
 	 * 
 	 */
@@ -1738,19 +1739,19 @@ public class GridDrawer extends JPanel implements MouseMotionListener, MouseList
 						TinySound.shutdown();
 					if(isMusic == true){
 						TinySound.init();
-						soundplayer.sword = TinySound.loadSound("sword.wav", true);
+						soundplayer.sword = TinySound.loadSound(new File(".\\res\\sounds\\sword.wav"), true);
 						percent = (100 / 7) * 1;
-						soundplayer.bow = TinySound.loadSound("bow.wav", true);
+						soundplayer.bow = TinySound.loadSound(new File(".\\res\\sounds\\bow.wav"), true);
 						percent = (100 / 7) * 2;
-						soundplayer.death = TinySound.loadSound("death.wav", true);
+						soundplayer.death = TinySound.loadSound(new File(".\\res\\sounds\\death.wav"), true);
 						percent = (100 / 7) * 3;
-						soundplayer.eat = TinySound.loadSound("eat.wav", true);
+						soundplayer.eat = TinySound.loadSound(new File(".\\res\\sounds\\eat.wav"), true);
 						percent = (100 / 7) * 4;
-						soundplayer.slurp = TinySound.loadSound("slurp.wav", true);
+						soundplayer.slurp = TinySound.loadSound(new File(".\\res\\sounds\\slurp.wav"), true);
 						percent = (100 / 7) * 5;
-						soundplayer.spear = TinySound.loadSound("spear.wav", true);
+						soundplayer.spear = TinySound.loadSound(new File(".\\res\\sounds\\spear.wav"), true);
 						percent = (100 / 7) * 6;
-						soundplayer.punch = TinySound.loadSound("punch.wav", true);
+						soundplayer.punch = TinySound.loadSound(new File(".\\res\\sounds\\punch.wav"), true);
 						percent = (100 / 7) * 7;
 						soundplayer.startLoadingSound();
 					}
@@ -2514,19 +2515,19 @@ public class GridDrawer extends JPanel implements MouseMotionListener, MouseList
 			autoGC();
 			if(isMusic){
 				TinySound.init();
-				soundplayer.sword = TinySound.loadSound("sword.wav", true);
+				soundplayer.sword = TinySound.loadSound(new File(".\\res\\sounds\\sword.wav"), true);
 				percent = (100 / 7) * 1;
-				soundplayer.bow = TinySound.loadSound("bow.wav", true);
+				soundplayer.bow = TinySound.loadSound(new File(".\\res\\sounds\\bow.wav"), true);
 				percent = (100 / 7) * 2;
-				soundplayer.death = TinySound.loadSound("death.wav", true);
+				soundplayer.death = TinySound.loadSound(new File(".\\res\\sounds\\death.wav"), true);
 				percent = (100 / 7) * 3;
-				soundplayer.eat = TinySound.loadSound("eat.wav", true);
+				soundplayer.eat = TinySound.loadSound(new File(".\\res\\sounds\\eat.wav"), true);
 				percent = (100 / 7) * 4;
-				soundplayer.slurp = TinySound.loadSound("slurp.wav", true);
+				soundplayer.slurp = TinySound.loadSound(new File(".\\res\\sounds\\slurp.wav"), true);
 				percent = (100 / 7) * 5;
-				soundplayer.spear = TinySound.loadSound("spear.wav", true);
+				soundplayer.spear = TinySound.loadSound(new File(".\\res\\sounds\\spear.wav"), true);
 				percent = (100 / 7) * 6;
-				soundplayer.punch = TinySound.loadSound("punch.wav", true);
+				soundplayer.punch = TinySound.loadSound(new File(".\\res\\sounds\\punch.wav"), true);
 				percent = (100 / 7) * 7;
 				soundplayer.startLoadingSound();
 			}
