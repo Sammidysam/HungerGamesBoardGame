@@ -1498,7 +1498,6 @@ public class GridDrawer extends JPanel implements MouseMotionListener, MouseList
     }
     private int x;
     private int y;
-    private boolean mouseDown = false;
     public int getX() {
         return x;
     }
@@ -2345,12 +2344,10 @@ public class GridDrawer extends JPanel implements MouseMotionListener, MouseList
 		specialRepaint();
 	}
 	public void mousePressed(MouseEvent e) {
-		mouseDown = true;
 		specialRepaint();
 	}
 	public void mouseReleased(MouseEvent e) {
 		check0();
-		mouseDown = false;
 		specialRepaint();
 	}
 	public int getGameMode(byte gamemode){
@@ -3824,14 +3821,8 @@ public class GridDrawer extends JPanel implements MouseMotionListener, MouseList
                 try {
                 	if(isLogging){
 						BufferedWriter bw = new BufferedWriter(new FileWriter("memory.log", true));
-						long maxMemory = runtime.maxMemory();
 					    long allocatedMemory = runtime.totalMemory();
 					    long freeMemory = runtime.freeMemory();
-//					    bw.write("Max " + Long.toString(maxMemory / 1024));
-//					    bw.newLine();
-//					    bw.write("Allocated " + Long.toString(allocatedMemory / 1024));
-//					    bw.newLine();
-//					    bw.write("Free " + Long.toString(freeMemory / 1024));
 					    bw.newLine();
 					    String memoryValue = null;
 					    if(dataType == 0)memoryValue = Long.toString((allocatedMemory / (1)) - (freeMemory / (1)));
@@ -4113,13 +4104,10 @@ public class GridDrawer extends JPanel implements MouseMotionListener, MouseList
 					if(attackedEnemy == false && SAPF == false){
 						for(int r = 0; r < 8; r++){
 							boolean hasQuiver = false;
-							int quiverLocation = 0;
 							if(EnemyInventory[i][r] == 8)
 								for(int e = 0; e < 8; e++)
-									if(EnemyInventory[i][e] == 7){
+									if(EnemyInventory[i][e] == 7)
 										hasQuiver = true;
-										quiverLocation = e;
-									}
 							if(EnemyInventory[i][r] == 4 || EnemyInventory[i][r] == 5 || (EnemyInventory[i][r] == 8 && hasQuiver)){
 								for(int q = 0; q < 23; q++){
 									if(q == i)q++;

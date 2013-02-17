@@ -27,6 +27,7 @@ public class NameReader {
 			for (int i = 0; i < name; i++){
 				nameS = input.nextLine();
 			}
+			input.close();
 		}
 		catch(FileNotFoundException e){
 			System.err.format("no file found");
@@ -57,6 +58,7 @@ public class NameReader {
 			for (int i = 0; i < name; i++){
 				nameS = input.nextLine();
 			}
+			input.close();
 		}
 		catch(FileNotFoundException e){
 			System.err.format("no file found");
@@ -100,6 +102,7 @@ public class NameReader {
 			input = new Scanner(file);
 		for (int i = 0; i < 1; i++)
 			number = input.nextLine();
+			input.close();
 		} catch (FileNotFoundException e) {
 			System.err.format("file not found");
 		}
