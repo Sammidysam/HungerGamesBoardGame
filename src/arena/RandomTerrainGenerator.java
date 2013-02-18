@@ -1,7 +1,8 @@
 package arena;
 
-import java.awt.Color;
 import java.util.Random;
+
+import org.newdawn.slick.Color;
 
 public class RandomTerrainGenerator{
 	Random rand = new Random();

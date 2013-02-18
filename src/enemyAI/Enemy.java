@@ -1,6 +1,6 @@
 package enemyAI;
 
-import java.awt.Color;
+import org.newdawn.slick.Color;
 
 public class Enemy extends enemyAI.PlayerCreator{
 	public int Enemy;

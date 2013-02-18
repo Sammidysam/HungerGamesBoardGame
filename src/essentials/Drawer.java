@@ -1,9 +1,6 @@
 package essentials;
 
-import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -16,8 +13,10 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 import kuusisto.tinysound.TinySound;
 import reaping.Reaping;
@@ -25,11 +24,7 @@ import arena.RandomTerrainGenerator;
 import enemyAI.NameReader;
 import enemyAI.PlayerCreator;
 
-public class GridDrawer extends JPanel implements MouseMotionListener, MouseListener {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1281379206929277999L;
+public class Drawer implements MouseMotionListener, MouseListener {
 	Random rand = new Random();
 	public byte drawWhat;
 	private String message = "Waiting";
@@ -68,7 +63,7 @@ public class GridDrawer extends JPanel implements MouseMotionListener, MouseList
 	private boolean[] canMoveTo = new boolean[64];
 	private boolean[] canSee = new boolean[64];
 	private boolean[] canShootTo = new boolean[64];
-	private boolean[] shouldOrange = new boolean[64];
+	private boolean[] shouldorange = new boolean[64];
 	private int[] tilex = new int[64];
 	private int[] tiley = new int[64];
 	private boolean isMoving = false;
@@ -148,623 +143,648 @@ public class GridDrawer extends JPanel implements MouseMotionListener, MouseList
     private short GC = 120;
     private static final String version = "Version 1.0.2";
 //	0 = nothing, 1 = title screen, 2 = reaping, 3 = character select, 4 = battle board, 5 = name selector, 17 = error
-    public GridDrawer(){
-    	super();
-        addMouseMotionListener(this);
-        addMouseListener(this);
-    }
+//    public Drawer(){
+//    	super();
+//        addMouseMotionListener(this);
+//        addMouseListener(this);
+//    }
     public void paintComponent(Graphics g){
-    	if(shouldReset == true){
-	    	g.setColor(Color.WHITE);
-	    	g.fillRect(0, 0, 725, 700);
-    	}
-		g.setColor(Color.BLACK);
-		if(showCoordinates == true && drawWhat != 3 && drawWhat != 4 && drawWhat != 17)
-			g.drawString(message, 0, 10);
-    	if(drawWhat == 1){
-    		g.drawImage(loadTitle(), 55, 45, null);
-    		g.setFont(new Font("Impact", Font.BOLD, 48));
-    		g.drawString("                   GAMES BOARD    ", 0, 75);
-    		g.drawString("HUNGER", 20, 120);
-    		g.drawString("GAME", 530, 120);
-    		g.setFont(new Font("Times New Roman", Font.ITALIC, 12));
-    		g.drawString(version, 654, 669);
-//          Font font3 = new Font("Arial", Font.PLAIN, 17);
-//    		if(menuprogress == 0){
-//        		g.setFont(font3);
-//	    		if(shouldinvert == false)
-//	    			g.setColor(Color.BLACK);
-//	    		if(shouldinvert == true)
-//	    			g.setColor(Color.LIGHT_GRAY);
-//	    		g.fillRect(255, 175, 175, 75);
-//	    		if(shouldinvert == true)
-//	    			g.setColor(Color.BLACK);
-//	    		if(shouldinvert == false)
-//	    			g.setColor(Color.LIGHT_GRAY);
-//	    		g.drawString("Single Player", 283, 220);
-//    			if(shouldinvert2 == false)
-//    				g.setColor(Color.BLACK);
-//    			if(shouldinvert2 == true)
-//    				g.setColor(Color.LIGHT_GRAY);
-//    			g.fillRect(255, 375, 175, 75);
-//    			if(shouldinvert2 == true)
-//    				g.setColor(Color.BLACK);
-//    			if(shouldinvert2 == false)
-//    				g.setColor(Color.LIGHT_GRAY);
-//        		g.drawString("Multiplayer", 300, 420);
-//        		g.fillRect(14, 505, 175, 75);
-//    		}
-    		if(menuprogress == 1){
-//        		g.setFont(font3);
-//	    		if(shouldinvert == false)
-//	    			g.setColor(Color.BLACK);
-//	    		if(shouldinvert == true)
-//	    			g.setColor(Color.LIGHT_GRAY);
-//	    		g.fillRect(255, 175, 175, 75);
-//	    		if(shouldinvert == true)
-//	    			g.setColor(Color.BLACK);
-//	    		if(shouldinvert == false)
-//	    			g.setColor(Color.LIGHT_GRAY);
-//        		g.drawString("Character Select", 283, 220);
-//    			if(shouldinvert2 == false)
-//    				g.setColor(Color.BLACK);
-//    			if(shouldinvert2 == true)
-//    				g.setColor(Color.LIGHT_GRAY);
-//    			g.fillRect(255, 375, 175, 75);
-//    			if(shouldinvert2 == true)
-//    				g.setColor(Color.BLACK);
-//    			if(shouldinvert2 == false)
-//    				g.setColor(Color.LIGHT_GRAY);
-//        		g.drawString("Random Player Select", 260, 420);
-//        		g.setColor(Color.BLACK);
-//        		g.setFont(font4);
-//        		g.drawString("Assigns you to a random district and gender!", 230, 462);
-//        		g.drawString("Takes you to a screen to select your character and gender!", 200, 262);
-        		g.setFont(new Font("Arial", Font.PLAIN, 20));
-        		g.drawString("Press C to select your character!", 200, 650);
-        		g.drawString("Press R to have your character randomly selected!", 130, 670);
-    		}
-    	}
-    	if(drawWhat == 2){
-    		g.setColor(Color.BLACK);
-           	Font font2 = new Font("Arial", Font.BOLD, 25);
-           	g.setFont(font2);
-    		if(reaping == 0){
-    			getDate.isDrawn();
-    			reaping++;
-    		}
-    		g.drawString("The Reaping", 250, 25);
-    		g.drawImage(loadReaping(), 0, 30, 726, 268, null);
-    		g.drawImage(loadReaping2(), 0, 268, 726, 248, null);
-    		font2 = new Font("Arial", Font.PLAIN, 23);
-    		g.setFont(font2);
-    		g.drawString("This year's district " + create.PlayerD + " " + create.PlayerG + " representative of The Hunger Games is...", 30, 546);
-    		font2 = new Font("Arial", Font.ITALIC, (int) (96 - create.PlayerN.length() * 1.6));
-    		g.setFont(font2);
-    		if(nameshow == 0)
-    			delaytime();
-    		if(nameshow == 1)
-    			g.drawString(create.PlayerN, 45, 610);
-    		font2 = new Font("Arial", Font.BOLD, 25);
-    		g.setFont(font2);
-    		getDate.changeYear();
-    		g.setColor(Color.BLACK);
-    		if(reaping != 0)
-    			g.drawString(getDate.getDateTime() + "/" + getDate.changeYear(), 259, 665);
-    		if(shouldinvert == false)
-    			g.drawImage(loadNext(), 562, 610, null);
-    		if(shouldinvert == true)
-    			g.drawImage(invertNext(), 562, 610, null);
-    	}
-    	if(drawWhat == 3){
-    		if(showCoordinates == true) 
-    			g.drawString(message, 0, 670);
-    		g.drawImage(loadSelectScreen(), 0, 0, null);
-    	}
-    	if(drawWhat == 4){
-    		if(showCoordinates == true)
-    			g.drawString(message, 0, 670);
-    		g.drawImage(loadLogo(), 619, 554, null);
-    		if(invertOptions == false)
-    			g.setColor(Color.BLACK);
-    		if(invertOptions == true)
-    			g.setColor(Color.LIGHT_GRAY);
-    		g.fillRect(550, 645, 59, 20);
-    		g.setFont(new Font("Arial", Font.PLAIN, 12));
-    		if(invertOptions == false)
-    			g.setColor(Color.LIGHT_GRAY);
-    		if(invertOptions == true)
-    			g.setColor(Color.BLACK);
-    		g.drawString("Options", 558, 658);
-//    		
-    		if(invertHistory == false)
-    			g.setColor(Color.BLACK);
-    		if(invertHistory == true)
-    			g.setColor(Color.LIGHT_GRAY);
-    		g.fillRect(550, 615, 59, 20);
-    		g.setFont(new Font("Arial", Font.PLAIN, 12));
-    		if(invertHistory == false)
-    			g.setColor(Color.LIGHT_GRAY);
-    		if(invertHistory == true)
-    			g.setColor(Color.BLACK);
-    		g.drawString("History", 560, 628);
-//    		
-    		if(shouldinvert == false)
-    			g.setColor(Color.BLACK);
-    		if(shouldinvert == true)
-    			g.setColor(Color.LIGHT_GRAY);
-    		g.fillRect(550, 509, 141, 40);
-    		g.setFont(new Font("Arial", Font.PLAIN, 24));
-    		if(shouldinvert == false)
-    			g.setColor(Color.LIGHT_GRAY);
-    		if(shouldinvert == true)
-    			g.setColor(Color.BLACK);
-    		g.drawString("Inventory", 567, 536);
-    		g.setColor(Color.BLACK);
-    		g.drawRect(550, 554, 59, 51);
-    		g.setFont(new Font("Arial", Font.PLAIN, 18));
-    		g.drawString("Player", 554, 569);
-    		g.drawString("Info", 566, 599);
-    		for(int x = 0; x <= 504; x += 63){
-    			g.drawLine(x, 0, x, 504);
-    		}
-  			for(int y = 0; y <= 504; y += 63){
-				g.drawLine(0, y, 504, y);
-			}
-  			g.setFont(new Font("Arial", Font.PLAIN, 28));
-  			g.setColor(Color.DARK_GRAY);
-  			g.drawString("Actions", 205, 663);
-  			g.drawString("P", 700, 165);
-  			g.drawString("l", 700, 194);
-  			g.drawString("a", 700, 223);
-  			g.drawString("y", 700, 252);
-  			g.drawString("e", 700, 281);
-  			g.drawString("r", 700, 310);
-  			g.drawString("s", 700, 339);
-    		int regionx = 0;
-    		int regiony = 0;
-    		int startx = 0;
-    		int starty = 0;
-    		int k = 0;
-    		for(int i = 0; i < 4; i++){
-    			if(i == 0){
-    				startx = 1;
-    				starty = 1;
-    				regionx = 252;
-    				regiony = 252;
-    			}
-    			if(i == 1){
-    				startx = 253;
-    				starty = 1;
-    				regionx = 504;
-    				regiony = 252;
-    			}
-    			if(i == 2){
-    				startx = 1;
-    				starty = 253;
-    				regionx = 252;
-    				regiony = 504;
-    			}
-    			if(i == 3){
-    				startx = 253;
-    				starty = 253;
-    				regionx = 504;
-    				regiony = 504;
-    			}
-	    		for(int x = startx; x < regionx; x += 63){
-	    			for(int y = starty; y < regiony; y += 63){
-	    				tilex[k] = x;
-	    				tiley[k] = y;
-			    		if(biome[i] != 5 && biome[i] != 6){
-			    			if(k != 15 && k != 19 && k != 44 && k != 48){
-				    			if(canSee[k] == true)
-				    				g.setColor(shading[i]);
-				    			if(canSee[k] == false)
-				    				g.setColor(shading[i].darker());
-				    			if(canMoveTo[k] == true && movemade == false && isMoving == true){
-				    				if(shouldOrange[k] == true)
-				    					g.setColor(Color.ORANGE);
-				    				if(shouldOrange[k] == false)
-				    					g.setColor(Color.YELLOW);
-				    			}
-				    			if(isAttacking == true && canShootTo[k] == true && showinventory == false){
-				    				if(shouldOrange[k] == true)
-				    					g.setColor(Color.ORANGE);
-				    				if(shouldOrange[k] == false)
-				    					g.setColor(Color.YELLOW);
-				    			}
-					    		g.fillRect(x, y, 62, 62);
-			    			}
-			    			if(k == 15 || k == 19 || k == 44 || k == 48){
-			    				if(canSee[k] == true)
-				    				g.setColor(Color.LIGHT_GRAY);
-				    			if(canSee[k] == false)
-				    				g.setColor(Color.LIGHT_GRAY.darker());
-				    			if(canMoveTo[k] == true && movemade == false && isMoving == true){
-				    				if(shouldOrange[k] == true)
-				    					g.setColor(Color.ORANGE);
-				    				if(shouldOrange[k] == false)
-				    					g.setColor(Color.YELLOW);
-				    			}
-				    			if(isAttacking == true && canShootTo[k] == true && showinventory == false){
-				    				if(shouldOrange[k] == true)
-				    					g.setColor(Color.ORANGE);
-				    				if(shouldOrange[k] == false)
-				    					g.setColor(Color.YELLOW);
-				    			}
-				    			g.fillRect(x, y, 62, 62);
-			    			}
-				    		k++;
-			    		}
-			    		if(biome[i] == 5){
-			    			if(k != 15 && k != 19 && k != 44 && k != 48){
-				    			if(canSee[k] == true)
-				    				g.drawImage(loadTaiga(), x, y, null);
-				    			if(canSee[k] == false)
-				    				g.drawImage(loadDarkTaiga(), x, y, null);
-				    			if(canMoveTo[k] == true && movemade == false && isMoving == true){
-				    				if(shouldOrange[k] == true)
-				    					g.setColor(Color.ORANGE);
-				    				if(shouldOrange[k] == false)
-				    					g.setColor(Color.YELLOW);
-				    				g.fillRect(x, y, 62, 62);
-				    			}
-				    			if(isAttacking == true && canShootTo[k] == true && showinventory == false){
-				    				if(shouldOrange[k] == true)
-				    					g.setColor(Color.ORANGE);
-				    				if(shouldOrange[k] == false)
-				    					g.setColor(Color.YELLOW);
-				    				g.fillRect(x, y, 62, 62);
-				    			}
-			    			}
-			    			if(k == 15 || k == 19 || k == 44 || k == 48){
-			    				if(canSee[k] == true)
-				    				g.setColor(Color.LIGHT_GRAY);
-				    			if(canSee[k] == false)
-				    				g.setColor(Color.LIGHT_GRAY.darker());
-				    			if(canMoveTo[k] == true && movemade == false && isMoving == true){
-				    				if(shouldOrange[k] == true)
-				    					g.setColor(Color.ORANGE);
-				    				if(shouldOrange[k] == false)
-				    					g.setColor(Color.YELLOW);
-				    			}
-				    			if(isAttacking == true && canShootTo[k] == true && showinventory == false){
-				    				if(shouldOrange[k] == true)
-				    					g.setColor(Color.ORANGE);
-				    				if(shouldOrange[k] == false)
-				    					g.setColor(Color.YELLOW);
-				    			}
-				    			g.fillRect(x, y, 62, 62);
-			    			}
-			    			k++;
-			    		}
-			    		if(biome[i] == 6){
-			    			if(k != 15 && k != 19 && k != 44 && k != 48){
-				    			if(canSee[k] == true)
-				    				g.drawImage(loadMountain(), x, y, null);
-				    			if(canSee[k] == false)
-				    				g.drawImage(loadDarkMountain(), x, y, null);
-				    			if(canMoveTo[k] == true && movemade == false && isMoving == true){
-				    				if(shouldOrange[k] == true)
-				    					g.setColor(Color.ORANGE);
-				    				if(shouldOrange[k] == false)
-				    					g.setColor(Color.YELLOW);
-				    				g.fillRect(x, y, 62, 62);
-				    			}
-				    			if(isAttacking == true && canShootTo[k] == true && showinventory == false){
-				    				if(shouldOrange[k] == true)
-				    					g.setColor(Color.ORANGE);
-				    				if(shouldOrange[k] == false)
-				    					g.setColor(Color.YELLOW);
-				    				g.fillRect(x, y, 62, 62);
-				    			}
-			    			}
-			    			if(k == 15 || k == 19 || k == 44 || k == 48){
-			    				if(canSee[k] == true)
-				    				g.setColor(Color.LIGHT_GRAY);
-				    			if(canSee[k] == false)
-				    				g.setColor(Color.LIGHT_GRAY.darker());
-				    			if(canMoveTo[k] == true && movemade == false && isMoving == true){
-				    				if(shouldOrange[k] == true)
-				    					g.setColor(Color.ORANGE);
-				    				if(shouldOrange[k] == false)
-				    					g.setColor(Color.YELLOW);
-				    			}
-				    			if(isAttacking == true && canShootTo[k] == true && showinventory == false){
-				    				if(shouldOrange[k] == true)
-				    					g.setColor(Color.ORANGE);
-				    				if(shouldOrange[k] == false)
-				    					g.setColor(Color.YELLOW);
-				    			}
-				    			g.fillRect(x, y, 62, 62);
-			    			}
-			    			k++;
-			    		}
-			    		if(k - 1 == 15)
-			    			g.drawImage(loadCornucopia1(), tilex[k - 1], tiley[k - 1], null);
-			    		if(k - 1 == 19)
-			    			g.drawImage(loadCornucopia2(), tilex[k - 1], tiley[k - 1], null);
-			    		if(k - 1 == 44)
-			    			g.drawImage(loadCornucopia3(), tilex[k - 1], tiley[k - 1], null);
-			    		if(k - 1 == 48)
-			    			g.drawImage(loadCornucopia4(), tilex[k - 1], tiley[k - 1], null);
-			    		if(discovered[k - 1] == true){
-			    			if(random.buildings[k - 1] == 0 && k - 1 != 15 && k - 1 != 19 && k - 1 != 44 && k - 1 != 48){
-				       			g.drawImage(loadX(), tilex[k - 1], tiley[k - 1], null);
-			    			}
-				       		if(random.buildings[k - 1] == 1){
-				       			g.drawImage(loadLake(), tilex[k - 1], tiley[k - 1], null);
-				       		}
-				       		if(random.buildings[k - 1] == 2){
-				       			g.drawImage(loadSC(), tilex[k - 1], tiley[k - 1], null);
-				       		}
-				       		if(random.buildings[k - 1] == 3){
-				       			if(biome[i] == 3)
-				       				g.drawImage(loadMonster(), tilex[k - 1], tiley[k - 1], null);
-				       			if(biome[i] == 2)
-				       				g.drawImage(loadBee(), tilex[k - 1], tiley[k - 1], null);
-				       			if(biome[i] == 1)
-				       				g.drawImage(loadMudMan(), tilex[k - 1], tiley[k - 1], null);
-				       			if(biome[i] == 4)
-				       				g.drawImage(loadLizard(), tilex[k - 1], tiley[k - 1], null);
-				       			if(biome[i] == 5)
-				       				g.drawImage(loadWolf(), tilex[k - 1], tiley[k - 1], null);
-				       			if(biome[i] == 7)
-				       				g.drawImage(loadThug(), tilex[k - 1], tiley[k - 1], null);
-				       		}
-				       		if(random.buildings[k - 1] == 4){
-				       			g.drawImage(loadBed(), tilex[k - 1], tiley[k - 1], null);
-				       		}
-			    		}
-			    		if(canSee[k - 1] == true){
-			    			for(int p = 0; p < 100; p++){
-			    				if(onGround[k - 1][p] > 0){
-			    					int item = onGround[k - 1][p];
-			    					int locationx = 0;
-			    					int locationy = 0;
-			    					int locationhelper = 0;
-			    					int locationhelper2 = 0;
-			    					if(item >= 1 && item <= 6)locationhelper = 1;
-			    					if(item >= 6 && item <= 13)locationhelper = 2;
-			    					if(item >= 1 && item <= 3)locationhelper2 = 1;
-			    					if(item >= 4 && item <= 6)locationhelper2 = 2;
-			    					if(item >= 7 && item <= 9)locationhelper2 = 1;
-			    					if(item >= 9 && item <= 13)locationhelper2 = 2;
-			    					if(locationhelper == 2)locationy = 35;
-			    					if(locationhelper == 1)locationy = 5;
-			    					if(locationhelper2 == 1)locationx = 5;
-			    					if(locationhelper2 == 2)locationx = 28;
-			        				if(item == 1)
-			        	        		g.drawImage(loadEBottle(), tilex[k - 1] + locationx, tiley[k - 1] + locationy, 29, 22, null);
-			        				if(item == 2)
-			        	        		g.drawImage(loadSword(), tilex[k - 1] + locationx, tiley[k - 1] + locationy, 29, 22, null);
-			        				if(item == 3)
-			        	        		g.drawImage(loadSwordOF(), tilex[k - 1] + locationx, tiley[k - 1] + locationy, 29, 22, null);
-			        				if(item == 4)
-			        					g.drawImage(loadSpear(), tilex[k - 1] + locationx, tiley[k - 1] + locationy, 29, 22, null);
-			        				if(item == 5)
-			        					g.drawImage(loadSpearOF(), tilex[k - 1] + locationx, tiley[k - 1] + locationy, 29, 22, null);
-			        				if(item == 6)
-			        					g.drawImage(loadCoat(), tilex[k - 1] + locationx, tiley[k - 1] + locationy, 29, 22, null);
-			        				if(item == 7){
-			        					g.drawImage(loadQuiver(), tilex[k - 1] + locationx, tiley[k - 1] + locationy, 29, 22, null);
-			        				}
-			        				if(item == 8)
-			        					g.drawImage(loadBow(), tilex[k - 1] + locationx, tiley[k - 1] + locationy, 29, 22, null);
-			        				if(item == 9)
-			        					g.drawImage(loadMeat(), tilex[k - 1] + locationx, tiley[k - 1] + locationy, 29, 22, null);
-			        				if(item == 10)
-			        					g.drawImage(loadBanana(), tilex[k - 1] + locationx, tiley[k - 1] + locationy, 29, 22, null);
-			        				if(item == 11)
-			        					g.drawImage(loadTomato(), tilex[k - 1] + locationx, tiley[k - 1] + locationy, 29, 22, null);
-			        				if(item == 12)
-			        					g.drawImage(loadMango(), tilex[k - 1] + locationx, tiley[k - 1] + locationy, 29, 22, null);
-			        				if(item == 13)
-			        					g.drawImage(loadPoison(), tilex[k - 1] + locationx, tiley[k - 1] + locationy, 29, 22, null);
-			    				}
-			    			}			    			
-			    		}
-	    			}
+    	try {
+	    	if(shouldReset == true){
+		    	g.setColor(Color.white);
+		    	g.fillRect(0, 0, 725, 700);
+	    	}
+			g.setColor(Color.black);
+			if(showCoordinates == true && drawWhat != 3 && drawWhat != 4 && drawWhat != 17)
+				g.drawString(message, 0, 10);
+	    	if(drawWhat == 1){
+	    		g.drawImage(loadTitle(), 55, 45);
+//	    		//g.setFont((org.newdawn.slick.Font) new Font("Impact", Font.BOLD, 48));
+	    		g.drawString("                   GAMES BOARD    ", 0, 75);
+	    		g.drawString("HUNGER", 20, 120);
+	    		g.drawString("GAME", 530, 120);
+	    		//g.setFont((org.newdawn.slick.Font) new Font("Times New Roman", Font.ITALIC, 12));
+	    		g.drawString(version, 654, 669);
+	//          Font font3 = new Font("Arial", Font.PLAIN, 17);
+	//    		if(menuprogress == 0){
+	//        		//g.setFont(font3);
+	//	    		if(shouldinvert == false)
+	//	    			g.setColor(Color.black);
+	//	    		if(shouldinvert == true)
+	//	    			g.setColor(Color.lightGray);
+	//	    		g.fillRect(255, 175, 175, 75);
+	//	    		if(shouldinvert == true)
+	//	    			g.setColor(Color.black);
+	//	    		if(shouldinvert == false)
+	//	    			g.setColor(Color.lightGray);
+	//	    		g.drawString("Single Player", 283, 220);
+	//    			if(shouldinvert2 == false)
+	//    				g.setColor(Color.black);
+	//    			if(shouldinvert2 == true)
+	//    				g.setColor(Color.lightGray);
+	//    			g.fillRect(255, 375, 175, 75);
+	//    			if(shouldinvert2 == true)
+	//    				g.setColor(Color.black);
+	//    			if(shouldinvert2 == false)
+	//    				g.setColor(Color.lightGray);
+	//        		g.drawString("Multiplayer", 300, 420);
+	//        		g.fillRect(14, 505, 175, 75);
+	//    		}
+	    		if(menuprogress == 1){
+	//        		//g.setFont(font3);
+	//	    		if(shouldinvert == false)
+	//	    			g.setColor(Color.black);
+	//	    		if(shouldinvert == true)
+	//	    			g.setColor(Color.lightGray);
+	//	    		g.fillRect(255, 175, 175, 75);
+	//	    		if(shouldinvert == true)
+	//	    			g.setColor(Color.black);
+	//	    		if(shouldinvert == false)
+	//	    			g.setColor(Color.lightGray);
+	//        		g.drawString("Character Select", 283, 220);
+	//    			if(shouldinvert2 == false)
+	//    				g.setColor(Color.black);
+	//    			if(shouldinvert2 == true)
+	//    				g.setColor(Color.lightGray);
+	//    			g.fillRect(255, 375, 175, 75);
+	//    			if(shouldinvert2 == true)
+	//    				g.setColor(Color.black);
+	//    			if(shouldinvert2 == false)
+	//    				g.setColor(Color.lightGray);
+	//        		g.drawString("Random Player Select", 260, 420);
+	//        		g.setColor(Color.black);
+	//        		//g.setFont(font4);
+	//        		g.drawString("Assigns you to a random district and gender!", 230, 462);
+	//        		g.drawString("Takes you to a screen to select your character and gender!", 200, 262);
+	        		//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 20));
+	        		g.drawString("Press C to select your character!", 200, 650);
+	        		g.drawString("Press R to have your character randomly selected!", 130, 670);
 	    		}
-    		}
-//    		if(isStarting == false){
-//    			g.setColor(Color.GRAY.brighter());
-//	       		fillCircle(g, 252, 252, 50);
-//	       		g.setColor(Color.GRAY);
-//	       		fillCircle(g, 252, 252, 25);
-//	        	g.setColor(Color.GRAY.darker());
-//	        	fillCircle(g, 252, 252, 13);
-//	        }
-//    		if(isStarting == true || canMoveTo[64] == true){
-//    			g.setColor(Color.YELLOW);
-//    			fillCircle(g, 252, 252, 50);
-//    			fillCircle(g, 252, 252, 25);
-//    			fillCircle(g, 252, 252, 13);
-//    			g.setColor(Color.BLACK);
-//    			drawCircle(g, 252, 252, 50);
-//    			drawCircle(g, 252, 252, 25);
-//    			drawCircle(g, 252, 252, 13);
-//    		}
-	       	g.setFont(new Font("Arial", Font.PLAIN, 28));
-	       	if(invertleft == false)
-	       		g.setColor(Color.BLACK);
-	       	if(invertleft == true)
-	       		g.setColor(Color.LIGHT_GRAY);
-	       	g.fillRect(0, 585, 168, 50);
-	       	if(invertleft == false)
-	       		g.setColor(Color.LIGHT_GRAY);
-	       	if(invertleft == true)
-	       		g.setColor(Color.BLACK);
-	       	g.drawString("Attack", 40, 620);
-	       	if(invertmiddle == false)
-	       		g.setColor(Color.BLACK);
-	       	if(invertmiddle == true)
-	       		g.setColor(Color.LIGHT_GRAY);
-	       	g.fillRect(169, 585, 168, 50);
-	       	if(invertmiddle == false)
-	       		g.setColor(Color.LIGHT_GRAY);
-	       	if(invertmiddle == true)
-	       		g.setColor(Color.BLACK);
-	       	if(movemade == false)
-	       		g.drawString("Move", 220, 620);
-	       	if(movemade == true)
-	       		g.drawString("Next Turn", 190, 620);
-	       	if(invertright == false)
-	       		g.setColor(Color.BLACK);
-	       	if(invertright == true)
-	       		g.setColor(Color.LIGHT_GRAY);
-	       	g.fillRect(338, 585, 167, 50);
-	       	if(invertright == false)
-	       		g.setColor(Color.LIGHT_GRAY);
-	       	if(invertright == true)
-	       		g.setColor(Color.BLACK);
-	       	int crashstopper = PlayerLocation;
-	       	if(PlayerLocation > 63)
-	       		crashstopper = 63;
-	       	if(discovered[crashstopper] == false || random.buildings[crashstopper] == 0 || random.buildings[crashstopper] == 3 || isObserver || PlayerLocation == 65)
-	       		g.drawString("Discover", 368, 620);
-	       	if(PlayerLocation < 65 && (discovered[PlayerLocation] == true && random.buildings[PlayerLocation] == 1)){
-	       		g.setFont(new Font("Arial", Font.PLAIN, 18));
-	       		g.drawString("Refill and Drink", 353, 618);
-		       	g.setFont(new Font("Arial", Font.PLAIN, 28));
-	       	}
-	       	if(PlayerLocation < 65 && (discovered[PlayerLocation] == true && random.buildings[PlayerLocation] == 2))
-	       		g.drawString("Scavenge", 368, 620);
-	       	if(PlayerLocation < 65 && (discovered[PlayerLocation] == true && random.buildings[PlayerLocation] == 4))
-	       		g.drawString("Sleep", 381, 620);
-	       	g.setColor(Color.RED);
-	       	g.drawLine(168, 585, 168, 634);
-	       	g.drawLine(337, 585, 337, 634);
-	       	g.setColor(Color.BLACK);
-	       	g.drawRect(0, 509, 504, 70);
-	       	int y = 0;
-	       	for(int i = 0; i < 23; i++){
-	       		g.setColor(create.EnemyC[i]);
-		       	g.drawRect(550, y, 140, 20);
-		       	if(create.EnemyN[i] == null)i++;
-		       	g.setFont(new Font("Arial", Font.PLAIN, 12));
-		       	g.drawString(create.EnemyN[i], 555, y + 15);
-		       	y += 22;
-	       	}
-	       	g.setColor(Color.BLACK);
-	       	g.setFont(new Font("Consolas", Font.PLAIN, 14));
-	       	y = 521;
-	       	g.drawString(text[0], 1, y);
-	       	y += 13;
-	       	g.drawString(text[1], 1, y);
-	       	y += 13;
-	       	g.drawString(text[2], 1, y);
-	       	y += 14;
-	       	g.drawString(text[3], 1, y);
-	       	y += 14;
-	       	g.drawString(text[4], 1, y);
-	       	for(int i = 0; i < 23; i++){
-	       		if(enemyShow[i] == true){
+	    	}
+	    	if(drawWhat == 2){
+	    		g.setColor(Color.black);
+	           	Font font2 = new Font("Arial", Font.BOLD, 25);
+	           	//g.setFont((org.newdawn.slick.Font) font2);
+	    		if(reaping == 0){
+	    			getDate.isDrawn();
+	    			reaping++;
+	    		}
+	    		g.drawString("The Reaping", 250, 25);
+	    		loadReaping().draw(0, 30, 726, 268);
+	    		loadReaping2().draw(0, 268, 726, 248);
+	    		font2 = new Font("Arial", Font.PLAIN, 23);
+	    		//g.setFont((org.newdawn.slick.Font) font2);
+	    		g.drawString("This year's district " + create.PlayerD + " " + create.PlayerG + " representative of The Hunger Games is...", 30, 546);
+	    		font2 = new Font("Arial", Font.ITALIC, (int) (96 - create.PlayerN.length() * 1.6));
+	    		//g.setFont((org.newdawn.slick.Font) font2);
+	    		if(nameshow == 0)
+	    			delaytime();
+	    		if(nameshow == 1)
+	    			g.drawString(create.PlayerN, 45, 610);
+	    		font2 = new Font("Arial", Font.BOLD, 25);
+	    		//g.setFont((org.newdawn.slick.Font) font2);
+	    		getDate.changeYear();
+	    		g.setColor(Color.black);
+	    		if(reaping != 0)
+	    			g.drawString(getDate.getDateTime() + "/" + getDate.changeYear(), 259, 665);
+	    		if(shouldinvert == false)
+	    			g.drawImage(loadNext(), 562, 610);
+	    		if(shouldinvert == true)
+	    			g.drawImage(invertNext(), 562, 610);
+	    	}
+	    	if(drawWhat == 3){
+	    		if(showCoordinates == true) 
+	    			g.drawString(message, 0, 670);
+	    		g.drawImage(loadSelectScreen(), 0, 0);
+	    	}
+	    	if(drawWhat == 4){
+	    		if(showCoordinates == true)
+	    			g.drawString(message, 0, 670);
+	    		g.drawImage(loadLogo(), 619, 554);
+	    		if(invertOptions == false)
+	    			g.setColor(Color.black);
+	    		if(invertOptions == true)
+	    			g.setColor(Color.lightGray);
+	    		g.fillRect(550, 645, 59, 20);
+	    		//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 12));
+	    		if(invertOptions == false)
+	    			g.setColor(Color.lightGray);
+	    		if(invertOptions == true)
+	    			g.setColor(Color.black);
+	    		g.drawString("Options", 558, 658);
+	//    		
+	    		if(invertHistory == false)
+	    			g.setColor(Color.black);
+	    		if(invertHistory == true)
+	    			g.setColor(Color.lightGray);
+	    		g.fillRect(550, 615, 59, 20);
+	    		//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 12));
+	    		if(invertHistory == false)
+	    			g.setColor(Color.lightGray);
+	    		if(invertHistory == true)
+	    			g.setColor(Color.black);
+	    		g.drawString("History", 560, 628);
+	//    		
+	    		if(shouldinvert == false)
+	    			g.setColor(Color.black);
+	    		if(shouldinvert == true)
+	    			g.setColor(Color.lightGray);
+	    		g.fillRect(550, 509, 141, 40);
+	    		//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 24));
+	    		if(shouldinvert == false)
+	    			g.setColor(Color.lightGray);
+	    		if(shouldinvert == true)
+	    			g.setColor(Color.black);
+	    		g.drawString("Inventory", 567, 536);
+	    		g.setColor(Color.black);
+	    		g.drawRect(550, 554, 59, 51);
+	    		//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 18));
+	    		g.drawString("Player", 554, 569);
+	    		g.drawString("Info", 566, 599);
+	    		for(int x = 0; x <= 504; x += 63){
+	    			g.drawLine(x, 0, x, 504);
+	    		}
+	  			for(int y = 0; y <= 504; y += 63){
+					g.drawLine(0, y, 504, y);
+				}
+	  			//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 28));
+	  			g.setColor(Color.darkGray);
+	  			g.drawString("Actions", 205, 663);
+	  			g.drawString("P", 700, 165);
+	  			g.drawString("l", 700, 194);
+	  			g.drawString("a", 700, 223);
+	  			g.drawString("y", 700, 252);
+	  			g.drawString("e", 700, 281);
+	  			g.drawString("r", 700, 310);
+	  			g.drawString("s", 700, 339);
+	    		int regionx = 0;
+	    		int regiony = 0;
+	    		int startx = 0;
+	    		int starty = 0;
+	    		int k = 0;
+	    		for(int i = 0; i < 4; i++){
+	    			if(i == 0){
+	    				startx = 1;
+	    				starty = 1;
+	    				regionx = 252;
+	    				regiony = 252;
+	    			}
+	    			if(i == 1){
+	    				startx = 253;
+	    				starty = 1;
+	    				regionx = 504;
+	    				regiony = 252;
+	    			}
+	    			if(i == 2){
+	    				startx = 1;
+	    				starty = 253;
+	    				regionx = 252;
+	    				regiony = 504;
+	    			}
+	    			if(i == 3){
+	    				startx = 253;
+	    				starty = 253;
+	    				regionx = 504;
+	    				regiony = 504;
+	    			}
+		    		for(int x = startx; x < regionx; x += 63){
+		    			for(int y = starty; y < regiony; y += 63){
+		    				tilex[k] = x;
+		    				tiley[k] = y;
+				    		if(biome[i] != 5 && biome[i] != 6){
+				    			if(k != 15 && k != 19 && k != 44 && k != 48){
+					    			if(canSee[k] == true)
+					    				g.setColor(shading[i]);
+					    			if(canSee[k] == false)
+					    				g.setColor(shading[i].darker());
+					    			if(canMoveTo[k] == true && movemade == false && isMoving == true){
+					    				if(shouldorange[k] == true)
+					    					g.setColor(Color.orange);
+					    				if(shouldorange[k] == false)
+					    					g.setColor(Color.yellow);
+					    			}
+					    			if(isAttacking == true && canShootTo[k] == true && showinventory == false){
+					    				if(shouldorange[k] == true)
+					    					g.setColor(Color.orange);
+					    				if(shouldorange[k] == false)
+					    					g.setColor(Color.yellow);
+					    			}
+						    		g.fillRect(x, y, 62, 62);
+				    			}
+				    			if(k == 15 || k == 19 || k == 44 || k == 48){
+				    				if(canSee[k] == true)
+					    				g.setColor(Color.lightGray);
+					    			if(canSee[k] == false)
+					    				g.setColor(Color.lightGray.darker());
+					    			if(canMoveTo[k] == true && movemade == false && isMoving == true){
+					    				if(shouldorange[k] == true)
+					    					g.setColor(Color.orange);
+					    				if(shouldorange[k] == false)
+					    					g.setColor(Color.yellow);
+					    			}
+					    			if(isAttacking == true && canShootTo[k] == true && showinventory == false){
+					    				if(shouldorange[k] == true)
+					    					g.setColor(Color.orange);
+					    				if(shouldorange[k] == false)
+					    					g.setColor(Color.yellow);
+					    			}
+					    			g.fillRect(x, y, 62, 62);
+				    			}
+					    		k++;
+				    		}
+				    		if(biome[i] == 5){
+				    			if(k != 15 && k != 19 && k != 44 && k != 48){
+					    			if(canSee[k] == true)
+					    				g.drawImage(loadTaiga(), x, y);
+					    			if(canSee[k] == false)
+					    				g.drawImage(loadDarkTaiga(), x, y);
+					    			if(canMoveTo[k] == true && movemade == false && isMoving == true){
+					    				if(shouldorange[k] == true)
+					    					g.setColor(Color.orange);
+					    				if(shouldorange[k] == false)
+					    					g.setColor(Color.yellow);
+					    				g.fillRect(x, y, 62, 62);
+					    			}
+					    			if(isAttacking == true && canShootTo[k] == true && showinventory == false){
+					    				if(shouldorange[k] == true)
+					    					g.setColor(Color.orange);
+					    				if(shouldorange[k] == false)
+					    					g.setColor(Color.yellow);
+					    				g.fillRect(x, y, 62, 62);
+					    			}
+				    			}
+				    			if(k == 15 || k == 19 || k == 44 || k == 48){
+				    				if(canSee[k] == true)
+					    				g.setColor(Color.lightGray);
+					    			if(canSee[k] == false)
+					    				g.setColor(Color.lightGray.darker());
+					    			if(canMoveTo[k] == true && movemade == false && isMoving == true){
+					    				if(shouldorange[k] == true)
+					    					g.setColor(Color.orange);
+					    				if(shouldorange[k] == false)
+					    					g.setColor(Color.yellow);
+					    			}
+					    			if(isAttacking == true && canShootTo[k] == true && showinventory == false){
+					    				if(shouldorange[k] == true)
+					    					g.setColor(Color.orange);
+					    				if(shouldorange[k] == false)
+					    					g.setColor(Color.yellow);
+					    			}
+					    			g.fillRect(x, y, 62, 62);
+				    			}
+				    			k++;
+				    		}
+				    		if(biome[i] == 6){
+				    			if(k != 15 && k != 19 && k != 44 && k != 48){
+					    			if(canSee[k] == true)
+					    				g.drawImage(loadMountain(), x, y);
+					    			if(canSee[k] == false)
+					    				g.drawImage(loadDarkMountain(), x, y);
+					    			if(canMoveTo[k] == true && movemade == false && isMoving == true){
+					    				if(shouldorange[k] == true)
+					    					g.setColor(Color.orange);
+					    				if(shouldorange[k] == false)
+					    					g.setColor(Color.yellow);
+					    				g.fillRect(x, y, 62, 62);
+					    			}
+					    			if(isAttacking == true && canShootTo[k] == true && showinventory == false){
+					    				if(shouldorange[k] == true)
+					    					g.setColor(Color.orange);
+					    				if(shouldorange[k] == false)
+					    					g.setColor(Color.yellow);
+					    				g.fillRect(x, y, 62, 62);
+					    			}
+				    			}
+				    			if(k == 15 || k == 19 || k == 44 || k == 48){
+				    				if(canSee[k] == true)
+					    				g.setColor(Color.lightGray);
+					    			if(canSee[k] == false)
+					    				g.setColor(Color.lightGray.darker());
+					    			if(canMoveTo[k] == true && movemade == false && isMoving == true){
+					    				if(shouldorange[k] == true)
+					    					g.setColor(Color.orange);
+					    				if(shouldorange[k] == false)
+					    					g.setColor(Color.yellow);
+					    			}
+					    			if(isAttacking == true && canShootTo[k] == true && showinventory == false){
+					    				if(shouldorange[k] == true)
+					    					g.setColor(Color.orange);
+					    				if(shouldorange[k] == false)
+					    					g.setColor(Color.yellow);
+					    			}
+					    			g.fillRect(x, y, 62, 62);
+				    			}
+				    			k++;
+				    		}
+				    		if(k - 1 == 15)
+				    			g.drawImage(loadCornucopia1(), tilex[k - 1], tiley[k - 1]);
+				    		if(k - 1 == 19)
+				    			g.drawImage(loadCornucopia2(), tilex[k - 1], tiley[k - 1]);
+				    		if(k - 1 == 44)
+				    			g.drawImage(loadCornucopia3(), tilex[k - 1], tiley[k - 1]);
+				    		if(k - 1 == 48)
+				    			g.drawImage(loadCornucopia4(), tilex[k - 1], tiley[k - 1]);
+				    		if(discovered[k - 1] == true){
+				    			if(random.buildings[k - 1] == 0 && k - 1 != 15 && k - 1 != 19 && k - 1 != 44 && k - 1 != 48){
+					       			g.drawImage(loadX(), tilex[k - 1], tiley[k - 1]);
+				    			}
+					       		if(random.buildings[k - 1] == 1){
+					       			g.drawImage(loadLake(), tilex[k - 1], tiley[k - 1]);
+					       		}
+					       		if(random.buildings[k - 1] == 2){
+					       			g.drawImage(loadSC(), tilex[k - 1], tiley[k - 1]);
+					       		}
+					       		if(random.buildings[k - 1] == 3){
+					       			if(biome[i] == 3)
+					       				g.drawImage(loadMonster(), tilex[k - 1], tiley[k - 1]);
+					       			if(biome[i] == 2)
+					       				g.drawImage(loadBee(), tilex[k - 1], tiley[k - 1]);
+					       			if(biome[i] == 1)
+					       				g.drawImage(loadMudMan(), tilex[k - 1], tiley[k - 1]);
+					       			if(biome[i] == 4)
+					       				g.drawImage(loadLizard(), tilex[k - 1], tiley[k - 1]);
+					       			if(biome[i] == 5)
+					       				g.drawImage(loadWolf(), tilex[k - 1], tiley[k - 1]);
+					       			if(biome[i] == 7)
+					       				g.drawImage(loadThug(), tilex[k - 1], tiley[k - 1]);
+					       		}
+					       		if(random.buildings[k - 1] == 4){
+					       			g.drawImage(loadBed(), tilex[k - 1], tiley[k - 1]);
+					       		}
+				    		}
+				    		if(canSee[k - 1] == true){
+				    			for(int p = 0; p < 100; p++){
+				    				if(onGround[k - 1][p] > 0){
+				    					int item = onGround[k - 1][p];
+				    					int locationx = 0;
+				    					int locationy = 0;
+				    					int locationhelper = 0;
+				    					int locationhelper2 = 0;
+				    					if(item >= 1 && item <= 6)locationhelper = 1;
+				    					if(item >= 6 && item <= 13)locationhelper = 2;
+				    					if(item >= 1 && item <= 3)locationhelper2 = 1;
+				    					if(item >= 4 && item <= 6)locationhelper2 = 2;
+				    					if(item >= 7 && item <= 9)locationhelper2 = 1;
+				    					if(item >= 9 && item <= 13)locationhelper2 = 2;
+				    					if(locationhelper == 2)locationy = 35;
+				    					if(locationhelper == 1)locationy = 5;
+				    					if(locationhelper2 == 1)locationx = 5;
+				    					if(locationhelper2 == 2)locationx = 28;
+				        				if(item == 1)
+				        	        		loadEBottle().draw(tilex[k - 1] + locationx, tiley[k - 1] + locationy, 29, 22);
+				        				if(item == 2)
+				        	        		loadSword().draw(tilex[k - 1] + locationx, tiley[k - 1] + locationy, 29, 22);
+				        				if(item == 3)
+				        	        		loadSwordOF().draw(tilex[k - 1] + locationx, tiley[k - 1] + locationy, 29, 22);
+				        				if(item == 4)
+				        					loadSpear().draw(tilex[k - 1] + locationx, tiley[k - 1] + locationy, 29, 22);
+				        				if(item == 5)
+				        					loadSpearOF().draw(tilex[k - 1] + locationx, tiley[k - 1] + locationy, 29, 22);
+				        				if(item == 6)
+				        					loadCoat().draw(tilex[k - 1] + locationx, tiley[k - 1] + locationy, 29, 22);
+				        				if(item == 7){
+				        					loadQuiver().draw(tilex[k - 1] + locationx, tiley[k - 1] + locationy, 29, 22);
+				        				}
+				        				if(item == 8)
+				        					loadBow().draw(tilex[k - 1] + locationx, tiley[k - 1] + locationy, 29, 22);
+				        				if(item == 9)
+				        					loadMeat().draw(tilex[k - 1] + locationx, tiley[k - 1] + locationy, 29, 22);
+				        				if(item == 10)
+				        					loadBanana().draw(tilex[k - 1] + locationx, tiley[k - 1] + locationy, 29, 22);
+				        				if(item == 11)
+				        					loadTomato().draw(tilex[k - 1] + locationx, tiley[k - 1] + locationy, 29, 22);
+				        				if(item == 12)
+				        					loadMango().draw(tilex[k - 1] + locationx, tiley[k - 1] + locationy, 29, 22);
+				        				if(item == 13)
+				        					loadPoison().draw(tilex[k - 1] + locationx, tiley[k - 1] + locationy, 29, 22);
+				    				}
+				    			}			    			
+				    		}
+		    			}
+		    		}
+	    		}
+	//    		if(isStarting == false){
+	//    			g.setColor(Color.GRAY.brighter());
+	//	       		fillCircle(g, 252, 252, 50);
+	//	       		g.setColor(Color.GRAY);
+	//	       		fillCircle(g, 252, 252, 25);
+	//	        	g.setColor(Color.GRAY.darker());
+	//	        	fillCircle(g, 252, 252, 13);
+	//	        }
+	//    		if(isStarting == true || canMoveTo[64] == true){
+	//    			g.setColor(Color.yellow);
+	//    			fillCircle(g, 252, 252, 50);
+	//    			fillCircle(g, 252, 252, 25);
+	//    			fillCircle(g, 252, 252, 13);
+	//    			g.setColor(Color.black);
+	//    			drawCircle(g, 252, 252, 50);
+	//    			drawCircle(g, 252, 252, 25);
+	//    			drawCircle(g, 252, 252, 13);
+	//    		}
+		       	//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 28));
+		       	if(invertleft == false)
+		       		g.setColor(Color.black);
+		       	if(invertleft == true)
+		       		g.setColor(Color.lightGray);
+		       	g.fillRect(0, 585, 168, 50);
+		       	if(invertleft == false)
+		       		g.setColor(Color.lightGray);
+		       	if(invertleft == true)
+		       		g.setColor(Color.black);
+		       	g.drawString("Attack", 40, 620);
+		       	if(invertmiddle == false)
+		       		g.setColor(Color.black);
+		       	if(invertmiddle == true)
+		       		g.setColor(Color.lightGray);
+		       	g.fillRect(169, 585, 168, 50);
+		       	if(invertmiddle == false)
+		       		g.setColor(Color.lightGray);
+		       	if(invertmiddle == true)
+		       		g.setColor(Color.black);
+		       	if(movemade == false)
+		       		g.drawString("Move", 220, 620);
+		       	if(movemade == true)
+		       		g.drawString("Next Turn", 190, 620);
+		       	if(invertright == false)
+		       		g.setColor(Color.black);
+		       	if(invertright == true)
+		       		g.setColor(Color.lightGray);
+		       	g.fillRect(338, 585, 167, 50);
+		       	if(invertright == false)
+		       		g.setColor(Color.lightGray);
+		       	if(invertright == true)
+		       		g.setColor(Color.black);
+		       	int crashstopper = PlayerLocation;
+		       	if(PlayerLocation > 63)
+		       		crashstopper = 63;
+		       	if(discovered[crashstopper] == false || random.buildings[crashstopper] == 0 || random.buildings[crashstopper] == 3 || isObserver || PlayerLocation == 65)
+		       		g.drawString("Discover", 368, 620);
+		       	if(PlayerLocation < 65 && (discovered[PlayerLocation] == true && random.buildings[PlayerLocation] == 1)){
+		       		//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 18));
+		       		g.drawString("Refill and Drink", 353, 618);
+			       	//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 28));
+		       	}
+		       	if(PlayerLocation < 65 && (discovered[PlayerLocation] == true && random.buildings[PlayerLocation] == 2))
+		       		g.drawString("Scavenge", 368, 620);
+		       	if(PlayerLocation < 65 && (discovered[PlayerLocation] == true && random.buildings[PlayerLocation] == 4))
+		       		g.drawString("Sleep", 381, 620);
+		       	g.setColor(Color.red);
+		       	g.drawLine(168, 585, 168, 634);
+		       	g.drawLine(337, 585, 337, 634);
+		       	g.setColor(Color.black);
+		       	g.drawRect(0, 509, 504, 70);
+		       	int y = 0;
+		       	for(int i = 0; i < 23; i++){
+		       		g.setColor(create.EnemyC[i]);
+			       	g.drawRect(550, y, 140, 20);
+			       	if(create.EnemyN[i] == null)i++;
+			       	//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 12));
+			       	g.drawString(create.EnemyN[i], 555, y + 15);
+			       	y += 22;
+		       	}
+		       	g.setColor(Color.black);
+		       	//g.setFont((org.newdawn.slick.Font) new Font("Consolas", Font.PLAIN, 14));
+		       	y = 521;
+		       	g.drawString(text[0], 1, y);
+		       	y += 13;
+		       	g.drawString(text[1], 1, y);
+		       	y += 13;
+		       	g.drawString(text[2], 1, y);
+		       	y += 14;
+		       	g.drawString(text[3], 1, y);
+		       	y += 14;
+		       	g.drawString(text[4], 1, y);
+		       	for(int i = 0; i < 23; i++){
+		       		if(enemyShow[i] == true){
+		       			g.drawRect(0, 509, 504, 131);
+		       			g.setColor(Color.white);
+		       			g.fillRect(1, 510, 503, 130);
+		       			g.setColor(Color.black);
+		       			if(create.EnemyN[i] == null)i++;
+		       			//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 22));
+		       			g.drawString("Name: " + create.EnemyN[i], 120, 533);
+		       			g.drawLine(115, 540, 504, 540);
+		       			g.drawLine(115, 540, 115, 640);
+		       			g.drawString("District: " + create.EnemyD[i], 120, 563);
+		       			g.drawString("Age: " + create.EnemyA[i], 120, 586);
+		       			g.drawString("Gender: " + create.getGenderString(create.EnemyP[i]), 120, 609);
+		       			g.drawString("Total Skill: " + create.getTotalSkill(create.EnemySt[i], create.EnemySp[i], create.EnemySm[i], create.EnemyWs[i]), 120, 632);
+		       			if(enemyStDis[i] == true)g.drawString("Strength: " + create.EnemySt[i], 310, 563);
+		       			if(enemyStDis[i] == false)g.drawString("Strength: ?", 310, 563);
+		       			if(enemySpDis[i] == true)g.drawString("Speed: " + create.EnemySp[i], 310, 586);
+		       			if(enemySpDis[i] == false)g.drawString("Speed: ?", 310, 586);
+		       			if(enemySmDis[i] == true)g.drawString("Smarts: " + create.EnemySm[i], 310, 609);
+		       			if(enemySmDis[i] == false)g.drawString("Smarts: ?", 310, 609);
+		       			if(enemyWsDis[i] == true)g.drawString("Weapon Skill: " + create.EnemyWs[i], 310, 632);
+		       			if(enemyWsDis[i] == false)g.drawString("Weapon Skill: ?", 310, 632);
+		       			g.drawString("Kills:  " + EnemyKills[i], 5, 586);
+		       			//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 12));
+		       			g.drawString("Damage Dealt:  " + EnemyDamageDealt[i], 5, 609);
+		       			g.drawString("Damage Taken:  " + EnemyDamageTaken[i], 5, 632);
+		       		}
+		       	}
+		       	if(overPlayer == true){
 	       			g.drawRect(0, 509, 504, 131);
-	       			g.setColor(Color.WHITE);
+	       			g.setColor(Color.white);
 	       			g.fillRect(1, 510, 503, 130);
-	       			g.setColor(Color.BLACK);
-	       			if(create.EnemyN[i] == null)i++;
-	       			g.setFont(new Font("Arial", Font.PLAIN, 22));
-	       			g.drawString("Name: " + create.EnemyN[i], 120, 533);
+	       			g.setColor(Color.black);
+	       			//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 22));
+	       			g.drawString("Name: " + create.PlayerN, 120, 533);
 	       			g.drawLine(115, 540, 504, 540);
 	       			g.drawLine(115, 540, 115, 640);
-	       			g.drawString("District: " + create.EnemyD[i], 120, 563);
-	       			g.drawString("Age: " + create.EnemyA[i], 120, 586);
-	       			g.drawString("Gender: " + create.getGenderString(create.EnemyP[i]), 120, 609);
-	       			g.drawString("Total Skill: " + create.getTotalSkill(create.EnemySt[i], create.EnemySp[i], create.EnemySm[i], create.EnemyWs[i]), 120, 632);
-	       			if(enemyStDis[i] == true)g.drawString("Strength: " + create.EnemySt[i], 310, 563);
-	       			if(enemyStDis[i] == false)g.drawString("Strength: ?", 310, 563);
-	       			if(enemySpDis[i] == true)g.drawString("Speed: " + create.EnemySp[i], 310, 586);
-	       			if(enemySpDis[i] == false)g.drawString("Speed: ?", 310, 586);
-	       			if(enemySmDis[i] == true)g.drawString("Smarts: " + create.EnemySm[i], 310, 609);
-	       			if(enemySmDis[i] == false)g.drawString("Smarts: ?", 310, 609);
-	       			if(enemyWsDis[i] == true)g.drawString("Weapon Skill: " + create.EnemyWs[i], 310, 632);
-	       			if(enemyWsDis[i] == false)g.drawString("Weapon Skill: ?", 310, 632);
-	       			g.drawString("Kills:  " + EnemyKills[i], 5, 586);
-	       			g.setFont(new Font("Arial", Font.PLAIN, 12));
-	       			g.drawString("Damage Dealt:  " + EnemyDamageDealt[i], 5, 609);
-	       			g.drawString("Damage Taken:  " + EnemyDamageTaken[i], 5, 632);
-	       		}
-	       	}
-	       	if(overPlayer == true){
-       			g.drawRect(0, 509, 504, 131);
-       			g.setColor(Color.WHITE);
-       			g.fillRect(1, 510, 503, 130);
-       			g.setColor(Color.BLACK);
-       			g.setFont(new Font("Arial", Font.PLAIN, 22));
-       			g.drawString("Name: " + create.PlayerN, 120, 533);
-       			g.drawLine(115, 540, 504, 540);
-       			g.drawLine(115, 540, 115, 640);
-       			g.drawString("District: " + create.PlayerD, 120, 563);
-       			g.drawString("Age: " + create.PlayerA, 120, 586);
-       			g.drawString("Gender: " + create.getGenderString(create.PlayerP), 120, 609);
-       			g.drawString("Total Skill: " + create.getTotalSkill(create.PlayerSt, create.PlayerSp, create.PlayerSm, create.PlayerWs), 120, 632);
-       			g.drawString("Strength: " + create.PlayerSt, 310, 563);
-       			g.drawString("Speed: " + create.PlayerSp, 310, 586);
-       			g.drawString("Smarts: " + create.PlayerSm, 310, 609);
-       			g.drawString("Weapon Skill: " + create.PlayerWs, 310, 632);
-       			g.setFont(new Font("Arial", Font.PLAIN, 12));
-       			g.drawString("Health:  " + PlayerHealth, 5, 588);
-       			g.drawString("Days of Water Left:" + (7 - daysnowater), 5, 599);
-       			g.drawString("Kills:  " + playerKills, 5, 610);
-       			g.drawString("Damage Dealt:  " + playerDamageDealt, 5, 621);
-       			g.drawString("Damage Taken:  " + playerDamageTaken, 5, 632);
-	       	}
-//	       	g.setColor(create.PlayerC);
-//	       	if(drawPlayer == true)fillCircle(g, tilex[PlayerLocation] + 30, tiley[PlayerLocation] + 30, 25 - create.PlayerP);
-	       	for(int p = 0; p < 64; p++){
-	       		int people = getPeopleInTile(p);
-	       		if(people >= 0 && people <= 4){
-	       			int number = 0;
-	       			for(int q = 0; q < 23; q++){
-	       				if(EnemyAlive[q] && canSee[p] && EnemyLocation[q] == p){
+	       			g.drawString("District: " + create.PlayerD, 120, 563);
+	       			g.drawString("Age: " + create.PlayerA, 120, 586);
+	       			g.drawString("Gender: " + create.getGenderString(create.PlayerP), 120, 609);
+	       			g.drawString("Total Skill: " + create.getTotalSkill(create.PlayerSt, create.PlayerSp, create.PlayerSm, create.PlayerWs), 120, 632);
+	       			g.drawString("Strength: " + create.PlayerSt, 310, 563);
+	       			g.drawString("Speed: " + create.PlayerSp, 310, 586);
+	       			g.drawString("Smarts: " + create.PlayerSm, 310, 609);
+	       			g.drawString("Weapon Skill: " + create.PlayerWs, 310, 632);
+	       			//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 12));
+	       			g.drawString("Health:  " + PlayerHealth, 5, 588);
+	       			g.drawString("Days of Water Left:" + (7 - daysnowater), 5, 599);
+	       			g.drawString("Kills:  " + playerKills, 5, 610);
+	       			g.drawString("Damage Dealt:  " + playerDamageDealt, 5, 621);
+	       			g.drawString("Damage Taken:  " + playerDamageTaken, 5, 632);
+		       	}
+	//	       	g.setColor(create.PlayerC);
+	//	       	if(drawPlayer == true)fillCircle(g, tilex[PlayerLocation] + 30, tiley[PlayerLocation] + 30, 25 - create.PlayerP);
+		       	for(int p = 0; p < 64; p++){
+		       		int people = getPeopleInTile(p);
+		       		if(people >= 0 && people <= 4){
+		       			int number = 0;
+		       			for(int q = 0; q < 23; q++){
+		       				if(EnemyAlive[q] && canSee[p] && EnemyLocation[q] == p){
+		       					int numberC = number;
+		       					int numberX = number;
+		       					if(number == 0 || number == 1)numberC = 0;
+		       					if(number == 2 || number == 3)numberC = 1;
+		       					if(number == 2)numberX = 0;
+		       					if(number == 3)numberX = 1;
+		       					if(enemyShow[q]){
+			       					if(create.getGenderBoolean(create.EnemyP[q]) == true)
+			       						g.drawImage(loadHBoy(), tilex[p] + (numberX * 31), tiley[p] + ((numberC) * 31));
+			       					if(create.getGenderBoolean(create.EnemyP[q]) == false)
+			       						g.drawImage(loadHGirl(), tilex[p] + (numberX * 31), tiley[p] + ((numberC) * 31));
+		       					}
+		       					if(!enemyShow[q]){
+			       					if(create.getGenderBoolean(create.EnemyP[q]) == true)
+			       						g.drawImage(loadBoy(create.EnemyD[q]), tilex[p] + (numberX * 31), tiley[p] + ((numberC) * 31));
+			       					if(create.getGenderBoolean(create.EnemyP[q]) == false)
+			       						g.drawImage(loadGirl(create.EnemyD[q]), tilex[p] + (numberX * 31), tiley[p] + ((numberC) * 31));
+		       					}
+		       					number++;
+		       				}
+		       			}
+		       			if(PlayerLocation == p && PlayerAlive == true){
 	       					int numberC = number;
 	       					int numberX = number;
 	       					if(number == 0 || number == 1)numberC = 0;
 	       					if(number == 2 || number == 3)numberC = 1;
 	       					if(number == 2)numberX = 0;
 	       					if(number == 3)numberX = 1;
-	       					if(enemyShow[q]){
-		       					if(create.getGenderBoolean(create.EnemyP[q]) == true)
-		       						g.drawImage(loadHBoy(), tilex[p] + (numberX * 31), tiley[p] + ((numberC) * 31), null);
-		       					if(create.getGenderBoolean(create.EnemyP[q]) == false)
-		       						g.drawImage(loadHGirl(), tilex[p] + (numberX * 31), tiley[p] + ((numberC) * 31), null);
+	       					if(!overPlayer){
+		   						if(create.getGenderBoolean(create.PlayerP) == true)
+		   							g.drawImage(loadBoy(create.PlayerD), tilex[p] + (numberX * 31), tiley[p] + ((numberC) * 31));
+		   						if(create.getGenderBoolean(create.PlayerP) == false)
+		   							g.drawImage(loadGirl(create.PlayerD), tilex[p] + (numberX * 31), tiley[p] + ((numberC) * 31));
 	       					}
-	       					if(!enemyShow[q]){
-		       					if(create.getGenderBoolean(create.EnemyP[q]) == true)
-		       						g.drawImage(loadBoy(create.EnemyD[q]), tilex[p] + (numberX * 31), tiley[p] + ((numberC) * 31), null);
-		       					if(create.getGenderBoolean(create.EnemyP[q]) == false)
-		       						g.drawImage(loadGirl(create.EnemyD[q]), tilex[p] + (numberX * 31), tiley[p] + ((numberC) * 31), null);
+	       					if(overPlayer){
+		   						if(create.getGenderBoolean(create.PlayerP) == true)
+		   							g.drawImage(loadHBoy(), tilex[p] + (numberX * 31), tiley[p] + ((numberC) * 31));
+		   						if(create.getGenderBoolean(create.PlayerP) == false)
+		   							g.drawImage(loadHGirl(), tilex[p] + (numberX * 31), tiley[p] + ((numberC) * 31));
 	       					}
-	       					number++;
-	       				}
-	       			}
-	       			if(PlayerLocation == p && PlayerAlive == true){
-       					int numberC = number;
-       					int numberX = number;
-       					if(number == 0 || number == 1)numberC = 0;
-       					if(number == 2 || number == 3)numberC = 1;
-       					if(number == 2)numberX = 0;
-       					if(number == 3)numberX = 1;
-       					if(!overPlayer){
-	   						if(create.getGenderBoolean(create.PlayerP) == true)
-	   							g.drawImage(loadBoy(create.PlayerD), tilex[p] + (numberX * 31), tiley[p] + ((numberC) * 31), null);
-	   						if(create.getGenderBoolean(create.PlayerP) == false)
-	   							g.drawImage(loadGirl(create.PlayerD), tilex[p] + (numberX * 31), tiley[p] + ((numberC) * 31), null);
-       					}
-       					if(overPlayer){
-	   						if(create.getGenderBoolean(create.PlayerP) == true)
-	   							g.drawImage(loadHBoy(), tilex[p] + (numberX * 31), tiley[p] + ((numberC) * 31), null);
-	   						if(create.getGenderBoolean(create.PlayerP) == false)
-	   							g.drawImage(loadHGirl(), tilex[p] + (numberX * 31), tiley[p] + ((numberC) * 31), null);
-       					}
-	       			}
-	       		}
-	       		if(people > 4 && people <= 8){
-	       			int number = 0;
-	       			for(int q = 0; q < 23; q++){
-	       				if(EnemyAlive[q] && canSee[p] && EnemyLocation[q] == p){
+		       			}
+		       		}
+		       		if(people > 4 && people <= 8){
+		       			int number = 0;
+		       			for(int q = 0; q < 23; q++){
+		       				if(EnemyAlive[q] && canSee[p] && EnemyLocation[q] == p){
+		       					int numberC = number;
+		       					int numberX = number;
+		       					if(number <= 3)numberC = 0;
+		       					if(number >= 4)numberC = 1;
+		       					if(number == 4)numberX = 0;
+		       					if(number == 5)numberX = 1;
+		       					if(number == 6)numberX = 2;
+		       					if(number == 7)numberX = 3;
+		       					if(enemyShow[q]){
+			       					if(create.getGenderBoolean(create.EnemyP[q]) == true)
+			       						loadHBoy().draw(tilex[p] + (numberX * 15), tiley[p] + ((numberC) * 31), 15, 31);
+			       					if(create.getGenderBoolean(create.EnemyP[q]) == false)
+			       						loadHGirl().draw(tilex[p] + (numberX * 15), tiley[p] + ((numberC) * 31), 15, 31);
+		       					}
+		       					if(!enemyShow[q]){
+			       					if(create.getGenderBoolean(create.EnemyP[q]) == true)
+			       						loadBoy(create.EnemyD[q]).draw(tilex[p] + (numberX * 15), tiley[p] + ((numberC) * 31), 15, 31);
+			       					if(create.getGenderBoolean(create.EnemyP[q]) == false)
+			       						loadGirl(create.EnemyD[q]).draw(tilex[p] + (numberX * 15), tiley[p] + ((numberC) * 31), 15, 31);
+		       					}
+		       					number++;
+		       				}
+		       			}
+		       			if(PlayerLocation == p && PlayerAlive == true){
 	       					int numberC = number;
 	       					int numberX = number;
 	       					if(number <= 3)numberC = 0;
@@ -773,485 +793,464 @@ public class GridDrawer extends JPanel implements MouseMotionListener, MouseList
 	       					if(number == 5)numberX = 1;
 	       					if(number == 6)numberX = 2;
 	       					if(number == 7)numberX = 3;
-	       					if(enemyShow[q]){
-		       					if(create.getGenderBoolean(create.EnemyP[q]) == true)
-		       						g.drawImage(loadHBoy(), tilex[p] + (numberX * 15), tiley[p] + ((numberC) * 31), 15, 31, null);
-		       					if(create.getGenderBoolean(create.EnemyP[q]) == false)
-		       						g.drawImage(loadHGirl(), tilex[p] + (numberX * 15), tiley[p] + ((numberC) * 31), 15, 31, null);
+	       					if(!overPlayer){
+		   						if(create.getGenderBoolean(create.PlayerP) == true)
+		   							loadBoy(create.PlayerD).draw(tilex[p] + (numberX * 15), tiley[p] + ((numberC) * 31), 15, 31);
+		   						if(create.getGenderBoolean(create.PlayerP) == false)
+		   							loadGirl(create.PlayerD).draw(tilex[p] + (numberX * 15), tiley[p] + ((numberC) * 31), 15, 31);
 	       					}
-	       					if(!enemyShow[q]){
-		       					if(create.getGenderBoolean(create.EnemyP[q]) == true)
-		       						g.drawImage(loadBoy(create.EnemyD[q]), tilex[p] + (numberX * 15), tiley[p] + ((numberC) * 31), 15, 31, null);
-		       					if(create.getGenderBoolean(create.EnemyP[q]) == false)
-		       						g.drawImage(loadGirl(create.EnemyD[q]), tilex[p] + (numberX * 15), tiley[p] + ((numberC) * 31), 15, 31, null);
+	       					if(overPlayer){
+		   						if(create.getGenderBoolean(create.PlayerP) == true)
+		   							loadHBoy().draw(tilex[p] + (numberX * 15), tiley[p] + ((numberC) * 31), 15, 31);
+		   						if(create.getGenderBoolean(create.PlayerP) == false)
+		   							loadHGirl().draw(tilex[p] + (numberX * 15), tiley[p] + ((numberC) * 31), 15, 31);
 	       					}
-	       					number++;
-	       				}
-	       			}
-	       			if(PlayerLocation == p && PlayerAlive == true){
-       					int numberC = number;
-       					int numberX = number;
-       					if(number <= 3)numberC = 0;
-       					if(number >= 4)numberC = 1;
-       					if(number == 4)numberX = 0;
-       					if(number == 5)numberX = 1;
-       					if(number == 6)numberX = 2;
-       					if(number == 7)numberX = 3;
-       					if(!overPlayer){
-	   						if(create.getGenderBoolean(create.PlayerP) == true)
-	   							g.drawImage(loadBoy(create.PlayerD), tilex[p] + (numberX * 15), tiley[p] + ((numberC) * 31), 15, 31, null);
-	   						if(create.getGenderBoolean(create.PlayerP) == false)
-	   							g.drawImage(loadGirl(create.PlayerD), tilex[p] + (numberX * 15), tiley[p] + ((numberC) * 31), 15, 31, null);
-       					}
-       					if(overPlayer){
-	   						if(create.getGenderBoolean(create.PlayerP) == true)
-	   							g.drawImage(loadHBoy(), tilex[p] + (numberX * 15), tiley[p] + ((numberC) * 31), 15, 31, null);
-	   						if(create.getGenderBoolean(create.PlayerP) == false)
-	   							g.drawImage(loadHGirl(), tilex[p] + (numberX * 15), tiley[p] + ((numberC) * 31), 15, 31, null);
-       					}
-	       			}
-	       		}
-	       		if(people > 8){
-	       			int number = 0;
-	       			for(int q = 0; q < 23; q++){
-	       				if(EnemyAlive[q] && canSee[p] && EnemyLocation[q] == p){
+		       			}
+		       		}
+		       		if(people > 8){
+		       			int number = 0;
+		       			for(int q = 0; q < 23; q++){
+		       				if(EnemyAlive[q] && canSee[p] && EnemyLocation[q] == p){
+		       					int numberC = number;
+		       					int numberX = number;
+		       					boolean weirdness = false;
+		       					if(number <= 3)numberC = 1;
+		       					if(number >= 4)numberC = 2;
+		       					if(number == 4)numberX = 0;
+		       					if(number == 5)numberX = 1;
+		       					if(number == 6)numberX = 2;
+		       					if(number == 7)numberX = 3;
+		       					if(number >= 8){
+		       						numberC = 1;
+		       						numberX = number - 8;
+		       						if(numberX > 2)
+		       							numberX = number - (number - 2);
+		       						if(number >= 11){
+		       							numberC = 2;
+		       							int subtraction = Math.abs(0 - numberX) / 2;
+		       							numberX -= subtraction;
+		       						}
+		       						weirdness = true;
+		       					}
+		       					if(weirdness == false){
+		       						if(enemyShow[q]){
+				       					if(create.getGenderBoolean(create.EnemyP[q]) == true)
+				       						loadHBoy().draw(tilex[p] + (numberX * 15), tiley[p] + ((numberC / 2) * 31), 15, 31);
+				       					if(create.getGenderBoolean(create.EnemyP[q]) == false)
+				       						loadHGirl().draw(tilex[p] + (numberX * 15), tiley[p] + ((numberC / 2) * 31), 15, 31);
+		       						}
+		       						if(!enemyShow[q]){
+				       					if(create.getGenderBoolean(create.EnemyP[q]) == true)
+				       						loadBoy(create.EnemyD[q]).draw(tilex[p] + (numberX * 15), tiley[p] + ((numberC / 2) * 31), 15, 31);
+				       					if(create.getGenderBoolean(create.EnemyP[q]) == false)
+				       						loadGirl(create.EnemyD[q]).draw(tilex[p] + (numberX * 15), tiley[p] + ((numberC / 2) * 31), 15, 31);
+		       						}
+		       					}
+		       					if(weirdness == true){
+		       						if(enemyShow[q]){
+				       					if(create.getGenderBoolean(create.EnemyP[q]) == true)
+				       						loadHBoy().draw(tilex[p] + (numberX * 20), tiley[p] + ((numberC / 2) * 21), 15, 31);
+				       					if(create.getGenderBoolean(create.EnemyP[q]) == false)
+				       						loadHGirl().draw(tilex[p] + (numberX * 24), tiley[p] + ((numberC / 2) * 21), 15, 31);
+		       						}
+		       						if(!enemyShow[q]){
+				       					if(create.getGenderBoolean(create.EnemyP[q]) == true)
+				       						loadBoy(create.EnemyD[q]).draw(tilex[p] + (numberX * 20), tiley[p] + ((numberC / 2) * 21), 15, 31);
+				       					if(create.getGenderBoolean(create.EnemyP[q]) == false)
+				       						loadGirl(create.EnemyD[q]).draw(tilex[p] + (numberX * 24), tiley[p] + ((numberC / 2) * 21), 15, 31);
+		       						}
+		       					}
+		       					number++;
+		       				}
+		       			}
+		       			if(PlayerLocation == p && PlayerAlive == true){
+		       				int xmul = 22;
+		       				int ymul = 23;
 	       					int numberC = number;
 	       					int numberX = number;
-	       					boolean weirdness = false;
-	       					if(number <= 3)numberC = 1;
-	       					if(number >= 4)numberC = 2;
+	       					if(number <= 3)numberC = 0;
+	       					if(number >= 4)numberC = 1;
 	       					if(number == 4)numberX = 0;
 	       					if(number == 5)numberX = 1;
 	       					if(number == 6)numberX = 2;
 	       					if(number == 7)numberX = 3;
 	       					if(number >= 8){
-	       						numberC = 1;
-	       						numberX = number - 8;
-	       						if(numberX > 2)
-	       							numberX = number - (number - 2);
-	       						if(number >= 11){
-	       							numberC = 2;
-	       							int subtraction = Math.abs(0 - numberX) / 2;
-	       							numberX -= subtraction;
-	       						}
-	       						weirdness = true;
+	       						numberX = number - 7;
+	       						numberC = 0;
+	       						xmul += 7;
+	       						if(numberX * xmul >= 52)
+	       							xmul -= 7;
+	       						if(numberC * ymul >= 52)
+	       							ymul -= 7;
 	       					}
-	       					if(weirdness == false){
-	       						if(enemyShow[q]){
-			       					if(create.getGenderBoolean(create.EnemyP[q]) == true)
-			       						g.drawImage(loadHBoy(), tilex[p] + (numberX * 15), tiley[p] + ((numberC / 2) * 31), 15, 31, null);
-			       					if(create.getGenderBoolean(create.EnemyP[q]) == false)
-			       						g.drawImage(loadHGirl(), tilex[p] + (numberX * 15), tiley[p] + ((numberC / 2) * 31), 15, 31, null);
-	       						}
-	       						if(!enemyShow[q]){
-			       					if(create.getGenderBoolean(create.EnemyP[q]) == true)
-			       						g.drawImage(loadBoy(create.EnemyD[q]), tilex[p] + (numberX * 15), tiley[p] + ((numberC / 2) * 31), 15, 31, null);
-			       					if(create.getGenderBoolean(create.EnemyP[q]) == false)
-			       						g.drawImage(loadGirl(create.EnemyD[q]), tilex[p] + (numberX * 15), tiley[p] + ((numberC / 2) * 31), 15, 31, null);
-	       						}
+	       					if(!overPlayer){
+		   						if(create.getGenderBoolean(create.PlayerP) == true)
+		   							loadBoy(create.PlayerD).draw(tilex[p] + (numberX + xmul), tiley[p] + ((numberC) * ymul), 15, 31);
+		   						if(create.getGenderBoolean(create.PlayerP) == false)
+		   							loadGirl(create.PlayerD).draw(tilex[p] + (numberX + xmul), tiley[p] + ((numberC) * ymul), 15, 31);
 	       					}
-	       					if(weirdness == true){
-	       						if(enemyShow[q]){
-			       					if(create.getGenderBoolean(create.EnemyP[q]) == true)
-			       						g.drawImage(loadHBoy(), tilex[p] + (numberX * 20), tiley[p] + ((numberC / 2) * 21), 15, 31, null);
-			       					if(create.getGenderBoolean(create.EnemyP[q]) == false)
-			       						g.drawImage(loadHGirl(), tilex[p] + (numberX * 24), tiley[p] + ((numberC / 2) * 21), 15, 31, null);
-	       						}
-	       						if(!enemyShow[q]){
-			       					if(create.getGenderBoolean(create.EnemyP[q]) == true)
-			       						g.drawImage(loadBoy(create.EnemyD[q]), tilex[p] + (numberX * 20), tiley[p] + ((numberC / 2) * 21), 15, 31, null);
-			       					if(create.getGenderBoolean(create.EnemyP[q]) == false)
-			       						g.drawImage(loadGirl(create.EnemyD[q]), tilex[p] + (numberX * 24), tiley[p] + ((numberC / 2) * 21), 15, 31, null);
-	       						}
+	       					if(overPlayer){
+		   						if(create.getGenderBoolean(create.PlayerP) == true)
+		   							loadHBoy().draw(tilex[p] + (numberX + xmul), tiley[p] + ((numberC) * ymul), 15, 31);
+		   						if(create.getGenderBoolean(create.PlayerP) == false)
+		   							loadHGirl().draw(tilex[p] + (numberX + xmul), tiley[p] + ((numberC) * ymul), 15, 31);
 	       					}
-	       					number++;
-	       				}
-	       			}
-	       			if(PlayerLocation == p && PlayerAlive == true){
-	       				int xmul = 22;
-	       				int ymul = 23;
-       					int numberC = number;
-       					int numberX = number;
-       					if(number <= 3)numberC = 0;
-       					if(number >= 4)numberC = 1;
-       					if(number == 4)numberX = 0;
-       					if(number == 5)numberX = 1;
-       					if(number == 6)numberX = 2;
-       					if(number == 7)numberX = 3;
-       					if(number >= 8){
-       						numberX = number - 7;
-       						numberC = 0;
-       						xmul += 7;
-       						if(numberX * xmul >= 52)
-       							xmul -= 7;
-       						if(numberC * ymul >= 52)
-       							ymul -= 7;
-       					}
-       					if(!overPlayer){
-	   						if(create.getGenderBoolean(create.PlayerP) == true)
-	   							g.drawImage(loadBoy(create.PlayerD), tilex[p] + (numberX + xmul), tiley[p] + ((numberC) * ymul), 15, 31, null);
-	   						if(create.getGenderBoolean(create.PlayerP) == false)
-	   							g.drawImage(loadGirl(create.PlayerD), tilex[p] + (numberX + xmul), tiley[p] + ((numberC) * ymul), 15, 31, null);
-       					}
-       					if(overPlayer){
-	   						if(create.getGenderBoolean(create.PlayerP) == true)
-	   							g.drawImage(loadHBoy(), tilex[p] + (numberX + xmul), tiley[p] + ((numberC) * ymul), 15, 31, null);
-	   						if(create.getGenderBoolean(create.PlayerP) == false)
-	   							g.drawImage(loadHGirl(), tilex[p] + (numberX + xmul), tiley[p] + ((numberC) * ymul), 15, 31, null);
-       					}
-	       			}
-	       		}
-	       	}
-    		if(showinventory == true){
-    			g.setColor(Color.WHITE);
-    			g.fillRect(50, 175, 626, 200);
-    			g.setColor(Color.BLACK);
-    			g.drawRect(50, 175, 626, 200);
-    			if(invertx == false)
-    				g.setColor(Color.BLACK);
-    			if(invertx == true)
-    				g.setColor(Color.LIGHT_GRAY);
-    			g.fillRect(636, 180, 35, 35);
-    			if(invertx == true)
-    				g.setColor(Color.BLACK);
-    			if(invertx == false)
-    				g.setColor(Color.LIGHT_GRAY);
-    			g.setFont(new Font("Times New Roman", Font.PLAIN, 40));
-    			g.drawString("X", 639, 211);
-    			g.setColor(Color.BLACK);
-        		g.drawLine(576, 175, 576, 375);
-        		g.drawLine(50, 275, 576, 275);
-        		int j = 50;
-        		j += 132;
-        		g.drawLine(j, 175, j, 375);
-        		j += 132;
-        		g.drawLine(j, 175, j, 375);
-        		j += 131;
-        		g.drawLine(j, 175, j, 375);
-        		j += 131;
-        		g.drawLine(j, 175, j, 375);
-        		g.setColor(Color.RED);
-        		for(int i = 0, x = 51, b = 176, width = 131; i < 8; i++){
-        			if(i == 2 || i == 6){
-        				x += 132;
-        				width = 130;
-        			}
-        			if(i == 1 || i == 4 || i == 5){
-        				x += 132;
-        				width = 131;
-        			}
-        			if(i == 7 || i == 3)
-        				x += 131;
-        			if(i == 4){
-        				x = 51;
-        				b = 276;
-        			}
-        			if(inventoryI[i] != 0){
-        				if(inventoryI[i] == 1){
-        					if(bottletype[i] == 0)
-        	        			g.drawImage(loadEBottle(), x, b, width, 99, null);
-        					if(bottletype[i] == 1)
-	        					g.drawImage(loadBottle(), x, b, width, 99, null);
-        					if(bottletype[i] == 2)
-	        					g.drawImage(loadMedicine(), x, b, width, 99, null);
-        					if(bottletype[i] == 3)
-        						g.drawImage(loadPoison(), x, b, width, 99, null);
-        				}
-        				if(inventoryI[i] == 2)
-        	        		g.drawImage(loadSword(), x, b, width, 99, null);
-        				if(inventoryI[i] == 3)
-        	        		g.drawImage(loadSwordOF(), x, b, width, 99, null);
-        				if(inventoryI[i] == 4)
-        					g.drawImage(loadSpear(), x, b, width, 99, null);
-        				if(inventoryI[i] == 5)
-        					g.drawImage(loadSpearOF(), x, b, width, 99, null);
-        				if(inventoryI[i] == 6)
-        					g.drawImage(loadCoat(), x, b, width, 99, null);
-        				if(inventoryI[i] == 7)
-        					g.drawImage(loadQuiver(), x, b, width, 99, null);
-        				if(inventoryI[i] == 8)
-        					g.drawImage(loadBow(), x, b, width, 99, null);
-        				if(inventoryI[i] == 9)
-        					g.drawImage(loadMeat(), x, b, width, 99, null);
-        				if(inventoryI[i] == 10)
-        					g.drawImage(loadBanana(), x, b, width, 99, null);
-        				if(inventoryI[i] == 11)
-        					g.drawImage(loadTomato(), x, b, width, 99, null);
-        				if(inventoryI[i] == 12)
-        					g.drawImage(loadMango(), x, b, width, 99, null);
-        			}
-        			if(selectinv[i] == true){
-        				g.setColor(Color.BLUE);
-        				g.drawRect(x, b, width - 1, 98);
-        			}
-        		}
-        		if(invertuse == false)
-        			g.setColor(Color.BLACK);
-        		if(invertuse == true)
-        			g.setColor(Color.LIGHT_GRAY);
-        		g.fillRect(577, 335, 99, 40);
-        		if(invertuse == true)
-        			g.setColor(Color.BLACK);
-        		if(invertuse == false)
-        			g.setColor(Color.LIGHT_GRAY);
-        		g.setFont(new Font("Arial", Font.PLAIN, 35));
-        		g.drawString("Use", 590, 367);
-        		g.setColor(Color.RED);
-        		g.drawLine(577, 335, 676, 335);
-        		g.drawLine(577, 294, 676, 294);
-        		if(invertuse2 == false)
-        			g.setColor(Color.BLACK);
-        		if(invertuse2 == true)
-        			g.setColor(Color.LIGHT_GRAY);
-        		g.fillRect(577, 295, 99, 40);
-        		if(invertuse2 == true)
-        			g.setColor(Color.BLACK);
-        		if(invertuse2 == false)
-        			g.setColor(Color.LIGHT_GRAY);
-        		g.drawString("Drop", 585, 327);
-        		g.setFont(new Font("Arial", Font.PLAIN, 25));
-        		if(invertuse3 == false)
-        			g.setColor(Color.BLACK);
-        		if(invertuse3 == true)
-        			g.setColor(Color.LIGHT_GRAY);
-        		g.fillRect(577, 254, 99, 40);
-        		if(invertuse3 == true)
-        			g.setColor(Color.BLACK);
-        		if(invertuse3 == false)
-        			g.setColor(Color.LIGHT_GRAY);
-        		g.drawString("Pick Up", 583, 283);
-        		for(int i = 0; i < 8; i++){
-        			if(overItem[i] == true){
-        				check0();
-        				g.setColor(Color.BLUE);
-        				if(inventoryI[i] != 0){
-        					g.fillRect(getX() + 10, getY(), 122, 20);
-        					g.setColor(Color.BLACK);
-        					g.drawRect(getX() + 10, getY(), 122, 20);
-        				}
-        				g.setColor(Color.BLACK);
-        				g.setFont(new Font("Arial", Font.PLAIN, 20));
-        				if(inventoryI[i] != 0)
-        					g.drawString(translateItemC(inventoryI[i]), getX() + 12, getY() + 17);
-        			}
-        		}
-    		}
-    		if(PlayerAlive == false){
-    			g.setFont(new Font("Arial", Font.PLAIN, 30));
-        		if(invertReplay == false)
-        			g.setColor(Color.BLACK);
-        		if(invertReplay == true)
-        			g.setColor(Color.LIGHT_GRAY);
-        		g.fillRect(190, 221, 125, 62);
-        		if(invertReplay == true)
-        			g.setColor(Color.BLACK);
-        		if(invertReplay == false)
-        			g.setColor(Color.LIGHT_GRAY);
-        		g.drawString("Replay", 206, 264);
-    		}
-    		if(showOptions == true){
-    			g.setColor(new Color(242, 242, 242));
-    			g.fillRect(25, 25, 669, 621);
-    			g.setColor(Color.BLACK);
-    			g.drawLine(25, 25, 694, 25);
-    			g.drawLine(25, 25, 25, 646);
-    			g.drawLine(694, 25, 694, 646);
-    			g.drawLine(25, 646, 694, 646);
-    			if(invertx == false)
-    				g.setColor(Color.BLACK);
-    			if(invertx == true)
-    				g.setColor(Color.LIGHT_GRAY);
-    			g.fillRect(649, 35, 35, 35);
-    			if(invertx == true)
-    				g.setColor(Color.BLACK);
-    			if(invertx == false)
-    				g.setColor(Color.LIGHT_GRAY);
-    			g.setFont(new Font("Times New Roman", Font.PLAIN, 40));
-    			g.drawString("X", 652, 66);
-    			if(invertoptions[0] == false)
-    				g.setColor(Color.BLACK);
-    			if(invertoptions[0] == true)
-    				g.setColor(Color.LIGHT_GRAY);
-    			g.fillRect(35, 35, 180, 50);
-    			if(invertoptions[0] == true)
-    				g.setColor(Color.BLACK);
-    			if(invertoptions[0] == false)
-    				g.setColor(Color.LIGHT_GRAY);
-    			g.setFont(new Font("Arial", Font.PLAIN, 11));
-    			g.drawString("Show Mouse Coordinates:  " + showCoordinates, 45, 65);
-    			if(invertoptions[1] == false)
-    				g.setColor(Color.BLACK);
-    			if(invertoptions[1] == true)
-    				g.setColor(Color.LIGHT_GRAY);
-    			g.fillRect(235, 35, 180, 50);
-    			if(invertoptions[1] == true)
-    				g.setColor(Color.BLACK);
-    			if(invertoptions[1] == false)
-    				g.setColor(Color.LIGHT_GRAY);
-    			g.setFont(new Font("Arial", Font.PLAIN, 17));
-    			g.drawString("Discover Everything", 245, 65);
-    			if(invertoptions[2] == false)
-    				g.setColor(Color.BLACK);
-    			if(invertoptions[2] == true)
-    				g.setColor(Color.LIGHT_GRAY);
-    			g.fillRect(435, 35, 180, 50);
-    			if(invertoptions[2] == true)
-    				g.setColor(Color.BLACK);
-    			if(invertoptions[2] == false)
-    				g.setColor(Color.LIGHT_GRAY);
-    			g.setFont(new Font("Arial", Font.PLAIN, 17));
-    			g.drawString("Enable Cheats:  " + enableCheats, 445, 65);
-    			if(invertoptions[3] == false)
-    				g.setColor(Color.BLACK);
-    			if(invertoptions[3] == true)
-    				g.setColor(Color.LIGHT_GRAY);
-    			g.fillRect(35, 95, 180, 50);
-    			if(invertoptions[3] == true)
-    				g.setColor(Color.BLACK);
-    			if(invertoptions[3] == false)
-    				g.setColor(Color.LIGHT_GRAY);
-    			g.setFont(new Font("Arial", Font.PLAIN, 15));
-    			g.drawString("Observer Mode:  " + isObserver, 45, 125);
-    			if(invertoptions[4] == false)
-    				g.setColor(Color.BLACK);
-    			if(invertoptions[4] == true)
-    				g.setColor(Color.LIGHT_GRAY);
-    			g.fillRect(235, 95, 180, 50);
-    			if(invertoptions[4] == true)
-    				g.setColor(Color.BLACK);
-    			if(invertoptions[4] == false)
-    				g.setColor(Color.LIGHT_GRAY);
-    			g.setFont(new Font("Arial", Font.PLAIN, 25));
-    			g.drawString("Music:  " + isMusic, 254, 130);
-    			if(invertoptions[5] == false)
-    				g.setColor(Color.BLACK);
-    			if(invertoptions[5] == true)
-    				g.setColor(Color.LIGHT_GRAY);
-    			g.fillRect(435, 95, 180, 50);
-    			if(invertoptions[5] == true)
-    				g.setColor(Color.BLACK);
-    			if(invertoptions[5] == false)
-    				g.setColor(Color.LIGHT_GRAY);
-    			g.setFont(new Font("Arial", Font.PLAIN, 20));
-    			g.drawString("Log Memory:  " + isLogging, 443, 130);
-    			if(invertoptions[6] == false)
-    				g.setColor(Color.BLACK);
-    			if(invertoptions[6] == true)
-    				g.setColor(Color.LIGHT_GRAY);
-    			g.fillRect(35, 155, 180, 50);
-    			if(invertoptions[6] == true)
-    				g.setColor(Color.BLACK);
-    			if(invertoptions[6] == false)
-    				g.setColor(Color.LIGHT_GRAY);
-    			g.setFont(new Font("Arial", Font.PLAIN, 25));
-    			g.drawString("Data Type:  " + dataType, 46, 190);
-    		}
-    		if(showHistory == true){
-    			g.setColor(new Color(242, 242, 242));
-    			g.fillRect(25, 25, 669, 621);
-    			g.setColor(Color.BLACK);
-    			g.drawLine(25, 25, 694, 25);
-    			g.drawLine(25, 25, 25, 646);
-    			g.drawLine(694, 25, 694, 646);
-    			g.drawLine(25, 646, 694, 646);
-    			if(invertx == false)
-    				g.setColor(Color.BLACK);
-    			if(invertx == true)
-    				g.setColor(Color.LIGHT_GRAY);
-    			g.fillRect(649, 35, 35, 35);
-    			if(invertx == true)
-    				g.setColor(Color.BLACK);
-    			if(invertx == false)
-    				g.setColor(Color.LIGHT_GRAY);
-    			g.setFont(new Font("Times New Roman", Font.PLAIN, 40));
-    			g.drawString("X", 652, 66);
-    			for(int i = 0, p = 24, corx = 40, cory = 615; i < 25; i++, p--, cory -= 24){
-    				g.setColor(Color.WHITE);
-    				g.fillRect(corx, cory, 604, 16);
-    				g.setColor(Color.BLACK);
-    				g.setFont(new Font("Arial", Font.PLAIN, 16));
-    				g.drawString((i + 1) + " " + time[p + 5] + " " + history[p], corx + 3, cory + 14);
-    			}
-    		}
-    	}
-    	if(drawWhat == 5){
-    		boolean gender = true;
-    		if(create.PlayerGU != 1 && create.PlayerGU != 2)gender = create.getGenderBoolean(create.PlayerP);
-    		if(create.PlayerGU == 1)gender = true;
-    		if(create.PlayerGU == 2)gender = false;
-    		g.drawRect(1, 275, 717, 50);
-    		g.setFont(new Font("Arial", Font.BOLD, 25));
-    		g.drawString("Currently in " + translateMode(usingNumber), 220, 50);
-    		g.drawString("Instructions", 275, 345);
-    		g.setFont(new Font("Arial", Font.PLAIN, 15));
-    		if(usingNumber){
-	    		g.drawString("Type in the number of the character you want to play as.  You may only type in numbers between 1 and " + name.getHighest(gender) + ".", 1, 355);
-	    		g.drawString("Typing in nothing will give you a random name.  Backspace clears your entry.  Enter submits your number.", 1, 373);
-    		}
-    		if(!usingNumber){
-    			g.drawString("Type in the name of the character you'd like to play as.", 1, 355);
-    			g.drawString("Enter submits your name.", 1, 373);
-    		}
-    		if(invertoptions[7] == false)
-    			g.setColor(Color.BLACK);
-    		if(invertoptions[7] == true)
-    			g.setColor(Color.LIGHT_GRAY);
-    		g.fillRect(50, 400, 250, 100);
-    		if(invertoptions[7] == true)
-    			g.setColor(Color.BLACK);
-    		if(invertoptions[7] == false)
-    			g.setColor(Color.LIGHT_GRAY);
-    		g.setFont(new Font("Arial", Font.PLAIN, 36));
-    		g.drawString("Number Mode", 60, 466);
-    		if(invertoptions[8] == false)
-    			g.setColor(Color.BLACK);
-    		if(invertoptions[8] == true)
-    			g.setColor(Color.LIGHT_GRAY);
-    		g.fillRect(376, 400, 250, 100);
-    		if(invertoptions[8] == true)
-    			g.setColor(Color.BLACK);
-    		if(invertoptions[8] == false)
-    			g.setColor(Color.LIGHT_GRAY);
-    		g.setFont(new Font("Arial", Font.PLAIN, 46));
-    		g.drawString("Text Mode", 390, 468);
-    		Font font = new Font("Arial", Font.PLAIN, 42);
-    		g.setFont(font);
-    		g.setColor(Color.BLACK);
-    		if(usingNumber)
-    			g.drawString(numberS, 6, 310);
-    		if(!usingNumber)
-    			g.drawString(nameInput, 6, 310);
-    		if(badnumber == true){
-    			g.setColor(Color.RED);
-    			g.drawString("Invalid number value!", 225, 110);
-    		}
-    	}
-    	if(drawWhat == 6){
-    		g.setColor(Color.BLACK);
-    		g.fillRect(0, 0, 726, 700);
-    		g.drawImage(loadLoading(), 0, 0, 720, 640, null);
-			g.setFont(new Font("Times New Roman", Font.BOLD, 40));
-			g.setColor(new Color(Color.RED.getRed() - rand.nextInt(50), 0, 0));
-			g.drawString("Loading..." + " " + percent + "%", 240, 660);
-			g.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-			g.drawString("Stuck at " + percent + "%?  Make sure your Java version is Java 7 Update 7 or higher!", 140, 630);
-    	}
-    	if(drawWhat == 7){
-    		int midHei = (726 / 2) - (loadLogo().getHeight(null) / 2);
-    		int midWid = (700 / 2) - (loadLogo().getWidth(null) / 2);
-    		g.drawImage(loadLogo(), midHei, midWid, null);
-    	}
-    	if(drawWhat == 17){
-    		g.setColor(Color.BLACK);
-    		g.drawImage(loadSadFace(), 200, 452, null);
-    		for(int wherex = 0; wherex <= 725; wherex += 45){
-    			for(int wherey = 0; wherey <= 700; wherey += 12){
-    				g.drawString("ERROR", wherex, wherey);
-    			}
-    		}
-	       	Font font = new Font("Arial", Font.PLAIN, 44);
-	       	g.setFont(font);
-	       	g.drawString("NEVER CRASH THE GAME AGAIN", 0, 352);
+		       			}
+		       		}
+		       	}
+	    		if(showinventory == true){
+	    			g.setColor(Color.white);
+	    			g.fillRect(50, 175, 626, 200);
+	    			g.setColor(Color.black);
+	    			g.drawRect(50, 175, 626, 200);
+	    			if(invertx == false)
+	    				g.setColor(Color.black);
+	    			if(invertx == true)
+	    				g.setColor(Color.lightGray);
+	    			g.fillRect(636, 180, 35, 35);
+	    			if(invertx == true)
+	    				g.setColor(Color.black);
+	    			if(invertx == false)
+	    				g.setColor(Color.lightGray);
+	    			//g.setFont((org.newdawn.slick.Font) new Font("Times New Roman", Font.PLAIN, 40));
+	    			g.drawString("X", 639, 211);
+	    			g.setColor(Color.black);
+	        		g.drawLine(576, 175, 576, 375);
+	        		g.drawLine(50, 275, 576, 275);
+	        		int j = 50;
+	        		j += 132;
+	        		g.drawLine(j, 175, j, 375);
+	        		j += 132;
+	        		g.drawLine(j, 175, j, 375);
+	        		j += 131;
+	        		g.drawLine(j, 175, j, 375);
+	        		j += 131;
+	        		g.drawLine(j, 175, j, 375);
+	        		g.setColor(Color.red);
+	        		for(int i = 0, x = 51, b = 176, width = 131; i < 8; i++){
+	        			if(i == 2 || i == 6){
+	        				x += 132;
+	        				width = 130;
+	        			}
+	        			if(i == 1 || i == 4 || i == 5){
+	        				x += 132;
+	        				width = 131;
+	        			}
+	        			if(i == 7 || i == 3)
+	        				x += 131;
+	        			if(i == 4){
+	        				x = 51;
+	        				b = 276;
+	        			}
+	        			if(inventoryI[i] != 0){
+	        				if(inventoryI[i] == 1){
+	        					if(bottletype[i] == 0)
+	        	        			loadEBottle().draw(x, b, width, 99);
+	        					if(bottletype[i] == 1)
+		        					loadBottle().draw(x, b, width, 99);
+	        					if(bottletype[i] == 2)
+		        					loadMedicine().draw(x, b, width, 99);
+	        					if(bottletype[i] == 3)
+	        						loadPoison().draw(x, b, width, 99);
+	        				}
+	        				if(inventoryI[i] == 2)
+	        	        		loadSword().draw(x, b, width, 99);
+	        				if(inventoryI[i] == 3)
+	        	        		loadSwordOF().draw(x, b, width, 99);
+	        				if(inventoryI[i] == 4)
+	        					loadSpear().draw(x, b, width, 99);
+	        				if(inventoryI[i] == 5)
+	        					loadSpearOF().draw(x, b, width, 99);
+	        				if(inventoryI[i] == 6)
+	        					loadCoat().draw(x, b, width, 99);
+	        				if(inventoryI[i] == 7)
+	        					loadQuiver().draw(x, b, width, 99);
+	        				if(inventoryI[i] == 8)
+	        					loadBow().draw(x, b, width, 99);
+	        				if(inventoryI[i] == 9)
+	        					loadMeat().draw(x, b, width, 99);
+	        				if(inventoryI[i] == 10)
+	        					loadBanana().draw(x, b, width, 99);
+	        				if(inventoryI[i] == 11)
+	        					loadTomato().draw(x, b, width, 99);
+	        				if(inventoryI[i] == 12)
+	        					loadMango().draw(x, b, width, 99);
+	        			}
+	        			if(selectinv[i] == true){
+	        				g.setColor(Color.blue);
+	        				g.drawRect(x, b, width - 1, 98);
+	        			}
+	        		}
+	        		if(invertuse == false)
+	        			g.setColor(Color.black);
+	        		if(invertuse == true)
+	        			g.setColor(Color.lightGray);
+	        		g.fillRect(577, 335, 99, 40);
+	        		if(invertuse == true)
+	        			g.setColor(Color.black);
+	        		if(invertuse == false)
+	        			g.setColor(Color.lightGray);
+	        		//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 35));
+	        		g.drawString("Use", 590, 367);
+	        		g.setColor(Color.red);
+	        		g.drawLine(577, 335, 676, 335);
+	        		g.drawLine(577, 294, 676, 294);
+	        		if(invertuse2 == false)
+	        			g.setColor(Color.black);
+	        		if(invertuse2 == true)
+	        			g.setColor(Color.lightGray);
+	        		g.fillRect(577, 295, 99, 40);
+	        		if(invertuse2 == true)
+	        			g.setColor(Color.black);
+	        		if(invertuse2 == false)
+	        			g.setColor(Color.lightGray);
+	        		g.drawString("Drop", 585, 327);
+	        		//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 25));
+	        		if(invertuse3 == false)
+	        			g.setColor(Color.black);
+	        		if(invertuse3 == true)
+	        			g.setColor(Color.lightGray);
+	        		g.fillRect(577, 254, 99, 40);
+	        		if(invertuse3 == true)
+	        			g.setColor(Color.black);
+	        		if(invertuse3 == false)
+	        			g.setColor(Color.lightGray);
+	        		g.drawString("Pick Up", 583, 283);
+	        		for(int i = 0; i < 8; i++){
+	        			if(overItem[i] == true){
+	        				check0();
+	        				g.setColor(Color.blue);
+	        				if(inventoryI[i] != 0){
+	        					g.fillRect(getX() + 10, getY(), 122, 20);
+	        					g.setColor(Color.black);
+	        					g.drawRect(getX() + 10, getY(), 122, 20);
+	        				}
+	        				g.setColor(Color.black);
+	        				//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 20));
+	        				if(inventoryI[i] != 0)
+	        					g.drawString(translateItemC(inventoryI[i]), getX() + 12, getY() + 17);
+	        			}
+	        		}
+	    		}
+	    		if(PlayerAlive == false){
+	    			//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 30));
+	        		if(invertReplay == false)
+	        			g.setColor(Color.black);
+	        		if(invertReplay == true)
+	        			g.setColor(Color.lightGray);
+	        		g.fillRect(190, 221, 125, 62);
+	        		if(invertReplay == true)
+	        			g.setColor(Color.black);
+	        		if(invertReplay == false)
+	        			g.setColor(Color.lightGray);
+	        		g.drawString("Replay", 206, 264);
+	    		}
+	    		if(showOptions == true){
+	    			g.setColor(new Color(242, 242, 242));
+	    			g.fillRect(25, 25, 669, 621);
+	    			g.setColor(Color.black);
+	    			g.drawLine(25, 25, 694, 25);
+	    			g.drawLine(25, 25, 25, 646);
+	    			g.drawLine(694, 25, 694, 646);
+	    			g.drawLine(25, 646, 694, 646);
+	    			if(invertx == false)
+	    				g.setColor(Color.black);
+	    			if(invertx == true)
+	    				g.setColor(Color.lightGray);
+	    			g.fillRect(649, 35, 35, 35);
+	    			if(invertx == true)
+	    				g.setColor(Color.black);
+	    			if(invertx == false)
+	    				g.setColor(Color.lightGray);
+	    			//g.setFont((org.newdawn.slick.Font) new Font("Times New Roman", Font.PLAIN, 40));
+	    			g.drawString("X", 652, 66);
+	    			if(invertoptions[0] == false)
+	    				g.setColor(Color.black);
+	    			if(invertoptions[0] == true)
+	    				g.setColor(Color.lightGray);
+	    			g.fillRect(35, 35, 180, 50);
+	    			if(invertoptions[0] == true)
+	    				g.setColor(Color.black);
+	    			if(invertoptions[0] == false)
+	    				g.setColor(Color.lightGray);
+	    			//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 11));
+	    			g.drawString("Show Mouse Coordinates:  " + showCoordinates, 45, 65);
+	    			if(invertoptions[1] == false)
+	    				g.setColor(Color.black);
+	    			if(invertoptions[1] == true)
+	    				g.setColor(Color.lightGray);
+	    			g.fillRect(235, 35, 180, 50);
+	    			if(invertoptions[1] == true)
+	    				g.setColor(Color.black);
+	    			if(invertoptions[1] == false)
+	    				g.setColor(Color.lightGray);
+	    			//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 17));
+	    			g.drawString("Discover Everything", 245, 65);
+	    			if(invertoptions[2] == false)
+	    				g.setColor(Color.black);
+	    			if(invertoptions[2] == true)
+	    				g.setColor(Color.lightGray);
+	    			g.fillRect(435, 35, 180, 50);
+	    			if(invertoptions[2] == true)
+	    				g.setColor(Color.black);
+	    			if(invertoptions[2] == false)
+	    				g.setColor(Color.lightGray);
+	    			//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 17));
+	    			g.drawString("Enable Cheats:  " + enableCheats, 445, 65);
+	    			if(invertoptions[3] == false)
+	    				g.setColor(Color.black);
+	    			if(invertoptions[3] == true)
+	    				g.setColor(Color.lightGray);
+	    			g.fillRect(35, 95, 180, 50);
+	    			if(invertoptions[3] == true)
+	    				g.setColor(Color.black);
+	    			if(invertoptions[3] == false)
+	    				g.setColor(Color.lightGray);
+	    			//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 15));
+	    			g.drawString("Observer Mode:  " + isObserver, 45, 125);
+	    			if(invertoptions[4] == false)
+	    				g.setColor(Color.black);
+	    			if(invertoptions[4] == true)
+	    				g.setColor(Color.lightGray);
+	    			g.fillRect(235, 95, 180, 50);
+	    			if(invertoptions[4] == true)
+	    				g.setColor(Color.black);
+	    			if(invertoptions[4] == false)
+	    				g.setColor(Color.lightGray);
+	    			//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 25));
+	    			g.drawString("Music:  " + isMusic, 254, 130);
+	    			if(invertoptions[5] == false)
+	    				g.setColor(Color.black);
+	    			if(invertoptions[5] == true)
+	    				g.setColor(Color.lightGray);
+	    			g.fillRect(435, 95, 180, 50);
+	    			if(invertoptions[5] == true)
+	    				g.setColor(Color.black);
+	    			if(invertoptions[5] == false)
+	    				g.setColor(Color.lightGray);
+	    			//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 20));
+	    			g.drawString("Log Memory:  " + isLogging, 443, 130);
+	    			if(invertoptions[6] == false)
+	    				g.setColor(Color.black);
+	    			if(invertoptions[6] == true)
+	    				g.setColor(Color.lightGray);
+	    			g.fillRect(35, 155, 180, 50);
+	    			if(invertoptions[6] == true)
+	    				g.setColor(Color.black);
+	    			if(invertoptions[6] == false)
+	    				g.setColor(Color.lightGray);
+	    			//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 25));
+	    			g.drawString("Data Type:  " + dataType, 46, 190);
+	    		}
+	    		if(showHistory == true){
+	    			g.setColor(new Color(242, 242, 242));
+	    			g.fillRect(25, 25, 669, 621);
+	    			g.setColor(Color.black);
+	    			g.drawLine(25, 25, 694, 25);
+	    			g.drawLine(25, 25, 25, 646);
+	    			g.drawLine(694, 25, 694, 646);
+	    			g.drawLine(25, 646, 694, 646);
+	    			if(invertx == false)
+	    				g.setColor(Color.black);
+	    			if(invertx == true)
+	    				g.setColor(Color.lightGray);
+	    			g.fillRect(649, 35, 35, 35);
+	    			if(invertx == true)
+	    				g.setColor(Color.black);
+	    			if(invertx == false)
+	    				g.setColor(Color.lightGray);
+	    			//g.setFont((org.newdawn.slick.Font) new Font("Times New Roman", Font.PLAIN, 40));
+	    			g.drawString("X", 652, 66);
+	    			for(int i = 0, p = 24, corx = 40, cory = 615; i < 25; i++, p--, cory -= 24){
+	    				g.setColor(Color.white);
+	    				g.fillRect(corx, cory, 604, 16);
+	    				g.setColor(Color.black);
+	    				//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 16));
+	    				g.drawString((i + 1) + " " + time[p + 5] + " " + history[p], corx + 3, cory + 14);
+	    			}
+	    		}
+	    	}
+	    	if(drawWhat == 5){
+	    		boolean gender = true;
+	    		if(create.PlayerGU != 1 && create.PlayerGU != 2)gender = create.getGenderBoolean(create.PlayerP);
+	    		if(create.PlayerGU == 1)gender = true;
+	    		if(create.PlayerGU == 2)gender = false;
+	    		g.drawRect(1, 275, 717, 50);
+	    		//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.BOLD, 25));
+	    		g.drawString("Currently in " + translateMode(usingNumber), 220, 50);
+	    		g.drawString("Instructions", 275, 345);
+	    		//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 15));
+	    		if(usingNumber){
+		    		g.drawString("Type in the number of the character you want to play as.  You may only type in numbers between 1 and " + name.getHighest(gender) + ".", 1, 355);
+		    		g.drawString("Typing in nothing will give you a random name.  Backspace clears your entry.  Enter submits your number.", 1, 373);
+	    		}
+	    		if(!usingNumber){
+	    			g.drawString("Type in the name of the character you'd like to play as.", 1, 355);
+	    			g.drawString("Enter submits your name.", 1, 373);
+	    		}
+	    		if(invertoptions[7] == false)
+	    			g.setColor(Color.black);
+	    		if(invertoptions[7] == true)
+	    			g.setColor(Color.lightGray);
+	    		g.fillRect(50, 400, 250, 100);
+	    		if(invertoptions[7] == true)
+	    			g.setColor(Color.black);
+	    		if(invertoptions[7] == false)
+	    			g.setColor(Color.lightGray);
+	    		//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 36));
+	    		g.drawString("Number Mode", 60, 466);
+	    		if(invertoptions[8] == false)
+	    			g.setColor(Color.black);
+	    		if(invertoptions[8] == true)
+	    			g.setColor(Color.lightGray);
+	    		g.fillRect(376, 400, 250, 100);
+	    		if(invertoptions[8] == true)
+	    			g.setColor(Color.black);
+	    		if(invertoptions[8] == false)
+	    			g.setColor(Color.lightGray);
+	    		//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 46));
+	    		g.drawString("Text Mode", 390, 468);
+	    		Font font = new Font("Arial", Font.PLAIN, 42);
+	    		//g.setFont((org.newdawn.slick.Font) font);
+	    		g.setColor(Color.black);
+	    		if(usingNumber)
+	    			g.drawString(numberS, 6, 310);
+	    		if(!usingNumber)
+	    			g.drawString(nameInput, 6, 310);
+	    		if(badnumber == true){
+	    			g.setColor(Color.red);
+	    			g.drawString("Invalid number value!", 225, 110);
+	    		}
+	    	}
+	    	if(drawWhat == 6){
+	    		g.setColor(Color.black);
+	    		g.fillRect(0, 0, 726, 700);
+	    		loadLoading().draw(0, 0, 720, 640);
+				//g.setFont((org.newdawn.slick.Font) new Font("Times New Roman", Font.BOLD, 40));
+				g.setColor(new Color(Color.red.getRed() - rand.nextInt(50), 0, 0));
+				g.drawString("Loading..." + " " + percent + "%", 240, 660);
+				//g.setFont((org.newdawn.slick.Font) new Font("Times New Roman", Font.PLAIN, 15));
+				g.drawString("Stuck at " + percent + "%?  Make sure your Java version is Java 7 Update 7 or higher!", 140, 630);
+	    	}
+	    	if(drawWhat == 7){
+	    		int midHei = (726 / 2) - (loadLogo().getHeight() / 2);
+	    		int midWid = (700 / 2) - (loadLogo().getWidth() / 2);
+	    		g.drawImage(loadLogo(), midHei, midWid);
+	    	}
+	    	if(drawWhat == 17){
+	    		g.setColor(Color.black);
+	    		g.drawImage(loadSadFace(), 200, 452);
+	    		for(int wherex = 0; wherex <= 725; wherex += 45){
+	    			for(int wherey = 0; wherey <= 700; wherey += 12){
+	    				g.drawString("ERROR", wherex, wherey);
+	    			}
+	    		}
+		       	Font font = new Font("Arial", Font.PLAIN, 44);
+		       	//g.setFont((org.newdawn.slick.Font) font);
+		       	g.drawString("NEVER CRASH THE GAME AGAIN", 0, 352);
+	    	}
+    	} catch (SlickException e) {
+    		e.printStackTrace();
     	}
      }
 //    private void fillCircle(Graphics cg, int xCenter, int yCenter, int r) {
@@ -1260,242 +1259,148 @@ public class GridDrawer extends JPanel implements MouseMotionListener, MouseList
 //    private void drawCircle(Graphics cg, int xCenter, int yCenter, int r) {
 //    	cg.drawOval(xCenter-r, yCenter-r, 2*r, 2*r);
 //    }
-    private Image loadLogo(){
-    	ImageIcon logoIcon = new ImageIcon(this.getClass().getResource("logo.png"));
-    	Image logo = logoIcon.getImage();
-    	return logo;
+    private Image loadLogo() throws SlickException {
+    	return new Image("res/logo.png");
     }
-    private Image loadNext(){
-    	ImageIcon nextIcon = new ImageIcon(this.getClass().getResource("next.png"));
-    	Image next = nextIcon.getImage();
-    	return next;
+    private Image loadNext() throws SlickException {
+    	return new Image("res/next.png");
     }
-    private Image invertNext(){
-    	ImageIcon nextIcon = new ImageIcon(this.getClass().getResource("nextinv.png"));
-    	Image next = nextIcon.getImage();
-    	return next;
+    private Image invertNext() throws SlickException {
+    	return new Image("res/nextinv.png");
     }
-    private Image loadTitle(){
-    	ImageIcon titleIcon = new ImageIcon(this.getClass().getResource("mockingjay.png"));
-    	Image titlescreen = titleIcon.getImage();
-    	return titlescreen;
+    private Image loadTitle() throws SlickException {
+    	return new Image("res/mockingjay.png");
     }
-    private Image loadReaping(){
-    	ImageIcon reapingIcon = new ImageIcon(this.getClass().getResource("reapingchosen.png"));
-    	Image reaping = reapingIcon.getImage();
-    	return reaping;
+    private Image loadReaping() throws SlickException {
+    	return new Image("res/reapingchosen.png");
     }
-    private Image loadReaping2(){
-    	ImageIcon reapingIcon = new ImageIcon(this.getClass().getResource("reapingwaiting.png"));
-    	Image reaping = reapingIcon.getImage();
-    	return reaping;
+    private Image loadReaping2() throws SlickException {
+    	return new Image("res/reapingwaiting.png");
     }
-    private Image loadSadFace(){
-    	ImageIcon sadfaceIcon = new ImageIcon(this.getClass().getResource("sadface.png"));
-    	Image sadface = sadfaceIcon.getImage();
-    	return sadface;
+    private Image loadSadFace() throws SlickException {
+    	return new Image("res/sadface.png");
     }
-    private Image loadSelectScreen(){
-    	ImageIcon selectScreenIcon = new ImageIcon(this.getClass().getResource("selectscreen.png"));
-    	Image SelectScreen = selectScreenIcon.getImage();
-    	return SelectScreen;
+    private Image loadSelectScreen() throws SlickException {
+    	return new Image("res/selectscreen.png");
     }
-    private Image loadTaiga(){
-    	ImageIcon gameBoardIcon = new ImageIcon(this.getClass().getResource("taigatile.png"));
-    	Image gameBoard = gameBoardIcon.getImage();
-    	return gameBoard;
+    private Image loadTaiga() throws SlickException {
+    	return new Image("res/taigatile.png");
     }
-    private Image loadMountain(){
-    	ImageIcon gameBoardIcon = new ImageIcon(this.getClass().getResource("mountainrange.png"));
-    	Image gameBoard = gameBoardIcon.getImage();
-    	return gameBoard;
+    private Image loadMountain() throws SlickException {
+    	return new Image("res/mountainrange.png");
     }
-    private Image loadMonster(){
-    	ImageIcon gameBoardIcon = new ImageIcon(this.getClass().getResource("monster.png"));
-    	Image gameBoard = gameBoardIcon.getImage();
-    	return gameBoard;
+    private Image loadMonster() throws SlickException {
+    	return new Image("res/monster.png");
     }
-    private Image loadBed(){
-    	ImageIcon gameBoardIcon = new ImageIcon(this.getClass().getResource("bed.png"));
-    	Image gameBoard = gameBoardIcon.getImage();
-    	return gameBoard;
+    private Image loadBed() throws SlickException {
+    	return new Image("res/bed.png");
     }
-    private Image loadSC(){
-    	ImageIcon gameBoardIcon = new ImageIcon(this.getClass().getResource("sc.png"));
-    	Image gameBoard = gameBoardIcon.getImage();
-    	return gameBoard;
+    private Image loadSC() throws SlickException {
+    	return new Image("res/sc.png");
     }
-    private Image loadLake(){
-    	ImageIcon gameBoardIcon = new ImageIcon(this.getClass().getResource("lake.png"));
-    	Image gameBoard = gameBoardIcon.getImage();
-    	return gameBoard;
+    private Image loadLake() throws SlickException {
+    	return new Image("res/lake.png");
     }
-    private Image loadEBottle(){
-    	ImageIcon gameBoardIcon = new ImageIcon(this.getClass().getResource("emptybottle.png"));
-    	Image gameBoard = gameBoardIcon.getImage();
-    	return gameBoard;
+    private Image loadEBottle() throws SlickException {
+    	return new Image("res/emptybottle.png");
     }
-    private Image loadBottle(){
-    	ImageIcon gameBoardIcon = new ImageIcon(this.getClass().getResource("bottle.png"));
-    	Image gameBoard = gameBoardIcon.getImage();
-    	return gameBoard;
+    private Image loadBottle() throws SlickException {
+    	return new Image("res/bottle.png");
     }
-    private Image loadSword(){
-    	ImageIcon gameBoardIcon = new ImageIcon(this.getClass().getResource("sword.png"));
-    	Image gameBoard = gameBoardIcon.getImage();
-    	return gameBoard;
+    private Image loadSword() throws SlickException {
+    	return new Image("res/sword.png");
     }
-    private Image loadSwordOF(){
-    	ImageIcon gameBoardIcon = new ImageIcon(this.getClass().getResource("swordoffire.png"));
-    	Image gameBoard = gameBoardIcon.getImage();
-    	return gameBoard;
+    private Image loadSwordOF() throws SlickException {
+    	return new Image("res/swordoffire.png");
     }
-    private Image loadMedicine(){
-    	ImageIcon gameBoardIcon = new ImageIcon(this.getClass().getResource("medicine.png"));
-    	Image gameBoard = gameBoardIcon.getImage();
-    	return gameBoard;
+    private Image loadMedicine() throws SlickException {
+    	return new Image("res/medicine.png");
     }
-    private Image loadSpear(){
-    	ImageIcon gameBoardIcon = new ImageIcon(this.getClass().getResource("spear.png"));
-    	Image gameBoard = gameBoardIcon.getImage();
-    	return gameBoard;
+    private Image loadSpear() throws SlickException {
+    	return new Image("res/spear.png");
     }
-    private Image loadSpearOF(){
-    	ImageIcon gameBoardIcon = new ImageIcon(this.getClass().getResource("spearoffire.png"));
-    	Image gameBoard = gameBoardIcon.getImage();
-    	return gameBoard;
+    private Image loadSpearOF() throws SlickException {
+    	return new Image("res/spearoffire.png");
     }
-    private Image loadX(){
-    	ImageIcon gameBoardIcon = new ImageIcon(this.getClass().getResource("x.png"));
-    	Image gameBoard = gameBoardIcon.getImage();
-    	return gameBoard;
+    private Image loadX() throws SlickException {
+    	return new Image("res/x.png");
     }
-    private Image loadDarkTaiga(){
-    	ImageIcon gameBoardIcon = new ImageIcon(this.getClass().getResource("taigatiledark.png"));
-    	Image gameBoard = gameBoardIcon.getImage();
-    	return gameBoard;
+    private Image loadDarkTaiga() throws SlickException {
+    	return new Image("res/taigatiledark.png");
     }
-    private Image loadDarkMountain(){
-    	ImageIcon gameBoardIcon = new ImageIcon(this.getClass().getResource("mountainrangedark.png"));
-    	Image gameBoard = gameBoardIcon.getImage();
-    	return gameBoard;
+    private Image loadDarkMountain() throws SlickException {
+    	return new Image("res/mountainrangedark.png");
     }
-    private Image loadCoat(){
-    	ImageIcon gameBoardIcon = new ImageIcon(this.getClass().getResource("coat.png"));
-    	Image gameBoard = gameBoardIcon.getImage();
-    	return gameBoard;
+    private Image loadCoat() throws SlickException {
+    	return new Image("res/coat.png");
     }
-    private Image loadQuiver(){
-    	ImageIcon gameBoardIcon = new ImageIcon(this.getClass().getResource("quiver.png"));
-    	Image gameBoard = gameBoardIcon.getImage();
-    	return gameBoard;
+    private Image loadQuiver() throws SlickException {
+    	return new Image("res/quiver.png");
     }
-    private Image loadBow(){
-    	ImageIcon gameBoardIcon = new ImageIcon(this.getClass().getResource("bow.png"));
-    	Image gameBoard = gameBoardIcon.getImage();
-    	return gameBoard;
+    private Image loadBow() throws SlickException {
+    	return new Image("res/bow.png");
     }
-    private Image loadMeat(){
-    	ImageIcon gameBoardIcon = new ImageIcon(this.getClass().getResource("steak.png"));
-    	Image gameBoard = gameBoardIcon.getImage();
-    	return gameBoard;
+    private Image loadMeat() throws SlickException {
+    	return new Image("res/steak.png");
     }
-    private Image loadBanana(){
-    	ImageIcon gameBoardIcon = new ImageIcon(this.getClass().getResource("banana.png"));
-    	Image gameBoard = gameBoardIcon.getImage();
-    	return gameBoard;
+    private Image loadBanana() throws SlickException {
+    	return new Image("res/banana.png");
     }
-    private Image loadTomato(){
-    	ImageIcon gameBoardIcon = new ImageIcon(this.getClass().getResource("tomato.png"));
-    	Image gameBoard = gameBoardIcon.getImage();
-    	return gameBoard;
+    private Image loadTomato() throws SlickException {
+    	return new Image("res/tomato.png");
     }
-    private Image loadMango(){
-    	ImageIcon gameBoardIcon = new ImageIcon(this.getClass().getResource("mango.png"));
-    	Image gameBoard = gameBoardIcon.getImage();
-    	return gameBoard;
+    private Image loadMango() throws SlickException {
+    	return new Image("res/mango.png");
     }
-    private Image loadPoison(){
-    	ImageIcon gameBoardIcon = new ImageIcon(this.getClass().getResource("poison.png"));
-    	Image gameBoard = gameBoardIcon.getImage();
-    	return gameBoard;
+    private Image loadPoison() throws SlickException {
+    	return new Image("res/poison.png");
     }
-    private Image loadCornucopia1(){
-    	ImageIcon gameBoardIcon = new ImageIcon(this.getClass().getResource("cornucopia1.png"));
-    	Image gameBoard = gameBoardIcon.getImage();
-    	return gameBoard;
+    private Image loadCornucopia1() throws SlickException {
+    	return new Image("res/cornucopia1.png");
     }
-    private Image loadCornucopia2(){
-    	ImageIcon gameBoardIcon = new ImageIcon(this.getClass().getResource("cornucopia2.png"));
-    	Image gameBoard = gameBoardIcon.getImage();
-    	return gameBoard;
+    private Image loadCornucopia2() throws SlickException {
+    	return new Image("res/cornucopia2.png");
     }
-    private Image loadCornucopia3(){
-    	ImageIcon gameBoardIcon = new ImageIcon(this.getClass().getResource("cornucopia3.png"));
-    	Image gameBoard = gameBoardIcon.getImage();
-    	return gameBoard;
+    private Image loadCornucopia3() throws SlickException {
+    	return new Image("res/cornucopia3.png");
     }
-    private Image loadCornucopia4(){
-    	ImageIcon gameBoardIcon = new ImageIcon(this.getClass().getResource("cornucopia4.png"));
-    	Image gameBoard = gameBoardIcon.getImage();
-    	return gameBoard;
+    private Image loadCornucopia4() throws SlickException {
+    	return new Image("res/cornucopia4.png");
     }
-    public Image loadIcon(){
-    	ImageIcon gameBoardIcon = new ImageIcon(this.getClass().getResource("icon.png"));
-    	Image gameBoard = gameBoardIcon.getImage();
-    	return gameBoard;
+    public Image loadIcon() throws SlickException {
+    	return new Image("res/icon.png");
     }
-    private Image loadBoy(int boy){
+    private Image loadBoy(int boy) throws SlickException {
     	String ending = Integer.toString(boy);
-    	ImageIcon gameBoardIcon = new ImageIcon(this.getClass().getResource("boy" + ending + ".png"));
-    	Image gameBoard = gameBoardIcon.getImage();
-    	return gameBoard;
+    	return new Image("res/boy" + ending + ".png");
     }
-    private Image loadGirl(int boy){
+    private Image loadGirl(int boy) throws SlickException {
     	String ending = Integer.toString(boy);
-    	ImageIcon gameBoardIcon = new ImageIcon(this.getClass().getResource("girl" + ending + ".png"));
-    	Image gameBoard = gameBoardIcon.getImage();
-    	return gameBoard;
+    	return new Image("res/girl" + ending + ".png");
     }
-    private Image loadHBoy(){
-    	ImageIcon gameBoardIcon = new ImageIcon(this.getClass().getResource("boyhighlighted.png"));
-    	Image gameBoard = gameBoardIcon.getImage();
-    	return gameBoard;
+    private Image loadHBoy() throws SlickException {
+    	return new Image("res/boyhighlighted.png");
     }
-    private Image loadHGirl(){
-    	ImageIcon gameBoardIcon = new ImageIcon(this.getClass().getResource("girlhighlighted.png"));
-    	Image gameBoard = gameBoardIcon.getImage();
-    	return gameBoard;
+    private Image loadHGirl() throws SlickException {
+    	return new Image("res/girlhighlighted.png");
     }
-    private Image loadLoading(){
-    	ImageIcon gameBoardIcon = new ImageIcon(this.getClass().getResource("loading.png"));
-    	Image gameBoard = gameBoardIcon.getImage();
-    	return gameBoard;
+    private Image loadLoading() throws SlickException {
+    	return new Image("res/loading.png");
     }
-    private Image loadBee(){
-    	ImageIcon gameBoardIcon = new ImageIcon(this.getClass().getResource("bee.png"));
-    	Image gameBoard = gameBoardIcon.getImage();
-    	return gameBoard;
+    private Image loadBee() throws SlickException {
+    	return new Image("res/bee.png");
     }
-    private Image loadMudMan(){
-    	ImageIcon gameBoardIcon = new ImageIcon(this.getClass().getResource("mudman.png"));
-    	Image gameBoard = gameBoardIcon.getImage();
-    	return gameBoard;
+    private Image loadMudMan() throws SlickException {
+    	return new Image("res/mudman.png");
     }
-    private Image loadLizard(){
-    	ImageIcon gameBoardIcon = new ImageIcon(this.getClass().getResource("lizard.png"));
-    	Image gameBoard = gameBoardIcon.getImage();
-    	return gameBoard;
+    private Image loadLizard() throws SlickException {
+    	return new Image("res/lizard.png");
     }
-    private Image loadWolf(){
-    	ImageIcon gameBoardIcon = new ImageIcon(this.getClass().getResource("wolf.png"));
-    	Image gameBoard = gameBoardIcon.getImage();
-    	return gameBoard;
+    private Image loadWolf() throws SlickException {
+    	return new Image("res/wolf.png");
     }
-    private Image loadThug(){
-    	ImageIcon gameBoardIcon = new ImageIcon(this.getClass().getResource("thug.png"));
-    	Image gameBoard = gameBoardIcon.getImage();
-    	return gameBoard;
+    private Image loadThug() throws SlickException {
+    	return new Image("res/thug.png");
     }
     private int x;
     private int y;
@@ -1514,7 +1419,7 @@ public class GridDrawer extends JPanel implements MouseMotionListener, MouseList
 	public void mouseDragged(MouseEvent e) {
 	}
 	public void mouseMoved(MouseEvent e) {
-		setPosition(getMousePosition());
+//		setPosition(getMousePosition());
 		shouldinvert = false;
 //		shouldinvert2 = false;
 		invertleft = false;
@@ -1543,9 +1448,9 @@ public class GridDrawer extends JPanel implements MouseMotionListener, MouseList
 		if(drawWhat == 4){
 			for(int i = 0; i < 64; i++){
 				if((canMoveTo[i] == true || canShootTo[i] == true) && getX() >= tilex[i] && getX() <= (tilex[i] + 61) && getY() >= tiley[i] && getY() <= (tiley[i] + 61) && showinventory == false)
-					shouldOrange[i] = true;
+					shouldorange[i] = true;
 				else{
-					shouldOrange[i] = false;
+					shouldorange[i] = false;
 				}
 			}
 			if(showinventory == true){
@@ -2204,7 +2109,7 @@ public class GridDrawer extends JPanel implements MouseMotionListener, MouseList
 				if(getX() >= 338 && getX() <= 504 && getY() >= 585 && getY() <= 635 && PlayerLocation >= 65 && !isObserver)
 					addToTextBox("Cannot discover yet!");
 				for(int i = 0; i < 64; i++)
-					if(shouldOrange[i] == true && PlayerAlive == true && showinventory == false && isMoving == true){
+					if(shouldorange[i] == true && PlayerAlive == true && showinventory == false && isMoving == true){
 						int locationcopy = PlayerLocation;
 						if(locationcopy >= 0 && locationcopy <= 15)locationcopy = random.biomeint[0];
 						if(locationcopy >= 16 && locationcopy <= 31)locationcopy = random.biomeint[1];
@@ -2234,7 +2139,7 @@ public class GridDrawer extends JPanel implements MouseMotionListener, MouseList
 						}
 					}
 				for(int i = 0; i < 64; i++)
-					if(shouldOrange[i] == true && PlayerAlive == true && showinventory == false && isAttacking == true && hasAttacked == false){
+					if(shouldorange[i] == true && PlayerAlive == true && showinventory == false && isAttacking == true && hasAttacked == false){
 						int attackTarget = i;
 						if(attackingweapon == 4 || attackingweapon == 5 || attackingweapon == 8){
 							boolean miss = false;
@@ -2407,13 +2312,13 @@ public class GridDrawer extends JPanel implements MouseMotionListener, MouseList
 	private void specialRepaint(){
     	x = -50;
     	y = -50;
-    	repaint();
+//    	repaint();
     	x = 0;
     	y = 0;
-    	repaint();
+//    	repaint();
 	}
 	private void check0(){
-		if(getX() == 0 || getY() == 0)setPosition(getMousePosition());
+//		if(getX() == 0 || getY() == 0)setPosition(getMousePosition());
 	}
 //	private String convertGameMode(){
 //		String gamemode = null;
@@ -2535,7 +2440,7 @@ public class GridDrawer extends JPanel implements MouseMotionListener, MouseList
 		inventoryI[0] = 1;
 		for(int i = 0; i < 64; i++){
 			canMoveTo[i] = false;
-			shouldOrange[i] = false;
+			shouldorange[i] = false;
 			canShootTo[i] = false;
 			itemsOG[i] = 101;
 			discovered[i] = false;

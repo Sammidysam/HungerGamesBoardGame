@@ -1,7 +1,8 @@
 package enemyAI;
 
-import java.awt.Color;
 import java.util.Random;
+
+import org.newdawn.slick.Color;
 
 public class PlayerCreator{
 	Random rand = new Random();

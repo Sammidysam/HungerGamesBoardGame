@@ -1,6 +1,6 @@
 package arena;
 
-import java.awt.Color;
+import org.newdawn.slick.Color;
 
 public class Biome extends RandomTerrainGenerator{
 	public byte Biome;
