@@ -17,6 +17,8 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.UnicodeFont;
+import org.newdawn.slick.font.effects.ColorEffect;
 
 import kuusisto.tinysound.TinySound;
 import reaping.Reaping;
@@ -141,14 +143,9 @@ public class Drawer implements MouseMotionListener, MouseListener {
     public boolean usingNumber = false;
     private String nameInput = "";
     private short GC = 120;
-    private static final String version = "Version 1.0.2";
+    private static final String version = "Version 1.1.0 Pre-Release";
 //	0 = nothing, 1 = title screen, 2 = reaping, 3 = character select, 4 = battle board, 5 = name selector, 17 = error
-//    public Drawer(){
-//    	super();
-//        addMouseMotionListener(this);
-//        addMouseListener(this);
-//    }
-    public void paintComponent(Graphics g){
+    void render(Graphics g){
     	try {
 	    	if(shouldReset == true){
 		    	g.setColor(Color.white);
@@ -159,90 +156,36 @@ public class Drawer implements MouseMotionListener, MouseListener {
 				g.drawString(message, 0, 10);
 	    	if(drawWhat == 1){
 	    		g.drawImage(loadTitle(), 55, 45);
-//	    		//g.setFont((org.newdawn.slick.Font) new Font("Impact", Font.BOLD, 48));
-	    		g.drawString("                   GAMES BOARD    ", 0, 75);
-	    		g.drawString("HUNGER", 20, 120);
-	    		g.drawString("GAME", 530, 120);
-	    		//g.setFont((org.newdawn.slick.Font) new Font("Times New Roman", Font.ITALIC, 12));
-	    		g.drawString(version, 654, 669);
-	//          Font font3 = new Font("Arial", Font.PLAIN, 17);
-	//    		if(menuprogress == 0){
-	//        		//g.setFont(font3);
-	//	    		if(shouldinvert == false)
-	//	    			g.setColor(Color.black);
-	//	    		if(shouldinvert == true)
-	//	    			g.setColor(Color.lightGray);
-	//	    		g.fillRect(255, 175, 175, 75);
-	//	    		if(shouldinvert == true)
-	//	    			g.setColor(Color.black);
-	//	    		if(shouldinvert == false)
-	//	    			g.setColor(Color.lightGray);
-	//	    		g.drawString("Single Player", 283, 220);
-	//    			if(shouldinvert2 == false)
-	//    				g.setColor(Color.black);
-	//    			if(shouldinvert2 == true)
-	//    				g.setColor(Color.lightGray);
-	//    			g.fillRect(255, 375, 175, 75);
-	//    			if(shouldinvert2 == true)
-	//    				g.setColor(Color.black);
-	//    			if(shouldinvert2 == false)
-	//    				g.setColor(Color.lightGray);
-	//        		g.drawString("Multiplayer", 300, 420);
-	//        		g.fillRect(14, 505, 175, 75);
-	//    		}
+	    		g.setFont(createFont(new Font("Impact", Font.BOLD, 48), toJavaAWTColor(g.getColor())));
+	    		g.drawString("                   GAMES BOARD    ", 0, 35);
+	    		g.drawString("HUNGER", 20, 90);
+	    		g.drawString("GAME", 530, 90);
+	    		g.setFont(createFont(new Font("Times New Roman", Font.ITALIC, 12), toJavaAWTColor(g.getColor())));
+	    		g.drawString(version, 594, 683);
 	    		if(menuprogress == 1){
-	//        		//g.setFont(font3);
-	//	    		if(shouldinvert == false)
-	//	    			g.setColor(Color.black);
-	//	    		if(shouldinvert == true)
-	//	    			g.setColor(Color.lightGray);
-	//	    		g.fillRect(255, 175, 175, 75);
-	//	    		if(shouldinvert == true)
-	//	    			g.setColor(Color.black);
-	//	    		if(shouldinvert == false)
-	//	    			g.setColor(Color.lightGray);
-	//        		g.drawString("Character Select", 283, 220);
-	//    			if(shouldinvert2 == false)
-	//    				g.setColor(Color.black);
-	//    			if(shouldinvert2 == true)
-	//    				g.setColor(Color.lightGray);
-	//    			g.fillRect(255, 375, 175, 75);
-	//    			if(shouldinvert2 == true)
-	//    				g.setColor(Color.black);
-	//    			if(shouldinvert2 == false)
-	//    				g.setColor(Color.lightGray);
-	//        		g.drawString("Random Player Select", 260, 420);
-	//        		g.setColor(Color.black);
-	//        		//g.setFont(font4);
-	//        		g.drawString("Assigns you to a random district and gender!", 230, 462);
-	//        		g.drawString("Takes you to a screen to select your character and gender!", 200, 262);
-	        		//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 20));
+	        		g.setFont(createFont(new Font("Arial", Font.PLAIN, 20), toJavaAWTColor(g.getColor())));
 	        		g.drawString("Press C to select your character!", 200, 650);
 	        		g.drawString("Press R to have your character randomly selected!", 130, 670);
 	    		}
 	    	}
 	    	if(drawWhat == 2){
 	    		g.setColor(Color.black);
-	           	Font font2 = new Font("Arial", Font.BOLD, 25);
-	           	//g.setFont((org.newdawn.slick.Font) font2);
+	           	g.setFont(createFont(new Font("Arial", Font.BOLD, 25), toJavaAWTColor(g.getColor())));
 	    		if(reaping == 0){
 	    			getDate.isDrawn();
 	    			reaping++;
 	    		}
 	    		g.drawString("The Reaping", 250, 25);
-	    		loadReaping().draw(0, 30, 726, 268);
-	    		loadReaping2().draw(0, 268, 726, 248);
-	    		font2 = new Font("Arial", Font.PLAIN, 23);
-	    		//g.setFont((org.newdawn.slick.Font) font2);
+	    		loadReaping().draw(0, 30, 718, 268);
+	    		loadReaping2().draw(0, 268, 718, 248);
+	    		g.setFont(createFont(new Font("Arial", Font.PLAIN, 23), toJavaAWTColor(g.getColor())));
 	    		g.drawString("This year's district " + create.PlayerD + " " + create.PlayerG + " representative of The Hunger Games is...", 30, 546);
-	    		font2 = new Font("Arial", Font.ITALIC, (int) (96 - create.PlayerN.length() * 1.6));
-	    		//g.setFont((org.newdawn.slick.Font) font2);
+	    		g.setFont(createFont(new Font("Arial", Font.ITALIC, (int) (96 - create.PlayerN.length() * 1.6)), java.awt.Color.black));
 	    		if(nameshow == 0)
 	    			delaytime();
 	    		if(nameshow == 1)
 	    			g.drawString(create.PlayerN, 45, 610);
-	    		font2 = new Font("Arial", Font.BOLD, 25);
-	    		//g.setFont((org.newdawn.slick.Font) font2);
+	    		g.setFont(createFont(new Font("Arial", Font.BOLD, 25), toJavaAWTColor(g.getColor())));
 	    		getDate.changeYear();
 	    		g.setColor(Color.black);
 	    		if(reaping != 0)
@@ -266,31 +209,31 @@ public class Drawer implements MouseMotionListener, MouseListener {
 	    		if(invertOptions == true)
 	    			g.setColor(Color.lightGray);
 	    		g.fillRect(550, 645, 59, 20);
-	    		//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 12));
+	    		g.setFont(createFont(new Font("Arial", Font.PLAIN, 12), toJavaAWTColor(g.getColor())));
 	    		if(invertOptions == false)
 	    			g.setColor(Color.lightGray);
 	    		if(invertOptions == true)
 	    			g.setColor(Color.black);
 	    		g.drawString("Options", 558, 658);
-	//    		
+//				
 	    		if(invertHistory == false)
 	    			g.setColor(Color.black);
 	    		if(invertHistory == true)
 	    			g.setColor(Color.lightGray);
 	    		g.fillRect(550, 615, 59, 20);
-	    		//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 12));
+	    		g.setFont(createFont(new Font("Arial", Font.PLAIN, 12), toJavaAWTColor(g.getColor())));
 	    		if(invertHistory == false)
 	    			g.setColor(Color.lightGray);
 	    		if(invertHistory == true)
 	    			g.setColor(Color.black);
 	    		g.drawString("History", 560, 628);
-	//    		
+//    			
 	    		if(shouldinvert == false)
 	    			g.setColor(Color.black);
 	    		if(shouldinvert == true)
 	    			g.setColor(Color.lightGray);
 	    		g.fillRect(550, 509, 141, 40);
-	    		//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 24));
+	    		g.setFont(createFont(new Font("Arial", Font.PLAIN, 24), toJavaAWTColor(g.getColor())));
 	    		if(shouldinvert == false)
 	    			g.setColor(Color.lightGray);
 	    		if(shouldinvert == true)
@@ -298,7 +241,7 @@ public class Drawer implements MouseMotionListener, MouseListener {
 	    		g.drawString("Inventory", 567, 536);
 	    		g.setColor(Color.black);
 	    		g.drawRect(550, 554, 59, 51);
-	    		//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 18));
+	    		g.setFont(createFont(new Font("Arial", Font.PLAIN, 18), toJavaAWTColor(g.getColor())));
 	    		g.drawString("Player", 554, 569);
 	    		g.drawString("Info", 566, 599);
 	    		for(int x = 0; x <= 504; x += 63){
@@ -307,7 +250,7 @@ public class Drawer implements MouseMotionListener, MouseListener {
 	  			for(int y = 0; y <= 504; y += 63){
 					g.drawLine(0, y, 504, y);
 				}
-	  			//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 28));
+	  			g.setFont(createFont(new Font("Arial", Font.PLAIN, 28), toJavaAWTColor(g.getColor())));
 	  			g.setColor(Color.darkGray);
 	  			g.drawString("Actions", 205, 663);
 	  			g.drawString("P", 700, 165);
@@ -563,25 +506,7 @@ public class Drawer implements MouseMotionListener, MouseListener {
 		    			}
 		    		}
 	    		}
-	//    		if(isStarting == false){
-	//    			g.setColor(Color.GRAY.brighter());
-	//	       		fillCircle(g, 252, 252, 50);
-	//	       		g.setColor(Color.GRAY);
-	//	       		fillCircle(g, 252, 252, 25);
-	//	        	g.setColor(Color.GRAY.darker());
-	//	        	fillCircle(g, 252, 252, 13);
-	//	        }
-	//    		if(isStarting == true || canMoveTo[64] == true){
-	//    			g.setColor(Color.yellow);
-	//    			fillCircle(g, 252, 252, 50);
-	//    			fillCircle(g, 252, 252, 25);
-	//    			fillCircle(g, 252, 252, 13);
-	//    			g.setColor(Color.black);
-	//    			drawCircle(g, 252, 252, 50);
-	//    			drawCircle(g, 252, 252, 25);
-	//    			drawCircle(g, 252, 252, 13);
-	//    		}
-		       	//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 28));
+		       	g.setFont(createFont(new Font("Arial", Font.PLAIN, 28), toJavaAWTColor(g.getColor())));
 		       	if(invertleft == false)
 		       		g.setColor(Color.black);
 		       	if(invertleft == true)
@@ -620,9 +545,9 @@ public class Drawer implements MouseMotionListener, MouseListener {
 		       	if(discovered[crashstopper] == false || random.buildings[crashstopper] == 0 || random.buildings[crashstopper] == 3 || isObserver || PlayerLocation == 65)
 		       		g.drawString("Discover", 368, 620);
 		       	if(PlayerLocation < 65 && (discovered[PlayerLocation] == true && random.buildings[PlayerLocation] == 1)){
-		       		//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 18));
+		       		g.setFont(createFont(new Font("Arial", Font.PLAIN, 18), toJavaAWTColor(g.getColor())));
 		       		g.drawString("Refill and Drink", 353, 618);
-			       	//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 28));
+			       	g.setFont(createFont(new Font("Arial", Font.PLAIN, 28), toJavaAWTColor(g.getColor())));
 		       	}
 		       	if(PlayerLocation < 65 && (discovered[PlayerLocation] == true && random.buildings[PlayerLocation] == 2))
 		       		g.drawString("Scavenge", 368, 620);
@@ -638,12 +563,12 @@ public class Drawer implements MouseMotionListener, MouseListener {
 		       		g.setColor(create.EnemyC[i]);
 			       	g.drawRect(550, y, 140, 20);
 			       	if(create.EnemyN[i] == null)i++;
-			       	//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 12));
+			       	g.setFont(createFont(new Font("Arial", Font.PLAIN, 12), toJavaAWTColor(g.getColor())));
 			       	g.drawString(create.EnemyN[i], 555, y + 15);
 			       	y += 22;
 		       	}
 		       	g.setColor(Color.black);
-		       	//g.setFont((org.newdawn.slick.Font) new Font("Consolas", Font.PLAIN, 14));
+		       	g.setFont(createFont(new Font("Consolas", Font.PLAIN, 14), toJavaAWTColor(g.getColor())));
 		       	y = 521;
 		       	g.drawString(text[0], 1, y);
 		       	y += 13;
@@ -661,7 +586,7 @@ public class Drawer implements MouseMotionListener, MouseListener {
 		       			g.fillRect(1, 510, 503, 130);
 		       			g.setColor(Color.black);
 		       			if(create.EnemyN[i] == null)i++;
-		       			//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 22));
+		       			g.setFont(createFont(new Font("Arial", Font.PLAIN, 22), toJavaAWTColor(g.getColor())));
 		       			g.drawString("Name: " + create.EnemyN[i], 120, 533);
 		       			g.drawLine(115, 540, 504, 540);
 		       			g.drawLine(115, 540, 115, 640);
@@ -678,7 +603,7 @@ public class Drawer implements MouseMotionListener, MouseListener {
 		       			if(enemyWsDis[i] == true)g.drawString("Weapon Skill: " + create.EnemyWs[i], 310, 632);
 		       			if(enemyWsDis[i] == false)g.drawString("Weapon Skill: ?", 310, 632);
 		       			g.drawString("Kills:  " + EnemyKills[i], 5, 586);
-		       			//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 12));
+		       			g.setFont(createFont(new Font("Arial", Font.PLAIN, 12), toJavaAWTColor(g.getColor())));
 		       			g.drawString("Damage Dealt:  " + EnemyDamageDealt[i], 5, 609);
 		       			g.drawString("Damage Taken:  " + EnemyDamageTaken[i], 5, 632);
 		       		}
@@ -688,7 +613,7 @@ public class Drawer implements MouseMotionListener, MouseListener {
 	       			g.setColor(Color.white);
 	       			g.fillRect(1, 510, 503, 130);
 	       			g.setColor(Color.black);
-	       			//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 22));
+	       			g.setFont(createFont(new Font("Arial", Font.PLAIN, 22), toJavaAWTColor(g.getColor())));
 	       			g.drawString("Name: " + create.PlayerN, 120, 533);
 	       			g.drawLine(115, 540, 504, 540);
 	       			g.drawLine(115, 540, 115, 640);
@@ -700,15 +625,13 @@ public class Drawer implements MouseMotionListener, MouseListener {
 	       			g.drawString("Speed: " + create.PlayerSp, 310, 586);
 	       			g.drawString("Smarts: " + create.PlayerSm, 310, 609);
 	       			g.drawString("Weapon Skill: " + create.PlayerWs, 310, 632);
-	       			//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 12));
+	       			g.setFont(createFont(new Font("Arial", Font.PLAIN, 12), toJavaAWTColor(g.getColor())));
 	       			g.drawString("Health:  " + PlayerHealth, 5, 588);
 	       			g.drawString("Days of Water Left:" + (7 - daysnowater), 5, 599);
 	       			g.drawString("Kills:  " + playerKills, 5, 610);
 	       			g.drawString("Damage Dealt:  " + playerDamageDealt, 5, 621);
 	       			g.drawString("Damage Taken:  " + playerDamageTaken, 5, 632);
 		       	}
-	//	       	g.setColor(create.PlayerC);
-	//	       	if(drawPlayer == true)fillCircle(g, tilex[PlayerLocation] + 30, tiley[PlayerLocation] + 30, 25 - create.PlayerP);
 		       	for(int p = 0; p < 64; p++){
 		       		int people = getPeopleInTile(p);
 		       		if(people >= 0 && people <= 4){
@@ -912,7 +835,7 @@ public class Drawer implements MouseMotionListener, MouseListener {
 	    				g.setColor(Color.black);
 	    			if(invertx == false)
 	    				g.setColor(Color.lightGray);
-	    			//g.setFont((org.newdawn.slick.Font) new Font("Times New Roman", Font.PLAIN, 40));
+	    			g.setFont(createFont(new Font("Times New Roman", Font.PLAIN, 40), toJavaAWTColor(g.getColor())));
 	    			g.drawString("X", 639, 211);
 	    			g.setColor(Color.black);
 	        		g.drawLine(576, 175, 576, 375);
@@ -990,7 +913,7 @@ public class Drawer implements MouseMotionListener, MouseListener {
 	        			g.setColor(Color.black);
 	        		if(invertuse == false)
 	        			g.setColor(Color.lightGray);
-	        		//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 35));
+	        		g.setFont(createFont(new Font("Arial", Font.PLAIN, 35), toJavaAWTColor(g.getColor())));
 	        		g.drawString("Use", 590, 367);
 	        		g.setColor(Color.red);
 	        		g.drawLine(577, 335, 676, 335);
@@ -1005,7 +928,7 @@ public class Drawer implements MouseMotionListener, MouseListener {
 	        		if(invertuse2 == false)
 	        			g.setColor(Color.lightGray);
 	        		g.drawString("Drop", 585, 327);
-	        		//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 25));
+	        		g.setFont(createFont(new Font("Arial", Font.PLAIN, 25), toJavaAWTColor(g.getColor())));
 	        		if(invertuse3 == false)
 	        			g.setColor(Color.black);
 	        		if(invertuse3 == true)
@@ -1026,14 +949,14 @@ public class Drawer implements MouseMotionListener, MouseListener {
 	        					g.drawRect(getX() + 10, getY(), 122, 20);
 	        				}
 	        				g.setColor(Color.black);
-	        				//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 20));
+	        				g.setFont(createFont(new Font("Arial", Font.PLAIN, 20), toJavaAWTColor(g.getColor())));
 	        				if(inventoryI[i] != 0)
 	        					g.drawString(translateItemC(inventoryI[i]), getX() + 12, getY() + 17);
 	        			}
 	        		}
 	    		}
 	    		if(PlayerAlive == false){
-	    			//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 30));
+	    			g.setFont(createFont(new Font("Arial", Font.PLAIN, 30), toJavaAWTColor(g.getColor())));
 	        		if(invertReplay == false)
 	        			g.setColor(Color.black);
 	        		if(invertReplay == true)
@@ -1062,7 +985,7 @@ public class Drawer implements MouseMotionListener, MouseListener {
 	    				g.setColor(Color.black);
 	    			if(invertx == false)
 	    				g.setColor(Color.lightGray);
-	    			//g.setFont((org.newdawn.slick.Font) new Font("Times New Roman", Font.PLAIN, 40));
+	    			g.setFont(createFont(new Font("Times New Roman", Font.PLAIN, 40), toJavaAWTColor(g.getColor())));
 	    			g.drawString("X", 652, 66);
 	    			if(invertoptions[0] == false)
 	    				g.setColor(Color.black);
@@ -1073,7 +996,7 @@ public class Drawer implements MouseMotionListener, MouseListener {
 	    				g.setColor(Color.black);
 	    			if(invertoptions[0] == false)
 	    				g.setColor(Color.lightGray);
-	    			//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 11));
+	    			g.setFont(createFont(new Font("Arial", Font.PLAIN, 11), toJavaAWTColor(g.getColor())));
 	    			g.drawString("Show Mouse Coordinates:  " + showCoordinates, 45, 65);
 	    			if(invertoptions[1] == false)
 	    				g.setColor(Color.black);
@@ -1084,7 +1007,7 @@ public class Drawer implements MouseMotionListener, MouseListener {
 	    				g.setColor(Color.black);
 	    			if(invertoptions[1] == false)
 	    				g.setColor(Color.lightGray);
-	    			//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 17));
+	    			g.setFont(createFont(new Font("Arial", Font.PLAIN, 17), toJavaAWTColor(g.getColor())));
 	    			g.drawString("Discover Everything", 245, 65);
 	    			if(invertoptions[2] == false)
 	    				g.setColor(Color.black);
@@ -1095,7 +1018,7 @@ public class Drawer implements MouseMotionListener, MouseListener {
 	    				g.setColor(Color.black);
 	    			if(invertoptions[2] == false)
 	    				g.setColor(Color.lightGray);
-	    			//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 17));
+	    			g.setFont(createFont(new Font("Arial", Font.PLAIN, 17), toJavaAWTColor(g.getColor())));
 	    			g.drawString("Enable Cheats:  " + enableCheats, 445, 65);
 	    			if(invertoptions[3] == false)
 	    				g.setColor(Color.black);
@@ -1106,7 +1029,7 @@ public class Drawer implements MouseMotionListener, MouseListener {
 	    				g.setColor(Color.black);
 	    			if(invertoptions[3] == false)
 	    				g.setColor(Color.lightGray);
-	    			//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 15));
+	    			g.setFont(createFont(new Font("Arial", Font.PLAIN, 15), toJavaAWTColor(g.getColor())));
 	    			g.drawString("Observer Mode:  " + isObserver, 45, 125);
 	    			if(invertoptions[4] == false)
 	    				g.setColor(Color.black);
@@ -1117,7 +1040,7 @@ public class Drawer implements MouseMotionListener, MouseListener {
 	    				g.setColor(Color.black);
 	    			if(invertoptions[4] == false)
 	    				g.setColor(Color.lightGray);
-	    			//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 25));
+	    			g.setFont(createFont(new Font("Arial", Font.PLAIN, 25), toJavaAWTColor(g.getColor())));
 	    			g.drawString("Music:  " + isMusic, 254, 130);
 	    			if(invertoptions[5] == false)
 	    				g.setColor(Color.black);
@@ -1128,7 +1051,7 @@ public class Drawer implements MouseMotionListener, MouseListener {
 	    				g.setColor(Color.black);
 	    			if(invertoptions[5] == false)
 	    				g.setColor(Color.lightGray);
-	    			//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 20));
+	    			g.setFont(createFont(new Font("Arial", Font.PLAIN, 20), toJavaAWTColor(g.getColor())));
 	    			g.drawString("Log Memory:  " + isLogging, 443, 130);
 	    			if(invertoptions[6] == false)
 	    				g.setColor(Color.black);
@@ -1139,7 +1062,7 @@ public class Drawer implements MouseMotionListener, MouseListener {
 	    				g.setColor(Color.black);
 	    			if(invertoptions[6] == false)
 	    				g.setColor(Color.lightGray);
-	    			//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 25));
+	    			g.setFont(createFont(new Font("Arial", Font.PLAIN, 25), toJavaAWTColor(g.getColor())));
 	    			g.drawString("Data Type:  " + dataType, 46, 190);
 	    		}
 	    		if(showHistory == true){
@@ -1159,13 +1082,13 @@ public class Drawer implements MouseMotionListener, MouseListener {
 	    				g.setColor(Color.black);
 	    			if(invertx == false)
 	    				g.setColor(Color.lightGray);
-	    			//g.setFont((org.newdawn.slick.Font) new Font("Times New Roman", Font.PLAIN, 40));
+	    			g.setFont(createFont(new Font("Times New Roman", Font.PLAIN, 40), toJavaAWTColor(g.getColor())));
 	    			g.drawString("X", 652, 66);
 	    			for(int i = 0, p = 24, corx = 40, cory = 615; i < 25; i++, p--, cory -= 24){
 	    				g.setColor(Color.white);
 	    				g.fillRect(corx, cory, 604, 16);
 	    				g.setColor(Color.black);
-	    				//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 16));
+	    				g.setFont(createFont(new Font("Arial", Font.PLAIN, 16), toJavaAWTColor(g.getColor())));
 	    				g.drawString((i + 1) + " " + time[p + 5] + " " + history[p], corx + 3, cory + 14);
 	    			}
 	    		}
@@ -1176,10 +1099,10 @@ public class Drawer implements MouseMotionListener, MouseListener {
 	    		if(create.PlayerGU == 1)gender = true;
 	    		if(create.PlayerGU == 2)gender = false;
 	    		g.drawRect(1, 275, 717, 50);
-	    		//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.BOLD, 25));
+	    		g.setFont(createFont(new Font("Arial", Font.BOLD, 25), toJavaAWTColor(g.getColor())));
 	    		g.drawString("Currently in " + translateMode(usingNumber), 220, 50);
 	    		g.drawString("Instructions", 275, 345);
-	    		//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 15));
+	    		g.setFont(createFont(new Font("Arial", Font.PLAIN, 15), toJavaAWTColor(g.getColor())));
 	    		if(usingNumber){
 		    		g.drawString("Type in the number of the character you want to play as.  You may only type in numbers between 1 and " + name.getHighest(gender) + ".", 1, 355);
 		    		g.drawString("Typing in nothing will give you a random name.  Backspace clears your entry.  Enter submits your number.", 1, 373);
@@ -1197,7 +1120,7 @@ public class Drawer implements MouseMotionListener, MouseListener {
 	    			g.setColor(Color.black);
 	    		if(invertoptions[7] == false)
 	    			g.setColor(Color.lightGray);
-	    		//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 36));
+	    		g.setFont(createFont(new Font("Arial", Font.PLAIN, 36), toJavaAWTColor(g.getColor())));
 	    		g.drawString("Number Mode", 60, 466);
 	    		if(invertoptions[8] == false)
 	    			g.setColor(Color.black);
@@ -1208,10 +1131,9 @@ public class Drawer implements MouseMotionListener, MouseListener {
 	    			g.setColor(Color.black);
 	    		if(invertoptions[8] == false)
 	    			g.setColor(Color.lightGray);
-	    		//g.setFont((org.newdawn.slick.Font) new Font("Arial", Font.PLAIN, 46));
+	    		g.setFont(createFont(new Font("Arial", Font.PLAIN, 46), toJavaAWTColor(g.getColor())));
 	    		g.drawString("Text Mode", 390, 468);
-	    		Font font = new Font("Arial", Font.PLAIN, 42);
-	    		//g.setFont((org.newdawn.slick.Font) font);
+	    		g.setFont(createFont(new Font("Arial", Font.PLAIN, 42), toJavaAWTColor(g.getColor())));
 	    		g.setColor(Color.black);
 	    		if(usingNumber)
 	    			g.drawString(numberS, 6, 310);
@@ -1226,10 +1148,10 @@ public class Drawer implements MouseMotionListener, MouseListener {
 	    		g.setColor(Color.black);
 	    		g.fillRect(0, 0, 726, 700);
 	    		loadLoading().draw(0, 0, 720, 640);
-				//g.setFont((org.newdawn.slick.Font) new Font("Times New Roman", Font.BOLD, 40));
+				g.setFont(createFont(new Font("Times New Roman", Font.BOLD, 40), toJavaAWTColor(g.getColor())));
 				g.setColor(new Color(Color.red.getRed() - rand.nextInt(50), 0, 0));
 				g.drawString("Loading..." + " " + percent + "%", 240, 660);
-				//g.setFont((org.newdawn.slick.Font) new Font("Times New Roman", Font.PLAIN, 15));
+				g.setFont(createFont(new Font("Times New Roman", Font.PLAIN, 15), toJavaAWTColor(g.getColor())));
 				g.drawString("Stuck at " + percent + "%?  Make sure your Java version is Java 7 Update 7 or higher!", 140, 630);
 	    	}
 	    	if(drawWhat == 7){
@@ -1245,20 +1167,29 @@ public class Drawer implements MouseMotionListener, MouseListener {
 	    				g.drawString("ERROR", wherex, wherey);
 	    			}
 	    		}
-		       	Font font = new Font("Arial", Font.PLAIN, 44);
-		       	//g.setFont((org.newdawn.slick.Font) font);
+		       	g.setFont(createFont(new Font("Arial", Font.PLAIN, 44), toJavaAWTColor(g.getColor())));
 		       	g.drawString("NEVER CRASH THE GAME AGAIN", 0, 352);
 	    	}
     	} catch (SlickException e) {
     		e.printStackTrace();
     	}
      }
-//    private void fillCircle(Graphics cg, int xCenter, int yCenter, int r) {
-//    	cg.fillOval(xCenter-r, yCenter-r, 2*r, 2*r);
-//    }
-//    private void drawCircle(Graphics cg, int xCenter, int yCenter, int r) {
-//    	cg.drawOval(xCenter-r, yCenter-r, 2*r, 2*r);
-//    }
+    @SuppressWarnings("unchecked")
+	private org.newdawn.slick.Font createFont(java.awt.Font font, java.awt.Color color){
+    	UnicodeFont uf = new UnicodeFont(font);
+    	uf.addAsciiGlyphs();
+    	ColorEffect ce = new ColorEffect(color);
+    	uf.getEffects().add(ce);
+    	try {
+			uf.loadGlyphs();
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
+    	return uf;
+    }
+    private java.awt.Color toJavaAWTColor(Color color){
+    	return new java.awt.Color(color.getRed(), color.getGreen(), color.getBlue());
+    }
     private Image loadLogo() throws SlickException {
     	return new Image("res/logo.png");
     }
@@ -2417,7 +2348,7 @@ public class Drawer implements MouseMotionListener, MouseListener {
 		GC = gc;
 		System.out.println("GC: " + GC);
 		if(starting == true){
-			autoGC();
+//			autoGC();
 			if(isMusic){
 				TinySound.init();
 				soundplayer.sword = TinySound.loadSound(new File(".\\res\\sounds\\sword.wav"), true);
@@ -3721,8 +3652,8 @@ public class Drawer implements MouseMotionListener, MouseListener {
         	public void run(){
 //        		System.gc();
 //        		move garbage collection to customizable loop
-        		specialRepaint();
-                autoRepaint();
+//        		specialRepaint();
+//                autoRepaint();
                 Runtime runtime = Runtime.getRuntime();
                 try {
                 	if(isLogging){
@@ -3744,15 +3675,15 @@ public class Drawer implements MouseMotionListener, MouseListener {
         	}
         }, (long) delay);
 	}
-	private void autoGC(){
-        double delay = 1000 / GC;
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask(){
-        	public void run(){
-        		System.gc();
-        	}
-        }, (long) delay);
-	}
+//	private void autoGC(){
+//        double delay = 1000 / GC;
+//        Timer timer = new Timer();
+//        timer.schedule(new TimerTask(){
+//        	public void run(){
+//        		System.gc();
+//        	}
+//        }, (long) delay);
+//	}
 	private void runEnemyAI(){
 		for(int i = 0; i < 23; i++){
 			if(EnemyHealth[i] > 0 && EnemyAlive[i] == true){

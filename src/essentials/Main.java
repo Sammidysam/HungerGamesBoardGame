@@ -9,11 +9,12 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.KeyListener;
+import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 
 import essentials.Drawer;
 
-public class Main implements Game, KeyListener {
+public class Main implements Game, KeyListener, MouseListener {
 	private Drawer drawer = new Drawer();
 	public static void main(String[] args){
 //        JFrame frame = new JFrame("The Hunger Games Board Game");
@@ -88,7 +89,7 @@ public class Main implements Game, KeyListener {
 //        });
 		try {
 			AppGameContainer agc = new AppGameContainer(new Main());
-			agc.setDisplayMode(726, 700, false);
+			agc.setDisplayMode(718, 669, false);
 			agc.start();
 		} catch (SlickException e) {
 			e.printStackTrace();
@@ -104,9 +105,12 @@ public class Main implements Game, KeyListener {
         drawer.drawWhat = 6;
         drawer.autoRepaint();
         drawer.initializeArray();
+        gc.setVSync(true);
+        gc.setMaximumLogicUpdateInterval(50);
 	}
 	public void render(GameContainer gc, Graphics g) throws SlickException {
-		drawer.paintComponent(g);
+		g.translate(0, -30);
+		drawer.render(g);
 	}
 	public void update(GameContainer gc, int delta) throws SlickException {
 		Input input = gc.getInput();
@@ -171,6 +175,24 @@ public class Main implements Game, KeyListener {
 		}
 	}
 	public void keyReleased(int key, char c) {
+		
+	}
+	public void mouseClicked(int button, int x, int y, int clickCount) {
+		
+	}
+	public void mouseDragged(int oldX, int oldY, int newX, int newY) {
+		
+	}
+	public void mouseMoved(int oldX, int oldY, int newX, int newY) {
+		
+	}
+	public void mousePressed(int button, int x, int y) {
+		
+	}
+	public void mouseReleased(int button, int x, int y) {
+		
+	}
+	public void mouseWheelMoved(int delta) {
 		
 	}
 }
