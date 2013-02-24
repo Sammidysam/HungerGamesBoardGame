@@ -107,14 +107,16 @@ public class Main implements Game, KeyListener, MouseListener {
         drawer.initializeArray();
         gc.setVSync(true);
         gc.setMaximumLogicUpdateInterval(50);
+		gc.getInput().addKeyListener((KeyListener) this);
+		gc.getInput().addMouseListener((MouseListener) this);
 	}
 	public void render(GameContainer gc, Graphics g) throws SlickException {
-		g.translate(0, -30);
+		if(drawer.drawWhat != 4)
+			g.translate(0, -30);
 		drawer.render(g);
 	}
 	public void update(GameContainer gc, int delta) throws SlickException {
-		Input input = gc.getInput();
-		input.addKeyListener((KeyListener) this);
+		
 	}
 	public void inputEnded() {
 		
@@ -178,13 +180,13 @@ public class Main implements Game, KeyListener, MouseListener {
 		
 	}
 	public void mouseClicked(int button, int x, int y, int clickCount) {
-		
+		drawer.mouseClicked(x, y, button);
 	}
 	public void mouseDragged(int oldX, int oldY, int newX, int newY) {
 		
 	}
 	public void mouseMoved(int oldX, int oldY, int newX, int newY) {
-		
+		drawer.mouseMoved(newX, newY);
 	}
 	public void mousePressed(int button, int x, int y) {
 		

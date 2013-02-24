@@ -419,3 +419,9 @@ Charles Bliss lost the game in 17 turns.
 Player Kills:  1
 Player Damage Dealt:  80
 Player Damage Taken:  63
+---------------------
+On 2/23/2013 8:46:14 PM,
+Claire Valles lost the game in 1 turns.
+Player Kills:  0
+Player Damage Dealt:  0
+Player Damage Taken:  0
