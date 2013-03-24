@@ -2,10 +2,15 @@ package essentials;
 
 import java.awt.Font;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
@@ -97,7 +102,7 @@ public class Drawer {
 	private int coldDaysLeft = 7;
 	private boolean invertOptions = false;
 	private boolean invertHistory = false;
-	private boolean showOptions = false;
+	boolean showOptions = false;
 	private boolean showHistory = false;
 	private boolean[] invertoptions = new boolean[9];
 	private String[] time = new String[30];
@@ -204,17 +209,17 @@ public class Drawer {
 	    	if(drawWhat == 4){
 	    		if(showCoordinates == true)
 	    			g.drawString(message, 0, 670);
-	    		g.drawImage(loadLogo(), 619, 554);
+	    		g.drawImage(loadLogo().getScaledCopy(99, 115), 619, 554);
 	    		if(invertOptions == false)
 	    			g.setColor(Color.black);
 	    		if(invertOptions == true)
 	    			g.setColor(Color.lightGray);
 	    		g.fillRect(550, 645, 59, 20);
-	    		g.setFont(createFont(new Font("Arial", Font.PLAIN, 12), toJavaAWTColor(g.getColor())));
 	    		if(invertOptions == false)
 	    			g.setColor(Color.lightGray);
 	    		if(invertOptions == true)
 	    			g.setColor(Color.black);
+	    		g.setFont(createFont(new Font("Arial", Font.PLAIN, 12), toJavaAWTColor(g.getColor())));
 	    		g.drawString("Options", 558, 648);
 //				
 	    		if(invertHistory == false)
@@ -222,11 +227,11 @@ public class Drawer {
 	    		if(invertHistory == true)
 	    			g.setColor(Color.lightGray);
 	    		g.fillRect(550, 615, 59, 20);
-	    		g.setFont(createFont(new Font("Arial", Font.PLAIN, 12), toJavaAWTColor(g.getColor())));
 	    		if(invertHistory == false)
 	    			g.setColor(Color.lightGray);
 	    		if(invertHistory == true)
 	    			g.setColor(Color.black);
+	    		g.setFont(createFont(new Font("Arial", Font.PLAIN, 12), toJavaAWTColor(g.getColor())));
 	    		g.drawString("History", 560, 618);
 //    			
 	    		if(shouldinvert == false)
@@ -234,17 +239,17 @@ public class Drawer {
 	    		if(shouldinvert == true)
 	    			g.setColor(Color.lightGray);
 	    		g.fillRect(550, 509, 141, 40);
-	    		g.setFont(createFont(new Font("Arial", Font.PLAIN, 24), toJavaAWTColor(g.getColor())));
 	    		if(shouldinvert == false)
 	    			g.setColor(Color.lightGray);
 	    		if(shouldinvert == true)
 	    			g.setColor(Color.black);
-	    		g.drawString("Inventory", 567, 526);
+	    		g.setFont(createFont(new Font("Arial", Font.PLAIN, 24), toJavaAWTColor(g.getColor())));
+	    		g.drawString("Inventory", 567, 514);
 	    		g.setColor(Color.black);
 	    		g.drawRect(550, 554, 59, 51);
 	    		g.setFont(createFont(new Font("Arial", Font.PLAIN, 18), toJavaAWTColor(g.getColor())));
-	    		g.drawString("Player", 554, 559);
-	    		g.drawString("Info", 566, 589);
+	    		g.drawString("Player", 554, 554);
+	    		g.drawString("Info", 566, 584);
 	    		for(int x = 0; x <= 504; x += 63){
 	    			g.drawLine(x, 0, x, 504);
 	    		}
@@ -253,7 +258,7 @@ public class Drawer {
 				}
 	  			g.setFont(createFont(new Font("Arial", Font.PLAIN, 28), toJavaAWTColor(g.getColor())));
 	  			g.setColor(Color.darkGray);
-	  			g.drawString("Actions", 205, 653);
+	  			g.drawString("Actions", 205, 636);
 	  			g.drawString("P", 700, 155);
 	  			g.drawString("l", 700, 184);
 	  			g.drawString("a", 700, 213);
@@ -261,11 +266,7 @@ public class Drawer {
 	  			g.drawString("e", 700, 271);
 	  			g.drawString("r", 700, 300);
 	  			g.drawString("s", 700, 329);
-	    		int regionx = 0;
-	    		int regiony = 0;
-	    		int startx = 0;
-	    		int starty = 0;
-	    		int k = 0;
+	    		int regionx = 0, regiony = 0, startx = 0, starty = 0, k = 0;
 	    		for(int i = 0; i < 4; i++){
 	    			if(i == 0){
 	    				startx = 1;
@@ -507,7 +508,6 @@ public class Drawer {
 		    			}
 		    		}
 	    		}
-		       	g.setFont(createFont(new Font("Arial", Font.PLAIN, 28), toJavaAWTColor(g.getColor())));
 		       	if(invertleft == false)
 		       		g.setColor(Color.black);
 		       	if(invertleft == true)
@@ -517,7 +517,8 @@ public class Drawer {
 		       		g.setColor(Color.lightGray);
 		       	if(invertleft == true)
 		       		g.setColor(Color.black);
-		       	g.drawString("Attack", 40, 610);
+		       	g.setFont(createFont(new Font("Arial", Font.PLAIN, 28), toJavaAWTColor(g.getColor())));
+		       	g.drawString("Attack", 38, 595);
 		       	if(invertmiddle == false)
 		       		g.setColor(Color.black);
 		       	if(invertmiddle == true)
@@ -527,10 +528,11 @@ public class Drawer {
 		       		g.setColor(Color.lightGray);
 		       	if(invertmiddle == true)
 		       		g.setColor(Color.black);
+		       	g.setFont(createFont(new Font("Arial", Font.PLAIN, 28), toJavaAWTColor(g.getColor())));
 		       	if(movemade == false)
-		       		g.drawString("Move", 220, 610);
+		       		g.drawString("Move", 217, 595);
 		       	if(movemade == true)
-		       		g.drawString("Next Turn", 190, 610);
+		       		g.drawString("Next Turn", 191, 595);
 		       	if(invertright == false)
 		       		g.setColor(Color.black);
 		       	if(invertright == true)
@@ -540,20 +542,21 @@ public class Drawer {
 		       		g.setColor(Color.lightGray);
 		       	if(invertright == true)
 		       		g.setColor(Color.black);
+		       	g.setFont(createFont(new Font("Arial", Font.PLAIN, 28), toJavaAWTColor(g.getColor())));
 		       	int crashstopper = PlayerLocation;
 		       	if(PlayerLocation > 63)
 		       		crashstopper = 63;
 		       	if(discovered[crashstopper] == false || random.buildings[crashstopper] == 0 || random.buildings[crashstopper] == 3 || isObserver || PlayerLocation == 65)
-		       		g.drawString("Discover", 368, 610);
+		       		g.drawString("Discover", 367, 595);
 		       	if(PlayerLocation < 65 && (discovered[PlayerLocation] == true && random.buildings[PlayerLocation] == 1)){
 		       		g.setFont(createFont(new Font("Arial", Font.PLAIN, 18), toJavaAWTColor(g.getColor())));
-		       		g.drawString("Refill and Drink", 353, 608);
+		       		g.drawString("Refill and Drink", 353, 604);
 			       	g.setFont(createFont(new Font("Arial", Font.PLAIN, 28), toJavaAWTColor(g.getColor())));
 		       	}
 		       	if(PlayerLocation < 65 && (discovered[PlayerLocation] == true && random.buildings[PlayerLocation] == 2))
-		       		g.drawString("Scavenge", 368, 610);
+		       		g.drawString("Scavenge", 368, 595);
 		       	if(PlayerLocation < 65 && (discovered[PlayerLocation] == true && random.buildings[PlayerLocation] == 4))
-		       		g.drawString("Sleep", 381, 610);
+		       		g.drawString("Sleep", 381, 595);
 		       	g.setColor(Color.red);
 		       	g.drawLine(168, 585, 168, 634);
 		       	g.drawLine(337, 585, 337, 634);
@@ -565,22 +568,22 @@ public class Drawer {
 			       	g.drawRect(550, y, 140, 20);
 			       	if(create.EnemyN[i] == null)i++;
 			       	g.setFont(createFont(new Font("Arial", Font.PLAIN, 12), toJavaAWTColor(g.getColor())));
-			       	g.drawString(create.EnemyN[i], 555, y + 5);
+			       	g.drawString(create.EnemyN[i], 555, y + 4);
 			       	y += 22;
 		       	}
 		       	g.setColor(Color.black);
 		       	g.setFont(createFont(new Font("Consolas", Font.PLAIN, 14), toJavaAWTColor(g.getColor())));
 		       	y = 521;
-		       	g.drawString(text[0], 1, y - 10);
+		       	g.drawString(text[0], 1, y - 11);
 		       	y += 13;
-		       	g.drawString(text[1], 1, y - 10);
+		       	g.drawString(text[1], 1, y - 11);
 		       	y += 13;
-		       	g.drawString(text[2], 1, y - 10);
+		       	g.drawString(text[2], 1, y - 11);
 		       	y += 14;
-		       	g.drawString(text[3], 1, y - 10);
+		       	g.drawString(text[3], 1, y - 11);
 		       	y += 14;
-		       	g.drawString(text[4], 1, y - 10);
-		       	for(int i = 0; i < 23; i++){
+		       	g.drawString(text[4], 1, y - 11);
+		       	for(int i = 0; i < 23; i++)
 		       		if(enemyShow[i] == true){
 		       			g.drawRect(0, 509, 504, 131);
 		       			g.setColor(Color.white);
@@ -588,44 +591,43 @@ public class Drawer {
 		       			g.setColor(Color.black);
 		       			if(create.EnemyN[i] == null)i++;
 		       			g.setFont(createFont(new Font("Arial", Font.PLAIN, 22), toJavaAWTColor(g.getColor())));
-		       			g.drawString("Name: " + create.EnemyN[i], 120, 523);
+		       			g.drawString("Name: " + create.EnemyN[i], 120, 513);
 		       			g.drawLine(115, 540, 504, 540);
 		       			g.drawLine(115, 540, 115, 640);
-		       			g.drawString("District: " + create.EnemyD[i], 120, 553);
-		       			g.drawString("Age: " + create.EnemyA[i], 120, 576);
-		       			g.drawString("Gender: " + create.getGenderString(create.EnemyP[i]), 120, 599);
-		       			g.drawString("Total Skill: " + create.getTotalSkill(create.EnemySt[i], create.EnemySp[i], create.EnemySm[i], create.EnemyWs[i]), 120, 622);
-		       			if(enemyStDis[i] == true)g.drawString("Strength: " + create.EnemySt[i], 310, 553);
-		       			if(enemyStDis[i] == false)g.drawString("Strength: ?", 310, 553);
-		       			if(enemySpDis[i] == true)g.drawString("Speed: " + create.EnemySp[i], 310, 576);
-		       			if(enemySpDis[i] == false)g.drawString("Speed: ?", 310, 576);
-		       			if(enemySmDis[i] == true)g.drawString("Smarts: " + create.EnemySm[i], 310, 599);
-		       			if(enemySmDis[i] == false)g.drawString("Smarts: ?", 310, 599);
-		       			if(enemyWsDis[i] == true)g.drawString("Weapon Skill: " + create.EnemyWs[i], 310, 622);
-		       			if(enemyWsDis[i] == false)g.drawString("Weapon Skill: ?", 310, 622);
+		       			g.drawString("District: " + create.EnemyD[i], 120, 543);
+		       			g.drawString("Age: " + create.EnemyA[i], 120, 566);
+		       			g.drawString("Gender: " + create.getGenderString(create.EnemyP[i]), 120, 589);
+		       			g.drawString("Total Skill: " + create.getTotalSkill(create.EnemySt[i], create.EnemySp[i], create.EnemySm[i], create.EnemyWs[i]), 120, 612);
+		       			if(enemyStDis[i] == true)g.drawString("Strength: " + create.EnemySt[i], 310, 543);
+		       			if(enemyStDis[i] == false)g.drawString("Strength: ?", 310, 543);
+		       			if(enemySpDis[i] == true)g.drawString("Speed: " + create.EnemySp[i], 310, 566);
+		       			if(enemySpDis[i] == false)g.drawString("Speed: ?", 310, 566);
+		       			if(enemySmDis[i] == true)g.drawString("Smarts: " + create.EnemySm[i], 310, 589);
+		       			if(enemySmDis[i] == false)g.drawString("Smarts: ?", 310, 589);
+		       			if(enemyWsDis[i] == true)g.drawString("Weapon Skill: " + create.EnemyWs[i], 310, 612);
+		       			if(enemyWsDis[i] == false)g.drawString("Weapon Skill: ?", 310, 612);
 		       			g.drawString("Kills:  " + EnemyKills[i], 5, 576);
 		       			g.setFont(createFont(new Font("Arial", Font.PLAIN, 12), toJavaAWTColor(g.getColor())));
-		       			g.drawString("Damage Dealt:  " + EnemyDamageDealt[i], 5, 599);
+		       			g.drawString("Damage Dealt:  " + EnemyDamageDealt[i], 5, 604);
 		       			g.drawString("Damage Taken:  " + EnemyDamageTaken[i], 5, 622);
 		       		}
-		       	}
 		       	if(overPlayer == true){
 	       			g.drawRect(0, 509, 504, 131);
 	       			g.setColor(Color.white);
 	       			g.fillRect(1, 510, 503, 130);
 	       			g.setColor(Color.black);
 	       			g.setFont(createFont(new Font("Arial", Font.PLAIN, 22), toJavaAWTColor(g.getColor())));
-	       			g.drawString("Name: " + create.PlayerN, 120, 523);
+	       			g.drawString("Name: " + create.PlayerN, 120, 513);
 	       			g.drawLine(115, 540, 504, 540);
 	       			g.drawLine(115, 540, 115, 640);
-	       			g.drawString("District: " + create.PlayerD, 120, 553);
-	       			g.drawString("Age: " + create.PlayerA, 120, 576);
-	       			g.drawString("Gender: " + create.getGenderString(create.PlayerP), 120, 599);
-	       			g.drawString("Total Skill: " + create.getTotalSkill(create.PlayerSt, create.PlayerSp, create.PlayerSm, create.PlayerWs), 120, 622);
-	       			g.drawString("Strength: " + create.PlayerSt, 310, 553);
-	       			g.drawString("Speed: " + create.PlayerSp, 310, 576);
-	       			g.drawString("Smarts: " + create.PlayerSm, 310, 599);
-	       			g.drawString("Weapon Skill: " + create.PlayerWs, 310, 622);
+	       			g.drawString("District: " + create.PlayerD, 120, 543);
+	       			g.drawString("Age: " + create.PlayerA, 120, 566);
+	       			g.drawString("Gender: " + create.getGenderString(create.PlayerP), 120, 589);
+	       			g.drawString("Total Skill: " + create.getTotalSkill(create.PlayerSt, create.PlayerSp, create.PlayerSm, create.PlayerWs), 120, 612);
+	       			g.drawString("Strength: " + create.PlayerSt, 310, 543);
+	       			g.drawString("Speed: " + create.PlayerSp, 310, 566);
+	       			g.drawString("Smarts: " + create.PlayerSm, 310, 589);
+	       			g.drawString("Weapon Skill: " + create.PlayerWs, 310, 612);
 	       			g.setFont(createFont(new Font("Arial", Font.PLAIN, 12), toJavaAWTColor(g.getColor())));
 	       			g.drawString("Health:  " + PlayerHealth, 5, 578);
 	       			g.drawString("Days of Water Left:" + (7 - daysnowater), 5, 589);
@@ -837,7 +839,7 @@ public class Drawer {
 	    			if(invertx == false)
 	    				g.setColor(Color.lightGray);
 	    			g.setFont(createFont(new Font("Times New Roman", Font.PLAIN, 40), toJavaAWTColor(g.getColor())));
-	    			g.drawString("X", 639, 201);
+	    			g.drawString("X", 639, 174);
 	    			g.setColor(Color.black);
 	        		g.drawLine(576, 175, 576, 375);
 	        		g.drawLine(50, 275, 576, 275);
@@ -915,7 +917,7 @@ public class Drawer {
 	        		if(invertuse == false)
 	        			g.setColor(Color.lightGray);
 	        		g.setFont(createFont(new Font("Arial", Font.PLAIN, 35), toJavaAWTColor(g.getColor())));
-	        		g.drawString("Use", 590, 357);
+	        		g.drawString("Use", 590, 334);
 	        		g.setColor(Color.red);
 	        		g.drawLine(577, 335, 676, 335);
 	        		g.drawLine(577, 294, 676, 294);
@@ -928,8 +930,8 @@ public class Drawer {
 	        			g.setColor(Color.black);
 	        		if(invertuse2 == false)
 	        			g.setColor(Color.lightGray);
-	        		g.drawString("Drop", 585, 317);
-	        		g.setFont(createFont(new Font("Arial", Font.PLAIN, 25), toJavaAWTColor(g.getColor())));
+	        		g.setFont(createFont(new Font("Arial", Font.PLAIN, 35), toJavaAWTColor(g.getColor())));
+	        		g.drawString("Drop", 585, 293);
 	        		if(invertuse3 == false)
 	        			g.setColor(Color.black);
 	        		if(invertuse3 == true)
@@ -939,7 +941,8 @@ public class Drawer {
 	        			g.setColor(Color.black);
 	        		if(invertuse3 == false)
 	        			g.setColor(Color.lightGray);
-	        		g.drawString("Pick Up", 583, 273);
+	        		g.setFont(createFont(new Font("Arial", Font.PLAIN, 25), toJavaAWTColor(g.getColor())));
+	        		g.drawString("Pick Up", 583, 261);
 	        		for(int i = 0; i < 8; i++){
 	        			if(overItem[i] == true){
 	        				check0();
@@ -952,12 +955,11 @@ public class Drawer {
 	        				g.setColor(Color.black);
 	        				g.setFont(createFont(new Font("Arial", Font.PLAIN, 20), toJavaAWTColor(g.getColor())));
 	        				if(inventoryI[i] != 0)
-	        					g.drawString(translateItemC(inventoryI[i]), getX() + 12, getY() + 7);
+	        					g.drawString(translateItemC(inventoryI[i]), getX() + 12, getY() - 1);
 	        			}
 	        		}
 	    		}
 	    		if(PlayerAlive == false){
-	    			g.setFont(createFont(new Font("Arial", Font.PLAIN, 30), toJavaAWTColor(g.getColor())));
 	        		if(invertReplay == false)
 	        			g.setColor(Color.black);
 	        		if(invertReplay == true)
@@ -967,7 +969,8 @@ public class Drawer {
 	        			g.setColor(Color.black);
 	        		if(invertReplay == false)
 	        			g.setColor(Color.lightGray);
-	        		g.drawString("Replay", 206, 254);
+	    			g.setFont(createFont(new Font("Arial", Font.PLAIN, 30), toJavaAWTColor(g.getColor())));
+	        		g.drawString("Replay", 206, 235);
 	    		}
 	    		if(showOptions == true){
 	    			g.setColor(new Color(242, 242, 242));
@@ -987,7 +990,7 @@ public class Drawer {
 	    			if(invertx == false)
 	    				g.setColor(Color.lightGray);
 	    			g.setFont(createFont(new Font("Times New Roman", Font.PLAIN, 40), toJavaAWTColor(g.getColor())));
-	    			g.drawString("X", 652, 56);
+	    			g.drawString("X", 652, 29);
 	    			if(invertoptions[0] == false)
 	    				g.setColor(Color.black);
 	    			if(invertoptions[0] == true)
@@ -1009,7 +1012,7 @@ public class Drawer {
 	    			if(invertoptions[1] == false)
 	    				g.setColor(Color.lightGray);
 	    			g.setFont(createFont(new Font("Arial", Font.PLAIN, 17), toJavaAWTColor(g.getColor())));
-	    			g.drawString("Discover Everything", 245, 55);
+	    			g.drawString("Discover Everything", 247, 50);
 	    			if(invertoptions[2] == false)
 	    				g.setColor(Color.black);
 	    			if(invertoptions[2] == true)
@@ -1020,7 +1023,7 @@ public class Drawer {
 	    			if(invertoptions[2] == false)
 	    				g.setColor(Color.lightGray);
 	    			g.setFont(createFont(new Font("Arial", Font.PLAIN, 17), toJavaAWTColor(g.getColor())));
-	    			g.drawString("Enable Cheats:  " + enableCheats, 445, 55);
+	    			g.drawString("Enable Cheats:  " + enableCheats, 445, 50);
 	    			if(invertoptions[3] == false)
 	    				g.setColor(Color.black);
 	    			if(invertoptions[3] == true)
@@ -1031,7 +1034,7 @@ public class Drawer {
 	    			if(invertoptions[3] == false)
 	    				g.setColor(Color.lightGray);
 	    			g.setFont(createFont(new Font("Arial", Font.PLAIN, 15), toJavaAWTColor(g.getColor())));
-	    			g.drawString("Observer Mode:  " + isObserver, 45, 115);
+	    			g.drawString("Observer Mode:  " + isObserver, 47, 112);
 	    			if(invertoptions[4] == false)
 	    				g.setColor(Color.black);
 	    			if(invertoptions[4] == true)
@@ -1042,7 +1045,7 @@ public class Drawer {
 	    			if(invertoptions[4] == false)
 	    				g.setColor(Color.lightGray);
 	    			g.setFont(createFont(new Font("Arial", Font.PLAIN, 25), toJavaAWTColor(g.getColor())));
-	    			g.drawString("Music:  " + isMusic, 254, 120);
+	    			g.drawString("Music:  " + isMusic, 254, 107);
 	    			if(invertoptions[5] == false)
 	    				g.setColor(Color.black);
 	    			if(invertoptions[5] == true)
@@ -1053,7 +1056,7 @@ public class Drawer {
 	    			if(invertoptions[5] == false)
 	    				g.setColor(Color.lightGray);
 	    			g.setFont(createFont(new Font("Arial", Font.PLAIN, 20), toJavaAWTColor(g.getColor())));
-	    			g.drawString("Log Memory:  " + isLogging, 443, 120);
+	    			g.drawString("Log Memory:  " + isLogging, 444, 108);
 	    			if(invertoptions[6] == false)
 	    				g.setColor(Color.black);
 	    			if(invertoptions[6] == true)
@@ -1064,7 +1067,7 @@ public class Drawer {
 	    			if(invertoptions[6] == false)
 	    				g.setColor(Color.lightGray);
 	    			g.setFont(createFont(new Font("Arial", Font.PLAIN, 25), toJavaAWTColor(g.getColor())));
-	    			g.drawString("Data Type:  " + dataType, 46, 180);
+	    			g.drawString("Data Type:  " + dataType, 48, 167);
 	    		}
 	    		if(showHistory == true){
 	    			g.setColor(new Color(242, 242, 242));
@@ -1084,13 +1087,13 @@ public class Drawer {
 	    			if(invertx == false)
 	    				g.setColor(Color.lightGray);
 	    			g.setFont(createFont(new Font("Times New Roman", Font.PLAIN, 40), toJavaAWTColor(g.getColor())));
-	    			g.drawString("X", 652, 56);
+	    			g.drawString("X", 652, 29);
 	    			for(int i = 0, p = 24, corx = 40, cory = 615; i < 25; i++, p--, cory -= 24){
 	    				g.setColor(Color.white);
-	    				g.fillRect(corx, cory, 604, 16);
+	    				g.fillRect(corx, cory, 604, 18);
 	    				g.setColor(Color.black);
 	    				g.setFont(createFont(new Font("Arial", Font.PLAIN, 16), toJavaAWTColor(g.getColor())));
-	    				g.drawString((i + 1) + " " + time[p + 5] + " " + history[p], corx + 3, cory + 4);
+	    				g.drawString((i + 1) + " " + time[p + 5] + " " + history[p], corx + 3, cory - 1);
 	    			}
 	    		}
 	    	}
@@ -1099,10 +1102,10 @@ public class Drawer {
 	    		if(create.PlayerGU != 1 && create.PlayerGU != 2)gender = create.getGenderBoolean(create.PlayerP);
 	    		if(create.PlayerGU == 1)gender = true;
 	    		if(create.PlayerGU == 2)gender = false;
-	    		g.drawRect(1, 275, 717, 50);
+	    		g.drawRect(1, 275, 715, 50);
 	    		g.setFont(createFont(new Font("Arial", Font.BOLD, 25), toJavaAWTColor(g.getColor())));
-	    		g.drawString("Currently in " + translateMode(usingNumber), 220, 50);
-	    		g.drawString("Instructions", 275, 345);
+	    		g.drawString("Currently in " + translateMode(usingNumber), 220, 30);
+	    		g.drawString("Instructions", 275, 324);
 	    		g.setFont(createFont(new Font("Arial", Font.PLAIN, 15), toJavaAWTColor(g.getColor())));
 	    		if(usingNumber){
 		    		g.drawString("Type in the number of the character you want to play as.  You may only type in numbers between 1 and " + name.getHighest(gender) + ".", 1, 355);
@@ -1122,7 +1125,7 @@ public class Drawer {
 	    		if(invertoptions[7] == false)
 	    			g.setColor(Color.lightGray);
 	    		g.setFont(createFont(new Font("Arial", Font.PLAIN, 36), toJavaAWTColor(g.getColor())));
-	    		g.drawString("Number Mode", 60, 466);
+	    		g.drawString("Number Mode", 60, 431);
 	    		if(invertoptions[8] == false)
 	    			g.setColor(Color.black);
 	    		if(invertoptions[8] == true)
@@ -1133,16 +1136,17 @@ public class Drawer {
 	    		if(invertoptions[8] == false)
 	    			g.setColor(Color.lightGray);
 	    		g.setFont(createFont(new Font("Arial", Font.PLAIN, 46), toJavaAWTColor(g.getColor())));
-	    		g.drawString("Text Mode", 390, 468);
-	    		g.setFont(createFont(new Font("Arial", Font.PLAIN, 42), toJavaAWTColor(g.getColor())));
+	    		g.drawString("Text Mode", 390, 424);
 	    		g.setColor(Color.black);
+	    		g.setFont(createFont(new Font("Arial", Font.PLAIN, 42), toJavaAWTColor(g.getColor())));
 	    		if(usingNumber)
-	    			g.drawString(numberS, 6, 310);
+	    			g.drawString(numberS, 6, 275);
 	    		if(!usingNumber)
-	    			g.drawString(nameInput, 6, 310);
+	    			g.drawString(nameInput, 6, 275);
 	    		if(badnumber == true){
 	    			g.setColor(Color.red);
-	    			g.drawString("Invalid number value!", 225, 110);
+	    			g.setFont(createFont(new Font("Arial", Font.PLAIN, 42), toJavaAWTColor(g.getColor())));
+	    			g.drawString("Invalid number value!", 205, 110);
 	    		}
 	    	}
 	    	if(drawWhat == 6){
@@ -1202,10 +1206,79 @@ public class Drawer {
 	    	drawingFonts.add(uf);
 	    	fonts.add(font);
 	    	colors.add(color);
+	    	FileWriter writer = null;
+	    	BufferedWriter addFont = null;
+	    	try {
+	    		System.out.println("making font");
+				writer = new FileWriter("fonts.txt", true);
+				addFont = new BufferedWriter(writer);
+				addFont.write(font.getFamily());
+				addFont.newLine();
+				addFont.write(String.valueOf(font.getSize()));
+				addFont.newLine();
+				addFont.write(String.valueOf(font.getStyle()));
+				addFont.newLine();
+				addFont.write(String.valueOf(color.getRed()));
+				addFont.newLine();
+				addFont.write(String.valueOf(color.getGreen()));
+				addFont.newLine();
+				addFont.write(String.valueOf(color.getBlue()));
+				addFont.newLine();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				if(addFont != null)
+					try {
+						addFont.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+			}
 	    	return uf;
     	}
     	else
     		return drawingFonts.get(location);
+    }
+    @SuppressWarnings("unchecked")
+	public void loadFonts(){
+    	BufferedReader br = null;
+    	try {
+			FileInputStream fstream = new FileInputStream("fonts.txt");
+			DataInputStream in = new DataInputStream(fstream);
+			br = new BufferedReader(new InputStreamReader(in));
+			String line = null;
+			while((line = br.readLine()) != null){
+				String[] values = new String[6];
+				values[0] = line;
+				for(int i = 0; i < 5; i++)
+					values[i + 1] = br.readLine();
+				java.awt.Font font = new java.awt.Font(values[0], Integer.parseInt(values[2]), Integer.parseInt(values[1]));
+				java.awt.Color color = new java.awt.Color(Integer.parseInt(values[3]), Integer.parseInt(values[4]), Integer.parseInt(values[5]));
+		    	UnicodeFont uf = new UnicodeFont(font);
+		    	uf.addAsciiGlyphs();
+		    	ColorEffect ce = new ColorEffect(color);
+		    	uf.getEffects().add(ce);
+		    	try {
+					uf.loadGlyphs();
+				} catch (SlickException e) {
+					e.printStackTrace();
+				}
+		    	drawingFonts.add(uf);
+		    	fonts.add(font);
+		    	colors.add(color);
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if(br != null)
+				try {
+					br.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+		}
     }
     private java.awt.Color toJavaAWTColor(Color color){
     	return new java.awt.Color(color.getRed(), color.getGreen(), color.getBlue());
@@ -1460,7 +1533,6 @@ public class Drawer {
 			canSee[44] = true;
 			canSee[48] = true;
 		}
-		specialRepaint();
 	}
 	public void mouseClicked(int x, int y, int button){
 		setPosition(x, y);
@@ -1468,10 +1540,8 @@ public class Drawer {
 		if(button == MouseEvent.BUTTON1 - 1){
 			if(drawWhat == 3){
 				getCharacter();
-				if(create.PlayerP > 0){
+				if(create.PlayerP > 0)
 					drawWhat = 5;
-					specialRepaint();
-				}
 			}
 			if(drawWhat == 1){
 				if(menuprogress == 0){
@@ -1480,7 +1550,6 @@ public class Drawer {
 						menuprogress = 1;
 					if(gameType == 2)
 						drawWhat = 17;
-			        specialRepaint();
 				}
 			}
 			if(drawWhat == 5){
@@ -1569,13 +1638,9 @@ public class Drawer {
 				if(showOptions == true && getX() >= 235 && getX() <= 415 && getY() >= 35 && getY() <= 85){
 					boolean ranCode = false;
 					if(hasDiscoveredAll == false && ranCode == false){
-//						if(PlayerLocation < 64){
-							for(int p = 0; p < 64; p++)
-								discovered[p] = true;
-							hasDiscoveredAll = true;
-//						}
-//						if(PlayerLocation >= 64)
-//							addToTextBox("You must move first before you can discover everything!");
+						for(int p = 0; p < 64; p++)
+							discovered[p] = true;
+						hasDiscoveredAll = true;
 						ranCode = true;
 					}
 					if(hasDiscoveredAll == true && ranCode == false){
@@ -2110,7 +2175,7 @@ public class Drawer {
 								int attackedperson = 0;
 								int people = 0;
 								for(int y1 = 0; y1 < 23; y1++)
-									if(EnemyLocation[y] == attackTarget){
+									if(EnemyLocation[y1] == attackTarget){
 										if(attackedperson > 0){
 											people++;
 										}
@@ -2190,20 +2255,6 @@ public class Drawer {
 		}
 		canMoveTo(PlayerLocation);
 		canSee(PlayerLocation);
-		specialRepaint();
-	}
-	public void mouseEntered(MouseEvent e) {
-		specialRepaint();
-	}
-	public void mouseExited(MouseEvent e) {
-		specialRepaint();
-	}
-	public void mousePressed(MouseEvent e) {
-		specialRepaint();
-	}
-	public void mouseReleased(MouseEvent e) {
-		check0();
-		specialRepaint();
 	}
 	public int getGameMode(byte gamemode){
 		byte number = gamemode;
@@ -2258,14 +2309,6 @@ public class Drawer {
 		create.PlayerP = character;
 		return character;
 	}
-	private void specialRepaint(){
-    	x = -50;
-    	y = -50;
-//    	repaint();
-    	x = 0;
-    	y = 0;
-//    	repaint();
-	}
 	private void check0(){
 //		if(getX() == 0 || getY() == 0)setPosition(getMousePosition());
 	}
@@ -2289,7 +2332,6 @@ public class Drawer {
         timer.schedule(new TimerTask(){
         	public void run(){
                 nameshow = 1;
-                specialRepaint();
         	}
         }, delay);
    }
@@ -2323,7 +2365,6 @@ public class Drawer {
 			numberS += number;
 			digit++;
 		}
-		specialRepaint();
 	}
 	public void getShading(){
 		random.getBiomes();
@@ -3600,20 +3641,34 @@ public class Drawer {
 		return supplies;
 	}
 	private String translateItem(int ID){
-		String item = null;
-		if(ID == 1)item = "bottle";
-		if(ID == 2)item = "sword";
-		if(ID == 3)item = "sword of fire";
-		if(ID == 4)item = "spear";
-		if(ID == 5)item = "spear of fire";
-		if(ID == 6)item = "coat";
-		if(ID == 7)item = "quiver";
-		if(ID == 8)item = "bow";
-		if(ID == 9)item = "meat";
-		if(ID == 10)item = "banana";
-		if(ID == 11)item = "tomato";
-		if(ID == 12)item = "mango";
-		return item;
+		switch (ID){
+			case 1:
+				return "bottle";
+			case 2:
+				return "sword";
+			case 3:
+				return "sword of fire";
+			case 4:
+				return "spear";
+			case 5:
+				return "spear of fire";
+			case 6:
+				return "coat";
+			case 7:
+				return "quiver";
+			case 8:
+				return "bow";
+			case 9:
+				return "meat";
+			case 10:
+				return "banana";
+			case 11:
+				return "tomato";
+			case 12:
+				return "mango";
+			default:
+				return "error";
+		}
 	}
 	private String translateItemC(int ID){
 		String item = translateItem(ID);
@@ -3621,7 +3676,7 @@ public class Drawer {
 			item = "Sword of Fire";
 		if(ID == 5)
 			item = "Spear of Fire";
-		else{
+		else {
 			String firstLetter = item.substring(0, 1);
 			firstLetter = firstLetter.toUpperCase();
 			String rest = item.substring(1, item.length());
@@ -3630,20 +3685,34 @@ public class Drawer {
 		return item;
 	}
 	private String translateItemP(int ID){
-		String item = null;
-		if(ID == 1)item = "bottles";
-		if(ID == 2)item = "swords";
-		if(ID == 3)item = "swords of fire";
-		if(ID == 4)item = "spears";
-		if(ID == 5)item = "spears of fire";
-		if(ID == 6)item = "coats";
-		if(ID == 7)item = "quivers";
-		if(ID == 8)item = "bows";
-		if(ID == 9)item = "meats";
-		if(ID == 10)item = "bananas";
-		if(ID == 11)item = "tomatoes";
-		if(ID == 12)item = "mangoes";
-		return item;
+		switch (ID){
+			case 1:
+				return "bottles";
+			case 2:
+				return "swords";
+			case 3:
+				return "swords of fire";
+			case 4:
+				return "spears";
+			case 5:
+				return "spears of fire";
+			case 6:
+				return "coats";
+			case 7:
+				return "quivers";
+			case 8:
+				return "bows";
+			case 9:
+				return "meats";
+			case 10:
+				return "bananas";
+			case 11:
+				return "tomatoes";
+			case 12:
+				return "mangoes";
+			default:
+				return "errors";
+		}
 	}
 	public void addToInventory(int item){
 		for(int i = 0; i < 8; i++){
@@ -3652,7 +3721,6 @@ public class Drawer {
 				break;
 			}
 		}
-		specialRepaint();
 	}
 	private int getWeaponDamage(int weapon){
 		int damage = 0;
@@ -3668,10 +3736,6 @@ public class Drawer {
         Timer timer = new Timer();
         timer.schedule(new TimerTask(){
         	public void run(){
-//        		System.gc();
-//        		move garbage collection to customizable loop
-//        		specialRepaint();
-//                autoRepaint();
                 Runtime runtime = Runtime.getRuntime();
                 try {
                 	if(isLogging){
@@ -3693,15 +3757,6 @@ public class Drawer {
         	}
         }, (long) delay);
 	}
-//	private void autoGC(){
-//        double delay = 1000 / GC;
-//        Timer timer = new Timer();
-//        timer.schedule(new TimerTask(){
-//        	public void run(){
-//        		System.gc();
-//        	}
-//        }, (long) delay);
-//	}
 	private void runEnemyAI(){
 		for(int i = 0; i < 23; i++){
 			if(EnemyHealth[i] > 0 && EnemyAlive[i] == true){
@@ -4064,7 +4119,7 @@ public class Drawer {
 							if(isMusic)
 								soundplayer.death.play();
 							playerDamageTaken += damage;
-							if(weapons > 0)
+							if(weapons > 0 && weaponChoice < weapons)
 								if(EnemyInventory[i][weaponLocation[weaponChoice]] == 3){
 									isInfected = true;
 									addToTextBox("You were infected by " + create.EnemyN[i]);
@@ -4357,17 +4412,20 @@ public class Drawer {
 							cause = 2;
 							break;
 						}
-						else{
+						else {
 							isCold = true;
 							cause = 1;
 						}
 					}
 				}
-				else{
+				else {
 					isCold = false;
 				}
-				if(cause == 0)coldDaysLeft = 7;
+				if(cause == 0)
+					coldDaysLeft = 7;
 			}
+			else
+				isCold = false;
 		}
 		if(isCold == true)coldDaysLeft--;
 		if(isCold == true){
@@ -4502,7 +4560,7 @@ public class Drawer {
 	private void logGame(boolean won){
 		String wonS = "lost";
 		if(won)wonS = "won";
-		try{
+		try {
 			BufferedWriter bw = new BufferedWriter(new FileWriter("Logs.txt", true));
 			bw.newLine();
 			bw.write("---------------------");
@@ -4517,21 +4575,28 @@ public class Drawer {
 			bw.newLine();
 			bw.write("Player Damage Taken:  " + playerDamageTaken);
 			bw.close();
-		}catch (IOException e1){
+		} catch (IOException e1) {
 			System.err.format("Modifying log file FAILED!");
 		}
 		PlayerAlive = false;
 	}
 	private String getAnimalName(int biome){
-		String name = "";
-		if(biome == 1)name = "mud man";
-		if(biome == 2)name = "bee";
-		if(biome == 3)name = "snake";
-		if(biome == 4)name = "lizard";
-		if(biome == 5)name = "wolf";
-		if(biome == 7)name = "thug";
-		if(name == "")name = "error";
-		return name;
+		switch (biome){
+			case 1:
+				return "mud man";
+			case 2:
+				return "bee";
+			case 3:
+				return "snake";
+			case 4:
+				return "lizard";
+			case 5:
+				return "wolf";
+			case 7:
+				return "thug";
+			default:
+				return "error";
+		}
 	}
 	private int getBiome(int location){
 		int biome = 8;

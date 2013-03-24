@@ -425,3 +425,69 @@ Claire Valles lost the game in 1 turns.
 Player Kills:  0
 Player Damage Dealt:  0
 Player Damage Taken:  0
+---------------------
+On 3/24/2013 4:08:24 PM,
+Allen Ayres lost the game in 7 turns.
+Player Kills:  0
+Player Damage Dealt:  20
+Player Damage Taken:  0
+---------------------
+On 3/24/2013 4:13:02 PM,
+Nany Riffe lost the game in 12 turns.
+Player Kills:  0
+Player Damage Dealt:  9
+Player Damage Taken:  27
+---------------------
+On 3/24/2013 4:21:07 PM,
+Aaron Staats lost the game in 7 turns.
+Player Kills:  0
+Player Damage Dealt:  19
+Player Damage Taken:  4
+---------------------
+On 3/24/2013 4:21:43 PM,
+Holly Gurrola lost the game in 7 turns.
+Player Kills:  0
+Player Damage Dealt:  27
+Player Damage Taken:  7
+---------------------
+On 3/24/2013 4:21:43 PM,
+Holly Gurrola lost the game in 7 turns.
+Player Kills:  0
+Player Damage Dealt:  27
+Player Damage Taken:  7
+---------------------
+On 3/24/2013 4:26:38 PM,
+Curtis Lehr lost the game in 1 turns.
+Player Kills:  0
+Player Damage Dealt:  0
+Player Damage Taken:  6
+---------------------
+On 3/24/2013 4:26:57 PM,
+Joshua Kinnard lost the game in 7 turns.
+Player Kills:  0
+Player Damage Dealt:  0
+Player Damage Taken:  6
+---------------------
+On 3/24/2013 4:27:16 PM,
+Jessica Robb lost the game in 7 turns.
+Player Kills:  0
+Player Damage Dealt:  0
+Player Damage Taken:  6
+---------------------
+On 3/24/2013 4:27:36 PM,
+Sheryl Koon lost the game in 7 turns.
+Player Kills:  0
+Player Damage Dealt:  0
+Player Damage Taken:  6
+---------------------
+On 3/24/2013 4:30:10 PM,
+Dale Cassidy lost the game in 7 turns.
+Player Kills:  0
+Player Damage Dealt:  10
+Player Damage Taken:  11
+---------------------
+On 3/24/2013 4:31:10 PM,
+Johnny Geisler lost the game in 4 turns.
+Player Kills:  0
+Player Damage Dealt:  9
+Player Damage Taken:  9
