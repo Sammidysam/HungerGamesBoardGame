@@ -61,7 +61,7 @@ public class PlayerCreator{
 		Enemy enemy = new Enemy(categorize);
 		enemy.getInfo();
 		EnemyC[categorize - i] = enemy.getColor();
-		EnemyA[categorize - i] = enemy.Age;
+		EnemyA[categorize - i] = enemy.age;
 		EnemyP[categorize - i] = categorize;
 		EnemyN[categorize - i] = enemy.name;
 		EnemyD[categorize - i] = enemy.WhichDistrict();
