@@ -2342,9 +2342,9 @@ public class Drawer {
 			digit = 1;
 		}
 		if(number == 11){
-			if(numberS != "")
+			if(!numberS.equals(""))
 				create.PlayerNN = Integer.parseInt(numberS);
-			if(numberS == "")
+			else
 				create.PlayerNN = rand.nextInt(600) + 1;
 			if(create.PlayerNN > name.getHighest(gender) || create.PlayerNN < 1){
 				addToText(10);
@@ -2527,7 +2527,7 @@ public class Drawer {
 		time[4] = getDate.getRealDateTime();
 	}
 	private void addToTextBox(String addition){
-		if(text[0] != ""){
+		if(!text[0].equals("")){
 			if(doesOverflow(addition)){
 				addToHistory(text[0]);
 				addToHistory(text[1]);
@@ -4635,7 +4635,7 @@ public class Drawer {
 			initializeText();
 			initializeEnemies();
 		}
-		if(nameInput == "")nameInput = getHumorousName();
+		if(nameInput.equals(""))nameInput = getHumorousName();
 		create.PlayerN = nameInput;
 	}
 	private String getHumorousName(){

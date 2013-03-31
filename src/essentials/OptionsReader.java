@@ -35,7 +35,8 @@ public class OptionsReader {
 		for(byte i = 0; i < 2; i++)
 			option = read.nextLine();
 		options[4] = Boolean.parseBoolean(option);
-		read.close();
+		if(read != null)
+			read.close();
 		return options;
 	}
 	public byte getDataType(){
@@ -53,7 +54,8 @@ public class OptionsReader {
 		for(byte i = 0; i < 12; i++)
 			option = read.nextLine();
 		byte dataType = Byte.parseByte(option);
-		read.close();
+		if(read != null)
+			read.close();
 		return dataType;
 	}
 	public short getGC(){
@@ -71,7 +73,8 @@ public class OptionsReader {
 		for(byte i = 0; i < 14; i++)
 			option = read.nextLine();
 		short GC = Short.parseShort(option);
-		read.close();
+		if(read != null)
+			read.close();
 		return GC;
 	}
 	public void writeToOptions(boolean showCoordinates, boolean enableCheats, boolean isObserver, boolean isMusic, boolean isLogging, byte dataType){
@@ -94,7 +97,8 @@ public class OptionsReader {
 		file[7] = String.valueOf(isMusic);
 		file[9] = String.valueOf(isLogging);
 		file[11] = String.valueOf(dataType);
-		read.close();
+		if(read != null)
+			read.close();
 		try {
 			System.gc();
 			options.delete();
