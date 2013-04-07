@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 
 public class OptionsReader {
-	File options = new File(".\\Options.txt");
+	File options = new File("Options.txt");
 	public OptionsReader(){
 	}
 	public boolean[] getOptions(){
