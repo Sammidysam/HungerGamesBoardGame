@@ -2473,14 +2473,7 @@ public class Drawer {
 			history[i] = "";
 		for(int i = 0; i < 30; i++)
 			time[i] = "";
-		if(!starting){
-			drawWhat = 1;
-		}
-		if(starting){
-			drawWhat = 7;
-			logoDelay();
-			starting = false;
-		}
+		drawWhat = 1;
 	}
 	private void initializeEnemies(){
 		for(int i = 0; i < 23; i++){
@@ -3723,15 +3716,22 @@ public class Drawer {
 		}
 	}
 	private int getWeaponDamage(int weapon){
-		int damage = 0;
-		if(weapon == 2)damage = 10;
-		if(weapon == 3)damage = 15;
-		if(weapon == 4)damage = 8;
-		if(weapon == 5)damage = 13;
-		if(weapon == 8)damage = 10;
-		return damage;
+		switch (weapon){
+			case 2:
+				return 10;
+			case 3:
+				return 15;
+			case 4:
+				return 8;
+			case 5:
+				return 13;
+			case 8:
+				return 10;
+			default:
+				return 0;
+		}
 	}
-	public void autoRepaint(){
+	public void logMemory(){
         double delay = 1000 / 60;
         Timer timer = new Timer();
         timer.schedule(new TimerTask(){
@@ -4293,16 +4293,6 @@ public class Drawer {
 		}
 		if(bestMove < 14)
 			EnemyLocation[enemy] += moves[bestMove];
-//		int distanceBetween = EnemyLocation[enemy] - spot;
-//		System.out.println(distanceBetween);
-//		for(int q = 0; q < 14; q++){
-//			if(canUseMove[q] == true){
-//				bestMove = q;
-//				System.out.println(distanceBetween);
-//			}
-//		}
-//		if(bestMove < 14)
-//			EnemyLocation[enemy] += moves[bestMove];
 	}
 	private int getPeopleInTile(int tile){
 		int people = 0;
@@ -4606,15 +4596,6 @@ public class Drawer {
 		if(location >= 48 && location <= 63)biome = random.biomeint[3];
 		return biome;
 	}
-	private void logoDelay(){
-        double delay = 1500;
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask(){
-        	public void run(){
-        		drawWhat = 1;
-        	}
-        }, (long) delay);
-	}
 	private boolean doesOverflow(String text){
 		boolean doesOverflow = false;
 		if(text.length() > 63)doesOverflow = true;
@@ -4639,19 +4620,22 @@ public class Drawer {
 		create.PlayerN = nameInput;
 	}
 	private String getHumorousName(){
-		String name = "";
-		int choice = rand.nextInt(5);
-		if(choice == 0)name = "LoLzylander 22";
-		if(choice == 1)name = "Cowboy Steve";
-		if(choice == 2)name = "Senator Veintinueve";
-		if(choice == 3)name = "Mr. 29";
-		if(choice == 4)name = "Marve the Favre";
-		return name;
+		switch (rand.nextInt(5)){
+			case 0:
+				return "LoLzylander 22";
+			case 1:
+				return "Cowboy Steve";
+			case 2:
+				return "Señor Veintinueve";
+			case 3:
+				return "Mr. 29";
+			case 4:
+				return "Marve the Favre";
+			default:
+				return "";
+		}
 	}
 	private String translateMode(boolean usingNumber){
-		String mode = null;
-		if(usingNumber)mode = "Number Mode";
-		if(!usingNumber)mode = "Text Mode";
-		return mode;
+		return usingNumber ? "Number Mode" : "Text Mode";
 	}
 }

@@ -34,9 +34,9 @@ public class Main implements Game, KeyListener, MouseListener {
 	}
 	public void init(GameContainer gc) throws SlickException {
         drawer.drawWhat = 6;
-        drawer.autoRepaint();
-        drawer.initializeArray();
+        drawer.logMemory();
         drawer.loadFonts();
+        drawer.initializeArray();
         gc.setVSync(true);
         gc.setMaximumLogicUpdateInterval(50);
 		gc.getInput().addKeyListener((KeyListener) this);
