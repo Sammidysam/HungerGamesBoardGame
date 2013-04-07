@@ -24,12 +24,12 @@ public class SoundPlayer {
 		if(TinySound.isInitialized()){
 			int song = rand.nextInt(6);
 			System.out.println(song);
-			TestMusic[song] = TinySound.loadMusic(new File(".\\res\\music\\song" + (song + 1) + ".ogg"), true);
+			TestMusic[song] = TinySound.loadMusic(new File("res" + File.separatorChar + "music" + File.separatorChar + "song" + (song + 1) + ".ogg"), true);
 			TestMusic[song].play(false);
 			if(TestMusic[song].playing() == false){
 				System.out.println("No song? Blasphemy!");
 				TestMusic[song].unload();
-				TestMusic[song] = TinySound.loadMusic(new File(".\\res\\music\\song" + (song + 1) + ".ogg"), true);
+				TestMusic[song] = TinySound.loadMusic(new File("res" + File.separatorChar + "music" + File.separatorChar + "song" + (song + 1) + ".ogg"), true);
 				TestMusic[song].play(false);
 			}
 			delay(song);
@@ -63,12 +63,12 @@ public class SoundPlayer {
 					break;
 			}
 			System.out.println(song);
-			TestMusic[song] = TinySound.loadMusic(new File(".\\res\\music\\song" + (song + 1) + ".ogg"), true);
+			TestMusic[song] = TinySound.loadMusic(new File("res" + File.separatorChar + "music" + File.separatorChar + "song" + (song + 1) + ".ogg"), true);
 			TestMusic[song].play(false);
 			if(TestMusic[song].playing() == false){
 				System.out.println("No song? Blasphemy!");
 				TestMusic[song].unload();
-				TestMusic[song] = TinySound.loadMusic(new File(".\\res\\music\\song" + (song + 1) + ".ogg"), true);
+				TestMusic[song] = TinySound.loadMusic(new File("res" + File.separatorChar + "music" + File.separatorChar + "song" + (song + 1) + ".ogg"), true);
 				TestMusic[song].play(false);
 			}
 			delay(song);

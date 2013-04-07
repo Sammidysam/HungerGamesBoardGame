@@ -1656,19 +1656,19 @@ public class Drawer {
 						TinySound.shutdown();
 					if(isMusic == true){
 						TinySound.init();
-						soundplayer.sword = TinySound.loadSound(new File(".\\res\\sounds\\sword.wav"), true);
+						soundplayer.sword = TinySound.loadSound(new File("res" + File.separatorChar + "sounds" + File.separatorChar + "sword.wav"), true);
 						percent = (100 / 7) * 1;
-						soundplayer.bow = TinySound.loadSound(new File(".\\res\\sounds\\bow.wav"), true);
+						soundplayer.bow = TinySound.loadSound(new File("res" + File.separatorChar + "sounds" + File.separatorChar + "bow.wav"), true);
 						percent = (100 / 7) * 2;
-						soundplayer.death = TinySound.loadSound(new File(".\\res\\sounds\\death.wav"), true);
+						soundplayer.death = TinySound.loadSound(new File("res" + File.separatorChar + "sounds" + File.separatorChar + "death.wav"), true);
 						percent = (100 / 7) * 3;
-						soundplayer.eat = TinySound.loadSound(new File(".\\res\\sounds\\eat.wav"), true);
+						soundplayer.eat = TinySound.loadSound(new File("res" + File.separatorChar + "sounds" + File.separatorChar + "eat.wav"), true);
 						percent = (100 / 7) * 4;
-						soundplayer.slurp = TinySound.loadSound(new File(".\\res\\sounds\\slurp.wav"), true);
+						soundplayer.slurp = TinySound.loadSound(new File("res" + File.separatorChar + "sounds" + File.separatorChar + "slurp.wav"), true);
 						percent = (100 / 7) * 5;
-						soundplayer.spear = TinySound.loadSound(new File(".\\res\\sounds\\spear.wav"), true);
+						soundplayer.spear = TinySound.loadSound(new File("res" + File.separatorChar + "sounds" + File.separatorChar + "spear.wav"), true);
 						percent = (100 / 7) * 6;
-						soundplayer.punch = TinySound.loadSound(new File(".\\res\\sounds\\punch.wav"), true);
+						soundplayer.punch = TinySound.loadSound(new File("res" + File.separatorChar + "sounds" + File.separatorChar + "punch.wav"), true);
 						percent = (100 / 7) * 7;
 						soundplayer.startLoadingSound();
 					}
@@ -2410,19 +2410,19 @@ public class Drawer {
 //			autoGC();
 			if(isMusic){
 				TinySound.init();
-				soundplayer.sword = TinySound.loadSound(new File(".\\res\\sounds\\sword.wav"), true);
+				soundplayer.sword = TinySound.loadSound(new File("res" + File.separatorChar + "sounds" + File.separatorChar + "sword.wav"), true);
 				percent = (100 / 7) * 1;
-				soundplayer.bow = TinySound.loadSound(new File(".\\res\\sounds\\bow.wav"), true);
+				soundplayer.bow = TinySound.loadSound(new File("res" + File.separatorChar + "sounds" + File.separatorChar + "bow.wav"), true);
 				percent = (100 / 7) * 2;
-				soundplayer.death = TinySound.loadSound(new File(".\\res\\sounds\\death.wav"), true);
+				soundplayer.death = TinySound.loadSound(new File("res" + File.separatorChar + "sounds" + File.separatorChar + "death.wav"), true);
 				percent = (100 / 7) * 3;
-				soundplayer.eat = TinySound.loadSound(new File(".\\res\\sounds\\eat.wav"), true);
+				soundplayer.eat = TinySound.loadSound(new File("res" + File.separatorChar + "sounds" + File.separatorChar + "eat.wav"), true);
 				percent = (100 / 7) * 4;
-				soundplayer.slurp = TinySound.loadSound(new File(".\\res\\sounds\\slurp.wav"), true);
+				soundplayer.slurp = TinySound.loadSound(new File("res" + File.separatorChar + "sounds" + File.separatorChar + "slurp.wav"), true);
 				percent = (100 / 7) * 5;
-				soundplayer.spear = TinySound.loadSound(new File(".\\res\\sounds\\spear.wav"), true);
+				soundplayer.spear = TinySound.loadSound(new File("res" + File.separatorChar + "sounds" + File.separatorChar + "spear.wav"), true);
 				percent = (100 / 7) * 6;
-				soundplayer.punch = TinySound.loadSound(new File(".\\res\\sounds\\punch.wav"), true);
+				soundplayer.punch = TinySound.loadSound(new File("res" + File.separatorChar + "sounds" + File.separatorChar + "punch.wav"), true);
 				percent = (100 / 7) * 7;
 				soundplayer.startLoadingSound();
 			}
